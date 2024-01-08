@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Dimensions } from 'react-native';
 import { Button, Text, TextInput } from 'react-native-paper';
+import Button1 from '../Button';
 
 export default function LoginScreen({ navigation }) {
     const [email, setEmail] = useState('');
@@ -43,7 +44,7 @@ export default function LoginScreen({ navigation }) {
             </View>
             <View style={{ margin: 10 }} />
 
-            <Text style={{ textAlign: 'center' }} onPress={() => navigation.navigate('Home')}>Don’t have account? Signup</Text>
+            <Text style={{ textAlign: 'center' }} onPress={() => navigation.navigate('SingUp')}>Don’t have account? Signup</Text>
         </View>
     );
 }

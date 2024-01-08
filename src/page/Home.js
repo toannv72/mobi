@@ -1,15 +1,19 @@
 import { StyleSheet, View, Text } from 'react-native';
-import { Button } from 'react-native-paper';
+import { Button, Searchbar } from 'react-native-paper';
+import ComBar from '../Components/Bar';
+import { useState } from 'react';
 
 export default function HomeScreen({ navigation }) {
-
+    const [searchQuery, setSearchQuery] = useState('');
     return (
 
         <View style={styles.home} >
-            <Text>Home123sss2</Text>
-            <Button mode="contained" onPress={() => navigation.navigate('Login')}>
-                Press me
-            </Button>
+            <Searchbar
+                placeholder="Search"
+                onChangeText={setSearchQuery}
+                value={searchQuery}
+            />
+
         </View>
     );
 }
@@ -18,5 +22,7 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
     home: {
         fontSize: "10px",
+        paddingTop: 28,
+        paddingHorizontal: 18,
     },
 });

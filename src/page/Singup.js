@@ -2,17 +2,30 @@ import React, { useState } from 'react';
 import { StyleSheet, View, Dimensions } from 'react-native';
 import { Button, Text, TextInput } from 'react-native-paper';
 
-export default function LoginScreen({ navigation }) {
+export default function SingUpScreen({ navigation }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
-    const windowWidth = Dimensions.get('window').width;
 
     return (
         <View style={styles.container}>
             <Text style={{ fontSize: 26 }}> Well come back</Text>
             <View style={{ margin: 20 }} />
 
+            <TextInput
+                label="Full name"
+                onChangeText={(text) => setEmail(text)}
+                value={email}
+                left={<TextInput.Icon icon="account" />}
+            />
+
+            <View style={{ margin: 10 }} />
+            <TextInput
+                label="Email"
+                onChangeText={(text) => setEmail(text)}
+                value={email}
+                left={<TextInput.Icon icon="phone" />}
+            />
+            <View style={{ margin: 10 }} />
             <TextInput
                 label="Email"
                 onChangeText={(text) => setEmail(text)}
@@ -30,7 +43,7 @@ export default function LoginScreen({ navigation }) {
 
             <View style={{ margin: 10 }} />
             <Button mode="contained" onPress={() => navigation.navigate('Home')}>
-                Log in
+                Sign up
             </Button>
             <View>
                 <View style={{ margin: 10 }} />
@@ -43,7 +56,7 @@ export default function LoginScreen({ navigation }) {
             </View>
             <View style={{ margin: 10 }} />
 
-            <Text style={{ textAlign: 'center' }} onPress={() => navigation.navigate('Home')}>Don’t have account? Signup</Text>
+            <Text style={{ textAlign: 'center' }} onPress={() => navigation.navigate('Login')}>Don’t have account? Signup</Text>
         </View>
     );
 }

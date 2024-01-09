@@ -17,8 +17,8 @@ const App = () => {
 
       <NavigationContainer>
         <Stack.Navigator >
-          <Stack.Screen name="Login" options={{ headerLeft: null, headerShown: false }} component={LoginScreen} />
           <Stack.Screen name="Home" options={{ headerLeft: null, headerShown: false }} component={MyBottomNavigationBar} />
+          <Stack.Screen name="Login" options={{ headerLeft: null, headerShown: false }} component={LoginScreen} />
           <Stack.Screen name="SingUp" options={{ headerLeft: null, headerShown: false }} component={SingUpScreen} />
         </Stack.Navigator>
       </NavigationContainer>

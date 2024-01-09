@@ -58,21 +58,8 @@ export default function SingUpScreen({ navigation }) {
 
             <Text style={{ textAlign: 'center' }} onPress={() => navigation.navigate('Login')}>Don’t have account? Signup</Text>
 
-            <ProgressBar style={{borderRadius:50,height:100,backgroundColor:'#fff'}} progress={0.1} color={"#000"}  />
 
 
-                <Card>
-            <TouchableRipple
-                onPress={() => console.log('Pressed')}
-                rippleColor="rgba(0, 0, 0, .32)"
-                style={{borderRadius:50}}
-            >
-                    <Card.Content>
-                        <Text variant="titleLarge">Card title</Text>
-                        <Text variant="bodyMedium">Card content</Text>
-                    </Card.Content>
-            </TouchableRipple>
-                </Card>
         </View>
     );
 }

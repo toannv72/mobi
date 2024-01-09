@@ -7,6 +7,7 @@ import LoginScreen from './src/page/Login';
 import SingUpScreen from './src/page/SingUp';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
+import ProfileScreen from './src/page/Profiles';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -14,7 +15,7 @@ const App = () => {
 
   return (
     <>
-
+      {/* //là trang ko có  thanh bar */}
       <NavigationContainer>
         <Stack.Navigator >
           <Stack.Screen name="Home" options={{ headerLeft: null, headerShown: false }} component={MyBottomNavigationBar} />
@@ -30,7 +31,7 @@ function MyBottomNavigationBar() {
   return (
 
     <Tab.Navigator
-      
+
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
@@ -55,12 +56,12 @@ function MyBottomNavigationBar() {
         activeTintColor: 'tomato',
         inactiveTintColor: 'gray',
       }}
-      keyboardShouldPersistTaps="handled" 
+      keyboardShouldPersistTaps="handled"
     >
-      <Tab.Screen name="Home"  options={{ headerShown: false }} component={HomeScreen} />
+      <Tab.Screen name="Home" options={{ headerShown: false }} component={HomeScreen} />
       <Tab.Screen name="Clinics" options={{ headerShown: false }} component={LoginScreen} />
       <Tab.Screen name="Notification" options={{ headerShown: false }} component={LoginScreen} />
-      <Tab.Screen name="Profile" options={{ headerShown: false }} component={LoginScreen} />
+      <Tab.Screen name="Profile" options={{ headerShown: false }} component={ProfileScreen} />
     </Tab.Navigator>
   );
 }

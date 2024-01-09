@@ -3,37 +3,10 @@ import { Button, Icon, ProgressBar, Searchbar } from 'react-native-paper';
 import ComBar from '../Components/Bar';
 import { useState } from 'react';
 import { Card } from '@rneui/themed';
-const users = [
-    {
-        name: 'brynn',
-        avatar: 'https://uifaces.co/our-content/donated/1H_7AxP0.jpg',
-    },
-    {
-        name: 'thot leader',
-        avatar:
-            'https://images.pexels.com/photos/598745/pexels-photo-598745.jpeg?crop=faces&fit=crop&h=200&w=200&auto=compress&cs=tinysrgb',
-    },
-    {
-        name: 'jsa',
-        avatar: 'https://uifaces.co/our-content/donated/bUkmHPKs.jpg',
-    },
-    {
-        name: 'talhaconcepts',
-        avatar: 'https://randomuser.me/api/portraits/men/4.jpg',
-    },
-    {
-        name: 'andy vitale',
-        avatar: 'https://uifaces.co/our-content/donated/NY9hnAbp.jpg',
-    },
-    {
-        name: 'katy friedson',
-        avatar:
-            'https://images-na.ssl-images-amazon.com/images/M/MV5BMTgxMTc1MTYzM15BMl5BanBnXkFtZTgwNzI5NjMwOTE@._V1_UY256_CR16,0,172,256_AL_.jpg',
-    },
-];
 
 export default function HomeScreen({ navigation }) {
     const [searchQuery, setSearchQuery] = useState('');
+    const [seeMore, setSeeMore] = useState(false);
     return (
 
         <View style={styles.home} >
@@ -42,12 +15,16 @@ export default function HomeScreen({ navigation }) {
                 onChangeText={setSearchQuery}
                 value={searchQuery}
             />
-            <Text style={{ fontSize: 30 }}>Your pet</Text>
+            <View style={{ flexDirection: 'row', justifyContent: "space-between", alignItems: 'center', paddingRight: 20 }}>
+                <Text style={{ fontSize: 30 }}>Your pet</Text>
+                {!seeMore || <Text onPress={() => setSeeMore(!seeMore)} style={{ fontSize: 18 }}>See more</Text>}
+                {seeMore || <Text onPress={() => setSeeMore(!seeMore)} style={{ fontSize: 18 }}>Hide</Text>}
+            </View>
 
-            <ScrollView>
+            {seeMore || <ScrollView>
                 <View style={styles.container}>
 
-                    <Card >
+                    <Card containerStyle={styles.cardContainer}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', columnGap: 10 }}>
                             <View>
                                 <Card.Image
@@ -64,7 +41,7 @@ export default function HomeScreen({ navigation }) {
                                     <Text style={{ marginBottom: 10 }} >
                                         Heal condition
                                     </Text>
-                                    <View style={{ width: "55%", }}>
+                                    <View style={{ width: "50%", }}>
                                         <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
 
                                     </View>
@@ -73,7 +50,7 @@ export default function HomeScreen({ navigation }) {
                                     <Text style={{ marginBottom: 10 }} >
                                         Feeding
                                     </Text>
-                                    <View style={{ width: "55%", }}>
+                                    <View style={{ width: "50%", }}>
                                         <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
 
                                     </View>
@@ -82,8 +59,8 @@ export default function HomeScreen({ navigation }) {
                                     <Text style={{ marginBottom: 10 }} >
                                         Playing
                                     </Text>
-                                    <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={{ width: "55%", }}>
+                                    <View style={{ width: "50%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
+                                        <View style={{ width: "50%", }}>
                                             <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.3} color={"#0d99ff"} />
 
                                         </View>
@@ -94,7 +71,7 @@ export default function HomeScreen({ navigation }) {
                             </View>
                         </View>
                     </Card>
-                    <Card >
+                    <Card containerStyle={styles.cardContainer}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', columnGap: 10 }}>
                             <View>
                                 <Card.Image
@@ -106,25 +83,22 @@ export default function HomeScreen({ navigation }) {
                                 />
                                 <Card.Title style={{ marginBottom: 10 }}>Dog</Card.Title>
                             </View>
-
                             <View style={{ width: "auto", marginRight: 10 }}>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                                     <Text style={{ marginBottom: 10 }} >
                                         Heal condition
                                     </Text>
-                                    <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={{ width: "55%", }}>
-                                            <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
+                                    <View style={{ width: "50%", }}>
+                                        <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.25} color={"#0d99ff"} />
 
-                                        </View>
                                     </View>
                                 </View>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                                     <Text style={{ marginBottom: 10 }} >
                                         Feeding
                                     </Text>
-                                    <View style={{ width: "55%", }}>
-                                        <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
+                                    <View style={{ width: "50%", }}>
+                                        <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.25} color={"#0d99ff"} />
 
                                     </View>
                                 </View>
@@ -132,10 +106,9 @@ export default function HomeScreen({ navigation }) {
                                     <Text style={{ marginBottom: 10 }} >
                                         Playing
                                     </Text>
-                                    <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={{ width: "55%", }}>
-                                            <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.3} color={"#0d99ff"} />
-
+                                    <View style={{ width: "50%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
+                                        <View style={{ width: "50%", }}>
+                                            <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.13} color={"#0d99ff"} />
                                         </View>
                                     </View>
                                 </View>
@@ -144,7 +117,7 @@ export default function HomeScreen({ navigation }) {
                             </View>
                         </View>
                     </Card>
-                    <Card >
+                    <Card containerStyle={styles.cardContainer}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', columnGap: 10 }}>
                             <View>
                                 <Card.Image
@@ -156,24 +129,21 @@ export default function HomeScreen({ navigation }) {
                                 />
                                 <Card.Title style={{ marginBottom: 10 }}>Dog</Card.Title>
                             </View>
-
                             <View style={{ width: "auto", marginRight: 10 }}>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                                     <Text style={{ marginBottom: 10 }} >
                                         Heal condition
                                     </Text>
-                                    <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={{ width: "55%", }}>
-                                            <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
+                                    <View style={{ width: "50%", }}>
+                                        <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
 
-                                        </View>
                                     </View>
                                 </View>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                                     <Text style={{ marginBottom: 10 }} >
                                         Feeding
                                     </Text>
-                                    <View style={{ width: "55%", }}>
+                                    <View style={{ width: "50%", }}>
                                         <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
 
                                     </View>
@@ -182,8 +152,8 @@ export default function HomeScreen({ navigation }) {
                                     <Text style={{ marginBottom: 10 }} >
                                         Playing
                                     </Text>
-                                    <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={{ width: "55%", }}>
+                                    <View style={{ width: "50%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
+                                        <View style={{ width: "50%", }}>
                                             <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.3} color={"#0d99ff"} />
 
                                         </View>
@@ -194,7 +164,7 @@ export default function HomeScreen({ navigation }) {
                             </View>
                         </View>
                     </Card>
-                    <Card >
+                    <Card containerStyle={styles.cardContainer}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', columnGap: 10 }}>
                             <View>
                                 <Card.Image
@@ -206,24 +176,21 @@ export default function HomeScreen({ navigation }) {
                                 />
                                 <Card.Title style={{ marginBottom: 10 }}>Dog</Card.Title>
                             </View>
-
                             <View style={{ width: "auto", marginRight: 10 }}>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                                     <Text style={{ marginBottom: 10 }} >
                                         Heal condition
                                     </Text>
-                                    <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={{ width: "55%", }}>
-                                            <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
+                                    <View style={{ width: "50%", }}>
+                                        <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
 
-                                        </View>
                                     </View>
                                 </View>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                                     <Text style={{ marginBottom: 10 }} >
                                         Feeding
                                     </Text>
-                                    <View style={{ width: "55%", }}>
+                                    <View style={{ width: "50%", }}>
                                         <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
 
                                     </View>
@@ -232,8 +199,8 @@ export default function HomeScreen({ navigation }) {
                                     <Text style={{ marginBottom: 10 }} >
                                         Playing
                                     </Text>
-                                    <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={{ width: "55%", }}>
+                                    <View style={{ width: "50%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
+                                        <View style={{ width: "50%", }}>
                                             <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.3} color={"#0d99ff"} />
 
                                         </View>
@@ -244,7 +211,7 @@ export default function HomeScreen({ navigation }) {
                             </View>
                         </View>
                     </Card>
-                    <Card >
+                    <Card containerStyle={styles.cardContainer}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', columnGap: 10 }}>
                             <View>
                                 <Card.Image
@@ -256,24 +223,21 @@ export default function HomeScreen({ navigation }) {
                                 />
                                 <Card.Title style={{ marginBottom: 10 }}>Dog</Card.Title>
                             </View>
-
                             <View style={{ width: "auto", marginRight: 10 }}>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                                     <Text style={{ marginBottom: 10 }} >
                                         Heal condition
                                     </Text>
-                                    <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={{ width: "55%", }}>
-                                            <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
+                                    <View style={{ width: "50%", }}>
+                                        <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
 
-                                        </View>
                                     </View>
                                 </View>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                                     <Text style={{ marginBottom: 10 }} >
                                         Feeding
                                     </Text>
-                                    <View style={{ width: "55%", }}>
+                                    <View style={{ width: "50%", }}>
                                         <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
 
                                     </View>
@@ -282,8 +246,8 @@ export default function HomeScreen({ navigation }) {
                                     <Text style={{ marginBottom: 10 }} >
                                         Playing
                                     </Text>
-                                    <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={{ width: "55%", }}>
+                                    <View style={{ width: "50%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
+                                        <View style={{ width: "50%", }}>
                                             <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.3} color={"#0d99ff"} />
 
                                         </View>
@@ -294,259 +258,86 @@ export default function HomeScreen({ navigation }) {
                             </View>
                         </View>
                     </Card>
-                    <Card >
-                        <View style={{ flexDirection: 'row', alignItems: 'center', columnGap: 10 }}>
-                            <View>
-                                <Card.Image
-                                    style={{ padding: 0, width: 50, height: 50, borderRadius: 50 }}
-                                    source={{
-                                        uri:
-                                            'https://awildgeographer.files.wordpress.com/2015/02/john_muir_glacier.jpg',
-                                    }}
-                                />
-                                <Card.Title style={{ marginBottom: 10 }}>Dog</Card.Title>
-                            </View>
-
-                            <View style={{ width: "auto", marginRight: 10 }}>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                    <Text style={{ marginBottom: 10 }} >
-                                        Heal condition
-                                    </Text>
-                                    <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={{ width: "55%", }}>
-                                            <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
-
-                                        </View>
-                                    </View>
-                                </View>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                    <Text style={{ marginBottom: 10 }} >
-                                        Feeding
-                                    </Text>
-                                    <View style={{ width: "55%", }}>
-                                        <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
-
-                                    </View>
-                                </View>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                    <Text style={{ marginBottom: 10 }} >
-                                        Playing
-                                    </Text>
-                                    <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={{ width: "55%", }}>
-                                            <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.3} color={"#0d99ff"} />
-
-                                        </View>
-                                    </View>
-                                </View>
 
 
-                            </View>
-                        </View>
-                    </Card>
-                    <Card >
-                        <View style={{ flexDirection: 'row', alignItems: 'center', columnGap: 10 }}>
-                            <View>
-                                <Card.Image
-                                    style={{ padding: 0, width: 50, height: 50, borderRadius: 50 }}
-                                    source={{
-                                        uri:
-                                            'https://awildgeographer.files.wordpress.com/2015/02/john_muir_glacier.jpg',
-                                    }}
-                                />
-                                <Card.Title style={{ marginBottom: 10 }}>Dog</Card.Title>
-                            </View>
-
-                            <View style={{ width: "auto", marginRight: 10 }}>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                    <Text style={{ marginBottom: 10 }} >
-                                        Heal condition
-                                    </Text>
-                                    <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={{ width: "55%", }}>
-                                            <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
-
-                                        </View>
-                                    </View>
-                                </View>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                    <Text style={{ marginBottom: 10 }} >
-                                        Feeding
-                                    </Text>
-                                    <View style={{ width: "55%", }}>
-                                        <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
-
-                                    </View>
-                                </View>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                    <Text style={{ marginBottom: 10 }} >
-                                        Playing
-                                    </Text>
-                                    <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={{ width: "55%", }}>
-                                            <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.3} color={"#0d99ff"} />
-
-                                        </View>
-                                    </View>
-                                </View>
-
-
-                            </View>
-                        </View>
-                    </Card>
-                    <Card >
-                        <View style={{ flexDirection: 'row', alignItems: 'center', columnGap: 10 }}>
-                            <View>
-                                <Card.Image
-                                    style={{ padding: 0, width: 50, height: 50, borderRadius: 50 }}
-                                    source={{
-                                        uri:
-                                            'https://awildgeographer.files.wordpress.com/2015/02/john_muir_glacier.jpg',
-                                    }}
-                                />
-                                <Card.Title style={{ marginBottom: 10 }}>Dog</Card.Title>
-                            </View>
-
-                            <View style={{ width: "auto", marginRight: 10 }}>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                    <Text style={{ marginBottom: 10 }} >
-                                        Heal condition
-                                    </Text>
-                                    <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={{ width: "55%", }}>
-                                            <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
-
-                                        </View>
-                                    </View>
-                                </View>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                    <Text style={{ marginBottom: 10 }} >
-                                        Feeding
-                                    </Text>
-                                    <View style={{ width: "55%", }}>
-                                        <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
-
-                                    </View>
-                                </View>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                    <Text style={{ marginBottom: 10 }} >
-                                        Playing
-                                    </Text>
-                                    <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={{ width: "55%", }}>
-                                            <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.3} color={"#0d99ff"} />
-
-                                        </View>
-                                    </View>
-                                </View>
-
-
-                            </View>
-                        </View>
-                    </Card>
-                    <Card >
-                        <View style={{ flexDirection: 'row', alignItems: 'center', columnGap: 10 }}>
-                            <View>
-                                <Card.Image
-                                    style={{ padding: 0, width: 50, height: 50, borderRadius: 50 }}
-                                    source={{
-                                        uri:
-                                            'https://awildgeographer.files.wordpress.com/2015/02/john_muir_glacier.jpg',
-                                    }}
-                                />
-                                <Card.Title style={{ marginBottom: 10 }}>Dog</Card.Title>
-                            </View>
-
-                            <View style={{ width: "auto", marginRight: 10 }}>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                    <Text style={{ marginBottom: 10 }} >
-                                        Heal condition
-                                    </Text>
-                                    <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={{ width: "55%", }}>
-                                            <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
-
-                                        </View>
-                                    </View>
-                                </View>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                    <Text style={{ marginBottom: 10 }} >
-                                        Feeding
-                                    </Text>
-                                    <View style={{ width: "55%", }}>
-                                        <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
-
-                                    </View>
-                                </View>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                    <Text style={{ marginBottom: 10 }} >
-                                        Playing
-                                    </Text>
-                                    <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={{ width: "55%", }}>
-                                            <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.3} color={"#0d99ff"} />
-
-                                        </View>
-                                    </View>
-                                </View>
-
-
-                            </View>
-                        </View>
-                    </Card>
-                    <Card >
-                        <View style={{ flexDirection: 'row', alignItems: 'center', columnGap: 10 }}>
-                            <View>
-                                <Card.Image
-                                    style={{ padding: 0, width: 50, height: 50, borderRadius: 50 }}
-                                    source={{
-                                        uri:
-                                            'https://awildgeographer.files.wordpress.com/2015/02/john_muir_glacier.jpg',
-                                    }}
-                                />
-                                <Card.Title style={{ marginBottom: 10 }}>Dog</Card.Title>
-                            </View>
-
-                            <View style={{ width: "auto", marginRight: 10 }}>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                    <Text style={{ marginBottom: 10 }} >
-                                        Heal condition
-                                    </Text>
-                                    <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={{ width: "55%", }}>
-                                            <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
-
-                                        </View>
-                                    </View>
-                                </View>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                    <Text style={{ marginBottom: 10 }} >
-                                        Feeding
-                                    </Text>
-                                    <View style={{ width: "55%", }}>
-                                        <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
-
-                                    </View>
-                                </View>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                    <Text style={{ marginBottom: 10 }} >
-                                        Playing
-                                    </Text>
-                                    <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={{ width: "55%", }}>
-                                            <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.3} color={"#0d99ff"} />
-
-                                        </View>
-                                    </View>
-                                </View>
-
-
-                            </View>
-                        </View>
-                    </Card>
                     <View style={{ height: 100 }}></View>
                 </View>
-            </ScrollView>
+            </ScrollView>}
+
+            {!seeMore || <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                <View style={{ flexDirection: 'row' }}>
+                    <Card containerStyle={{ borderRadius: 15 }}>
+                        <View style={{ flexDirection: 'column', alignItems: 'center' }}>
+                            <Card.Image
+                                style={{ padding: 0, width: 50, height: 50, borderRadius: 50 }}
+                                source={{
+                                    uri:
+                                        'https://awildgeographer.files.wordpress.com/2015/02/john_muir_glacier.jpg',
+                                }}
+                            />
+                            <Card.Title style={{ marginBottom: 10 }}>Dongo</Card.Title>
+                        </View>
+                    </Card>
+                    <Card containerStyle={{ borderRadius: 15 }}>
+                        <Card.Image
+                            style={{ padding: 0, width: 50, height: 50, borderRadius: 50 }}
+                            source={{
+                                uri:
+                                    'https://awildgeographer.files.wordpress.com/2015/02/john_muir_glacier.jpg',
+                            }}
+                        />
+                        <Card.Title style={{ marginBottom: 10 }}>Dog con</Card.Title>
+                    </Card>
+                    <Card containerStyle={{ borderRadius: 15 }}>
+                        <Card.Image
+                            style={{ padding: 0, width: 50, height: 50, borderRadius: 50 }}
+                            source={{
+                                uri:
+                                    'https://awildgeographer.files.wordpress.com/2015/02/john_muir_glacier.jpg',
+                            }}
+                        />
+                        <Card.Title style={{ marginBottom: 10 }}>Dog dog</Card.Title>
+                    </Card>
+                    <Card containerStyle={{ borderRadius: 15 }}>
+                        <Card.Image
+                            style={{ padding: 0, width: 50, height: 50, borderRadius: 50 }}
+                            source={{
+                                uri:
+                                    'https://awildgeographer.files.wordpress.com/2015/02/john_muir_glacier.jpg',
+                            }}
+                        />
+                        <Card.Title style={{ marginBottom: 10 }}>Dog</Card.Title>
+                    </Card>
+                </View>
+            </ScrollView>}
+            <Text style={{ fontSize: 30 }}>Service for pet</Text>
+
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: "center", alignItems: "center" }}>
+
+                <Card containerStyle={styles.cardContainer2}>
+                    <View style={{ flexDirection: 'row', justifyContent: "center", alignItems: "center" }}>
+                        <Text style={{ color: '#fff' }}>Appointment</Text>
+                    </View>
+                </Card>
+                <Card containerStyle={styles.cardContainer2}>
+                    <View style={{ flexDirection: 'row', justifyContent: "center", alignItems: "center" }}>
+                        <Text style={{ color: '#fff' }}>Vaccination</Text>
+                    </View>
+                </Card>
+                <Card containerStyle={styles.cardContainer2}>
+                    <View style={{ flexDirection: 'row', justifyContent: "center", alignItems: "center" }}>
+                        <Text style={{ color: '#fff' }}>Grooming</Text>
+                    </View>
+                </Card>
+                <Card containerStyle={styles.cardContainer2}>
+                    <View style={{ flexDirection: 'row', justifyContent: "center", alignItems: "center" }}>
+                        <Text style={{ color: '#fff' }}>Hotel</Text>
+                    </View>
+                </Card>
+
+
+            </View>
+
         </View>
     );
 }
@@ -580,5 +371,36 @@ const styles = StyleSheet.create({
     name: {
         fontSize: 16,
         marginTop: 5,
+    },
+    cardContainer: {
+        margin: 16,
+        padding: 16,
+        borderRadius: 15,
+        elevation: 5, // Tăng độ nâng để tạo bóng mờ (Android)
+        shadowColor: 'rgba(0, 0, 1, 1.2)', // Màu của bóng
+        shadowOffset: { width: 0, height: 2 }, // Kích thước và hướng của bóng
+        shadowOpacity: 0.8, // Độ đậm của bóng
+        shadowRadius: 4, // Bán kính của bóng
+    },
+    upperSection: {
+
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+    },
+    lowerSection: {
+
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+    },
+    cardContainer2: {
+        borderRadius: 16,
+        backgroundColor: '#484B61',
+        paddingVertical: 40,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignContent: 'center',
+        width: '40%', // Điều chỉnh kích thước của thẻ Card tùy thuộc vào nhu cầu
     },
 });

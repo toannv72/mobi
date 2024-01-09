@@ -1,5 +1,5 @@
 import { StyleSheet, View, Text, ScrollView, Image } from 'react-native';
-import { Button, Icon, Searchbar } from 'react-native-paper';
+import { Button, Icon, ProgressBar, Searchbar } from 'react-native-paper';
 import ComBar from '../Components/Bar';
 import { useState } from 'react';
 import { Card } from '@rneui/themed';
@@ -42,11 +42,12 @@ export default function HomeScreen({ navigation }) {
                 onChangeText={setSearchQuery}
                 value={searchQuery}
             />
-            <Text style={{fontSize:30}}>Your pet</Text>
+            <Text style={{ fontSize: 30 }}>Your pet</Text>
 
             <ScrollView>
                 <View style={styles.container}>
-                <Card >
+
+                    <Card >
                         <View style={{ flexDirection: 'row', alignItems: 'center', columnGap: 10 }}>
                             <View>
                                 <Card.Image
@@ -58,26 +59,23 @@ export default function HomeScreen({ navigation }) {
                                 />
                                 <Card.Title style={{ marginBottom: 10 }}>Dog</Card.Title>
                             </View>
-
                             <View style={{ width: "auto", marginRight: 10 }}>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                                     <Text style={{ marginBottom: 10 }} >
                                         Heal condition
                                     </Text>
-                                    <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={[styles.inside, { width: `${100}%`, borderRadius: 50, }]}>
+                                    <View style={{ width: "55%", }}>
+                                        <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
 
-                                        </View>
                                     </View>
                                 </View>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                                     <Text style={{ marginBottom: 10 }} >
                                         Feeding
                                     </Text>
-                                    <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={[styles.inside, { width: `${80}%`, borderRadius: 50, }]}>
+                                    <View style={{ width: "55%", }}>
+                                        <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
 
-                                        </View>
                                     </View>
                                 </View>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -85,7 +83,8 @@ export default function HomeScreen({ navigation }) {
                                         Playing
                                     </Text>
                                     <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={[styles.inside, { width: `${20}%`, borderRadius: 50, }]}>
+                                        <View style={{ width: "55%", }}>
+                                            <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.3} color={"#0d99ff"} />
 
                                         </View>
                                     </View>
@@ -114,7 +113,8 @@ export default function HomeScreen({ navigation }) {
                                         Heal condition
                                     </Text>
                                     <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={[styles.inside, { width: `${100}%`, borderRadius: 50, }]}>
+                                        <View style={{ width: "55%", }}>
+                                            <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
 
                                         </View>
                                     </View>
@@ -123,10 +123,9 @@ export default function HomeScreen({ navigation }) {
                                     <Text style={{ marginBottom: 10 }} >
                                         Feeding
                                     </Text>
-                                    <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={[styles.inside, { width: `${80}%`, borderRadius: 50, }]}>
+                                    <View style={{ width: "55%", }}>
+                                        <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
 
-                                        </View>
                                     </View>
                                 </View>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -134,7 +133,8 @@ export default function HomeScreen({ navigation }) {
                                         Playing
                                     </Text>
                                     <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={[styles.inside, { width: `${20}%`, borderRadius: 50, }]}>
+                                        <View style={{ width: "55%", }}>
+                                            <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.3} color={"#0d99ff"} />
 
                                         </View>
                                     </View>
@@ -163,7 +163,8 @@ export default function HomeScreen({ navigation }) {
                                         Heal condition
                                     </Text>
                                     <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={[styles.inside, { width: `${100}%`, borderRadius: 50, }]}>
+                                        <View style={{ width: "55%", }}>
+                                            <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
 
                                         </View>
                                     </View>
@@ -172,10 +173,9 @@ export default function HomeScreen({ navigation }) {
                                     <Text style={{ marginBottom: 10 }} >
                                         Feeding
                                     </Text>
-                                    <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={[styles.inside, { width: `${80}%`, borderRadius: 50, }]}>
+                                    <View style={{ width: "55%", }}>
+                                        <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
 
-                                        </View>
                                     </View>
                                 </View>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -183,7 +183,8 @@ export default function HomeScreen({ navigation }) {
                                         Playing
                                     </Text>
                                     <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={[styles.inside, { width: `${20}%`, borderRadius: 50, }]}>
+                                        <View style={{ width: "55%", }}>
+                                            <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.3} color={"#0d99ff"} />
 
                                         </View>
                                     </View>
@@ -212,7 +213,8 @@ export default function HomeScreen({ navigation }) {
                                         Heal condition
                                     </Text>
                                     <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={[styles.inside, { width: `${100}%`, borderRadius: 50, }]}>
+                                        <View style={{ width: "55%", }}>
+                                            <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
 
                                         </View>
                                     </View>
@@ -221,10 +223,9 @@ export default function HomeScreen({ navigation }) {
                                     <Text style={{ marginBottom: 10 }} >
                                         Feeding
                                     </Text>
-                                    <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={[styles.inside, { width: `${80}%`, borderRadius: 50, }]}>
+                                    <View style={{ width: "55%", }}>
+                                        <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
 
-                                        </View>
                                     </View>
                                 </View>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -232,7 +233,8 @@ export default function HomeScreen({ navigation }) {
                                         Playing
                                     </Text>
                                     <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={[styles.inside, { width: `${20}%`, borderRadius: 50, }]}>
+                                        <View style={{ width: "55%", }}>
+                                            <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.3} color={"#0d99ff"} />
 
                                         </View>
                                     </View>
@@ -261,7 +263,8 @@ export default function HomeScreen({ navigation }) {
                                         Heal condition
                                     </Text>
                                     <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={[styles.inside, { width: `${100}%`, borderRadius: 50, }]}>
+                                        <View style={{ width: "55%", }}>
+                                            <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
 
                                         </View>
                                     </View>
@@ -270,10 +273,9 @@ export default function HomeScreen({ navigation }) {
                                     <Text style={{ marginBottom: 10 }} >
                                         Feeding
                                     </Text>
-                                    <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={[styles.inside, { width: `${80}%`, borderRadius: 50, }]}>
+                                    <View style={{ width: "55%", }}>
+                                        <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
 
-                                        </View>
                                     </View>
                                 </View>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -281,7 +283,8 @@ export default function HomeScreen({ navigation }) {
                                         Playing
                                     </Text>
                                     <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={[styles.inside, { width: `${20}%`, borderRadius: 50, }]}>
+                                        <View style={{ width: "55%", }}>
+                                            <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.3} color={"#0d99ff"} />
 
                                         </View>
                                     </View>
@@ -310,7 +313,8 @@ export default function HomeScreen({ navigation }) {
                                         Heal condition
                                     </Text>
                                     <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={[styles.inside, { width: `${100}%`, borderRadius: 50, }]}>
+                                        <View style={{ width: "55%", }}>
+                                            <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
 
                                         </View>
                                     </View>
@@ -319,10 +323,9 @@ export default function HomeScreen({ navigation }) {
                                     <Text style={{ marginBottom: 10 }} >
                                         Feeding
                                     </Text>
-                                    <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={[styles.inside, { width: `${80}%`, borderRadius: 50, }]}>
+                                    <View style={{ width: "55%", }}>
+                                        <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
 
-                                        </View>
                                     </View>
                                 </View>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -330,7 +333,8 @@ export default function HomeScreen({ navigation }) {
                                         Playing
                                     </Text>
                                     <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={[styles.inside, { width: `${20}%`, borderRadius: 50, }]}>
+                                        <View style={{ width: "55%", }}>
+                                            <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.3} color={"#0d99ff"} />
 
                                         </View>
                                     </View>
@@ -359,7 +363,8 @@ export default function HomeScreen({ navigation }) {
                                         Heal condition
                                     </Text>
                                     <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={[styles.inside, { width: `${100}%`, borderRadius: 50, }]}>
+                                        <View style={{ width: "55%", }}>
+                                            <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
 
                                         </View>
                                     </View>
@@ -368,10 +373,9 @@ export default function HomeScreen({ navigation }) {
                                     <Text style={{ marginBottom: 10 }} >
                                         Feeding
                                     </Text>
-                                    <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={[styles.inside, { width: `${80}%`, borderRadius: 50, }]}>
+                                    <View style={{ width: "55%", }}>
+                                        <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
 
-                                        </View>
                                     </View>
                                 </View>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -379,7 +383,8 @@ export default function HomeScreen({ navigation }) {
                                         Playing
                                     </Text>
                                     <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={[styles.inside, { width: `${20}%`, borderRadius: 50, }]}>
+                                        <View style={{ width: "55%", }}>
+                                            <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.3} color={"#0d99ff"} />
 
                                         </View>
                                     </View>
@@ -408,7 +413,8 @@ export default function HomeScreen({ navigation }) {
                                         Heal condition
                                     </Text>
                                     <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={[styles.inside, { width: `${100}%`, borderRadius: 50, }]}>
+                                        <View style={{ width: "55%", }}>
+                                            <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
 
                                         </View>
                                     </View>
@@ -417,10 +423,9 @@ export default function HomeScreen({ navigation }) {
                                     <Text style={{ marginBottom: 10 }} >
                                         Feeding
                                     </Text>
-                                    <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={[styles.inside, { width: `${80}%`, borderRadius: 50, }]}>
+                                    <View style={{ width: "55%", }}>
+                                        <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
 
-                                        </View>
                                     </View>
                                 </View>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -428,7 +433,8 @@ export default function HomeScreen({ navigation }) {
                                         Playing
                                     </Text>
                                     <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={[styles.inside, { width: `${20}%`, borderRadius: 50, }]}>
+                                        <View style={{ width: "55%", }}>
+                                            <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.3} color={"#0d99ff"} />
 
                                         </View>
                                     </View>
@@ -457,7 +463,8 @@ export default function HomeScreen({ navigation }) {
                                         Heal condition
                                     </Text>
                                     <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={[styles.inside, { width: `${100}%`, borderRadius: 50, }]}>
+                                        <View style={{ width: "55%", }}>
+                                            <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
 
                                         </View>
                                     </View>
@@ -466,10 +473,9 @@ export default function HomeScreen({ navigation }) {
                                     <Text style={{ marginBottom: 10 }} >
                                         Feeding
                                     </Text>
-                                    <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={[styles.inside, { width: `${80}%`, borderRadius: 50, }]}>
+                                    <View style={{ width: "55%", }}>
+                                        <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
 
-                                        </View>
                                     </View>
                                 </View>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -477,7 +483,8 @@ export default function HomeScreen({ navigation }) {
                                         Playing
                                     </Text>
                                     <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={[styles.inside, { width: `${20}%`, borderRadius: 50, }]}>
+                                        <View style={{ width: "55%", }}>
+                                            <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.3} color={"#0d99ff"} />
 
                                         </View>
                                     </View>
@@ -506,7 +513,8 @@ export default function HomeScreen({ navigation }) {
                                         Heal condition
                                     </Text>
                                     <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={[styles.inside, { width: `${100}%`, borderRadius: 50, }]}>
+                                        <View style={{ width: "55%", }}>
+                                            <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
 
                                         </View>
                                     </View>
@@ -515,10 +523,9 @@ export default function HomeScreen({ navigation }) {
                                     <Text style={{ marginBottom: 10 }} >
                                         Feeding
                                     </Text>
-                                    <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={[styles.inside, { width: `${80}%`, borderRadius: 50, }]}>
+                                    <View style={{ width: "55%", }}>
+                                        <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
 
-                                        </View>
                                     </View>
                                 </View>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -526,7 +533,8 @@ export default function HomeScreen({ navigation }) {
                                         Playing
                                     </Text>
                                     <View style={{ width: "55%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={[styles.inside, { width: `${20}%`, borderRadius: 50, }]}>
+                                        <View style={{ width: "55%", }}>
+                                            <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.3} color={"#0d99ff"} />
 
                                         </View>
                                     </View>
@@ -536,7 +544,7 @@ export default function HomeScreen({ navigation }) {
                             </View>
                         </View>
                     </Card>
-                    <View style={{height:100}}></View>
+                    <View style={{ height: 100 }}></View>
                 </View>
             </ScrollView>
         </View>

@@ -52,10 +52,10 @@ function MyBottomNavigationBar() {
           return <Ionicons name={iconName} size={size} color={color} />;
         },
       })}
-      tabBarOptions={{
-        activeTintColor: 'tomato',
-        inactiveTintColor: 'gray',
-      }}
+      // tabBarOptions={{
+      //   activeTintColor: 'tomato',
+      //   inactiveTintColor: 'gray',
+      // }} 
       keyboardShouldPersistTaps="handled"
     >
       <Tab.Screen name="Home" options={{ headerShown: false }} component={HomeScreen} />

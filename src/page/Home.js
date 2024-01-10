@@ -6,7 +6,7 @@ import { Card } from '@rneui/themed';
 
 export default function HomeScreen({ navigation }) {
     const [searchQuery, setSearchQuery] = useState('');
-    const [seeMore, setSeeMore] = useState(false);
+    const [seeMore, setSeeMore] = useState(true);
     return (
 
         <View style={styles.home} >
@@ -265,8 +265,17 @@ export default function HomeScreen({ navigation }) {
             </ScrollView>}
 
             {!seeMore || <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                <View style={{ flexDirection: 'row' }}>
-                    <Card containerStyle={{ borderRadius: 15 }}>
+                <View style={{
+                    flexDirection: 'row', paddingBottom: 10
+                }}>
+                    <Card containerStyle={{
+                        borderRadius: 15, elevation: 5, // Tăng độ nâng để tạo bóng mờ (Android)
+                        shadowColor: 'rgba(0, 0, 2, 2.2)', // Màu của bóng
+                        shadowOffset: { width: 0, height: 2 }, // Kích thước và hướng của bóng
+                        shadowOpacity: 0.8, // Độ đậm của bóng
+                        shadowRadius: 4,
+                        width: 120
+                    }}>
                         <View style={{ flexDirection: 'column', alignItems: 'center' }}>
                             <Card.Image
                                 style={{ padding: 0, width: 50, height: 50, borderRadius: 50 }}
@@ -278,38 +287,46 @@ export default function HomeScreen({ navigation }) {
                             <Card.Title style={{ marginBottom: 10 }}>Dongo</Card.Title>
                         </View>
                     </Card>
-                    <Card containerStyle={{ borderRadius: 15 }}>
-                        <Card.Image
-                            style={{ padding: 0, width: 50, height: 50, borderRadius: 50 }}
-                            source={{
-                                uri:
-                                    'https://awildgeographer.files.wordpress.com/2015/02/john_muir_glacier.jpg',
-                            }}
-                        />
-                        <Card.Title style={{ marginBottom: 10 }}>Dog con</Card.Title>
-                    </Card>
-                    <Card containerStyle={{ borderRadius: 15 }}>
-                        <Card.Image
-                            style={{ padding: 0, width: 50, height: 50, borderRadius: 50 }}
-                            source={{
-                                uri:
-                                    'https://awildgeographer.files.wordpress.com/2015/02/john_muir_glacier.jpg',
-                            }}
-                        />
-                        <Card.Title style={{ marginBottom: 10 }}>Dog dog</Card.Title>
-                    </Card>
-                    <Card containerStyle={{ borderRadius: 15 }}>
-                        <Card.Image
-                            style={{ padding: 0, width: 50, height: 50, borderRadius: 50 }}
-                            source={{
-                                uri:
-                                    'https://awildgeographer.files.wordpress.com/2015/02/john_muir_glacier.jpg',
-                            }}
-                        />
-                        <Card.Title style={{ marginBottom: 10 }}>Dog</Card.Title>
+                    <Card containerStyle={{
+                        borderRadius: 15, elevation: 5, // Tăng độ nâng để tạo bóng mờ (Android)
+                        shadowColor: 'rgba(0, 0, 2, 2.2)', // Màu của bóng
+                        shadowOffset: { width: 0, height: 2 }, // Kích thước và hướng của bóng
+                        shadowOpacity: 0.8, // Độ đậm của bóng
+                        shadowRadius: 4,
+                        width: 120
+                    }}>
+                        <View style={{ flexDirection: 'column', alignItems: 'center' }}>
+                            <Card.Image
+                                style={{ padding: 0, width: 50, height: 50, borderRadius: 50 }}
+                                source={{
+                                    uri:
+                                        'https://awildgeographer.files.wordpress.com/2015/02/john_muir_glacier.jpg',
+                                }}
+                            />
+                            <Card.Title style={{ marginBottom: 10 }}>Dongo</Card.Title>
+                        </View>
+                    </Card><Card containerStyle={{
+                        borderRadius: 15, elevation: 5, // Tăng độ nâng để tạo bóng mờ (Android)
+                        shadowColor: 'rgba(0, 0, 2, 2.2)', // Màu của bóng
+                        shadowOffset: { width: 0, height: 2 }, // Kích thước và hướng của bóng
+                        shadowOpacity: 0.8, // Độ đậm của bóng
+                        shadowRadius: 4,
+                        width: 120
+                    }}>
+                        <View style={{ flexDirection: 'column', alignItems: 'center' }}>
+                            <Card.Image
+                                style={{ padding: 0, width: 50, height: 50, borderRadius: 50 }}
+                                source={{
+                                    uri:
+                                        'https://awildgeographer.files.wordpress.com/2015/02/john_muir_glacier.jpg',
+                                }}
+                            />
+                            <Card.Title style={{ marginBottom: 10 }}>Dongo</Card.Title>
+                        </View>
                     </Card>
                 </View>
             </ScrollView>}
+
             <Text style={{ fontSize: 30 }}>Service for pet</Text>
 
             <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: "center", alignItems: "center" }}>

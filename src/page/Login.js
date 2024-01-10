@@ -33,6 +33,7 @@ export default function LoginScreen({ navigation }) {
             <Button mode="contained" onPress={() => navigation.navigate('Home')}>
                 Log in
             </Button>
+            
             <View>
                 <View style={{ margin: 10 }} />
 

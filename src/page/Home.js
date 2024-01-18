@@ -78,7 +78,7 @@ export default function HomeScreen({ navigation }) {
                                     style={{ padding: 0, width: 50, height: 50, borderRadius: 50 }}
                                     source={{
                                         uri:
-                                            'https://awildgeographer.files.wordpress.com/2015/02/john_muir_glacier.jpg',
+                                            'https://awildgeographer.files.wordpress.com/2015/02/john_muir_glacAier.jpg',
                                     }}
                                 />
                                 <Card.Title style={{ marginBottom: 10 }}>Dog</Card.Title>

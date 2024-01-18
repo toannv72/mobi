@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import {
     Button,
-    TextInputs,
+    TextInput,
     StyleSheet,
     Text,
     ScrollView,
@@ -18,19 +18,19 @@ export const Intro = ({ navigation }) => {
         key: '1',
         title: 'Hello all',
         text: 'Say something cool',
-        image: require('./assets/1.png'),
+        // image: require('../assets/1.png'),
     },
     {
         key: '2',
         title: 'Hello all',
         text: 'Say something cool 2',
-        image: require('./assets/2.png'),
+        // image: require('../assets/2.png'),
     },
     {
         key: '3',
         title: 'Hello all',
         text: 'Say something cool 3',
-        image: require('./assets/3.png'),
+        // image: require('../assets/3.png'),
     }];
     const renderSlide = ({ item }) => {
         return <View style={styles.slide}>

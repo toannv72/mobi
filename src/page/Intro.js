@@ -1,60 +1,10 @@
-<<<<<<< Updated upstream
-import React, { useState } from "react";
-import {
-    Button,
-    TextInputs,
-    StyleSheet,
-    Text,
-    ScrollView,
-    View,
-    Image,
-    Dimensions
-} from "react-native";
-import AppIntroSlider from 'react-native-app-intro-slider'
-
-
-export default function Intro  ({ navigation }) {
-    const [showSlider, setShowSlider] = useState(true);
-    const slides = [{
-        key: '1',
-        title: 'Hello all',
-        text: 'Say something cool',
-        image: require('../../assets/1.png'),
-    },
-    {
-        key: '2',
-        title: 'Hello all',
-        text: 'Say something cool 2',
-        image: require('../../assets/2.png'),
-    },
-    {
-        key: '3',
-        title: 'Hello all',
-        text: 'Say something cool 3',
-        image: require('../../assets/3.png'),
-    }];
-    const renderSlide = ({ item }) => {
-        return <View style={styles.slide}>
-            <Text>{item.title}</Text>
-            <Image style={styles.imageStyle} source={item.image} />
-            <Text style={styles.imageText}>{item.text}</Text>
-        </View>
-    }
-    return (
-        <ScrollView>
-            <View style={styles.introContainer}>
-                {
-                    showSlider ? <AppIntroSlider
-                        data={slides}
-                        renderItem={renderSlide} /> : <View><Text> I am home component</Text></View>
-=======
 import React, { useState } from 'react';
 import { ScrollView, View, Text, StyleSheet, ImageBackground } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
+import CustomButton from '../Components/CustomButton';
 
 export const IntroSlider = ({ navigation }) => {
-    const [showSlider, setShowSlider] = useState(true);
->>>>>>> Stashed changes
+    const [showSlider, setShowSlider] = useState(false);
 
     const slides = [
         {
@@ -98,34 +48,56 @@ export const IntroSlider = ({ navigation }) => {
 
     const handleDone = () => {
         // Handle logic when the user completes the intro
-        setShowSlider(false);
+      
+        navigation.navigate('Home')
+
     };
 
     const handleSkip = () => {
-        // Handle logic when the user decides to skip the intro
-        setShowSlider(false);
+  
+        navigation.navigate('Home')
     };
     const renderPagination = (activeIndex) => (
         <View style={styles.paginationContainer}>
             <Text style={styles.paginationText}>{activeIndex + 1} / {slides.length}</Text>
         </View>
     );
+  
+    const RenderItem = ({ item }) => {
+        return (
+            <View style={styles.slide}>
+            <ImageBackground
+                style={styles.imageBackground}
+                source={item.image}
+            >
+                <View style={styles.textContainer}>
+                    <Text style={styles.title}>{item.title}</Text>
+                    <Text style={styles.description}>{item.text}</Text>
+                </View>
+            </ImageBackground>
+        </View>
+        );
+    }
     return (
         <View style={styles.introContainer}>
             {showSlider ? (
-                <AppIntroSlider
-                    data={slides}
-                    renderItem={renderSlide}
-                    onDone={handleDone}
-                    showSkipButton={true}
-                    onSkip={handleSkip}
-                    showPrevButton={true}
-                    renderPagination={renderPagination}
-                />
-            ) : (
+
                 <View>
                     <Text>I am intro component</Text>
                 </View>
+            ) : (
+                <AppIntroSlider
+                    data={slides}
+                    renderItem={renderSlide}
+                    showSkipButton={true}
+                    onSkip={handleSkip}
+                    onDone={handleDone}
+                    
+                    // renderDoneButton={renderDoneButton}
+                    // renderNextButton={renderNextButton}
+                    // showPrevButton={true}
+                    // renderPagination={renderPagination}
+                />
             )}
         </View>
     );

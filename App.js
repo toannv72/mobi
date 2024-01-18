@@ -8,8 +8,12 @@ import SignUpScreen from './src/page/SignUp';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import ProfileScreen from './src/page/Profiles';
+<<<<<<< Updated upstream
 import TestApi from './src/page/TestApi';
 import Intro from './src/page/Intro';
+=======
+import { IntroSlider } from './src/page/Intro';
+>>>>>>> Stashed changes
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -62,7 +66,7 @@ function MyBottomNavigationBar() {
     >
       <Tab.Screen name="Home" options={{ headerShown: false }} component={HomeScreen} />
       <Tab.Screen name="Clinics" options={{ headerShown: false }} component={LoginScreen} />
-      <Tab.Screen name="Notification" options={{ headerShown: false }} component={Intro} />
+      <Tab.Screen name="Notification" options={{ headerShown: false }} component={IntroSlider} />
       <Tab.Screen name="Profile" options={{ headerShown: false }} component={ProfileScreen} />
     </Tab.Navigator>
   );

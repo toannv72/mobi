@@ -12,25 +12,25 @@ import {
 import AppIntroSlider from 'react-native-app-intro-slider'
 
 
-export const Intro = ({ navigation }) => {
+export default function Intro  ({ navigation }) {
     const [showSlider, setShowSlider] = useState(true);
     const slides = [{
         key: '1',
         title: 'Hello all',
         text: 'Say something cool',
-        image: require('./assets/1.png'),
+        image: require('../../assets/1.png'),
     },
     {
         key: '2',
         title: 'Hello all',
         text: 'Say something cool 2',
-        image: require('./assets/2.png'),
+        image: require('../../assets/2.png'),
     },
     {
         key: '3',
         title: 'Hello all',
         text: 'Say something cool 3',
-        image: require('./assets/3.png'),
+        image: require('../../assets/3.png'),
     }];
     const renderSlide = ({ item }) => {
         return <View style={styles.slide}>

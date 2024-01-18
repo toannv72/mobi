@@ -4,10 +4,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './src/page/Home';
 import LoginScreen from './src/page/Login';
-import SingUpScreen from './src/page/SingUp';
+import SignUpScreen from './src/page/SignUp';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import ProfileScreen from './src/page/Profiles';
+import Intro from './src/page/Intro';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -20,7 +21,7 @@ const App = () => {
         <Stack.Navigator >
           <Stack.Screen name="Home" options={{ headerLeft: null, headerShown: false }} component={MyBottomNavigationBar} />
           <Stack.Screen name="Login" options={{ headerLeft: null, headerShown: false }} component={LoginScreen} />
-          <Stack.Screen name="SingUp" options={{ headerLeft: null, headerShown: false }} component={SingUpScreen} />
+          <Stack.Screen name="SignUp" options={{ headerLeft: null, headerShown: false }} component={SignUpScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </>
@@ -60,7 +61,7 @@ function MyBottomNavigationBar() {
     >
       <Tab.Screen name="Home" options={{ headerShown: false }} component={HomeScreen} />
       <Tab.Screen name="Clinics" options={{ headerShown: false }} component={LoginScreen} />
-      <Tab.Screen name="Notification" options={{ headerShown: false }} component={LoginScreen} />
+      <Tab.Screen name="Notification" options={{ headerShown: false }} component={Intro} />
       <Tab.Screen name="Profile" options={{ headerShown: false }} component={ProfileScreen} />
     </Tab.Navigator>
   );

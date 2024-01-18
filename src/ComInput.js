@@ -17,7 +17,7 @@ export default function ComInput({ label, theme }) {
     return (
         <View style={styles.buttonContainer}>
             <TextInput
-                
+
                 style={styles.input}
                 placeholder="Nhập dữ liệu"
                 onChangeText={handleInputChange}

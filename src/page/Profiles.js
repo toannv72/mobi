@@ -160,7 +160,7 @@ export default function ProfileScreen({ navigation }) {
                     </Card>
                 </View>
             </ScrollView>
-            <Text style={{ textAlign: 'center' }} onPress={() => navigation.navigate('Profile')}>bấm vô đây111</Text>
+            <Text style={{ textAlign: 'center' }} onPress={() => navigation.navigate('Notification')}>bấm  </Text>
             <View>
                 <Text>Stored Data: {storedData[0]?.name || "null"}</Text>
                 <Button mode="contained" onPress={saveData}>

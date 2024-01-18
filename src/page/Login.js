@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Dimensions } from 'react-native';
-import { Button, Text, TextInput } from 'react-native-paper';
-import Button1 from '../Button';
+import { StyleSheet, View, Dimensions, Button, TouchableOpacity } from 'react-native';
+import { Text, TextInput } from 'react-native-paper';
+import CustomButton from '../Components/CustomButton';
 
 export default function LoginScreen({ navigation }) {
     const [email, setEmail] = useState('');
@@ -11,17 +11,19 @@ export default function LoginScreen({ navigation }) {
 
     return (
         <View style={styles.container}>
-            <Text style={{ fontSize: 26 }}> Well come back</Text>
+            <Text style={{ fontSize: 26, marginTop: 30, }}> Well come back</Text>
             <View style={{ margin: 20 }} />
 
             <TextInput
                 label="Email"
+                mode="outlined"
                 onChangeText={(text) => setEmail(text)}
                 value={email}
                 left={<TextInput.Icon icon="gmail" />}
             />
             <View style={{ margin: 10 }} />
             <TextInput
+                mode="outlined"
                 label="Password"
                 onChangeText={(text) => setPassword(text)}
                 value={password}
@@ -30,10 +32,11 @@ export default function LoginScreen({ navigation }) {
             />
 
             <View style={{ margin: 10 }} />
-            <Button mode="contained" onPress={() => navigation.navigate('Home')}>
-                Log in
-            </Button>
-            
+    
+            <CustomButton
+                title='Log in'
+                height={50}
+                onPress={() => navigation.navigate('Home')} />
             <View>
                 <View style={{ margin: 10 }} />
 
@@ -52,7 +55,6 @@ export default function LoginScreen({ navigation }) {
 
 const styles = StyleSheet.create({
     container: {
-
         justifyContent: 'center',
         padding: 16,
     },

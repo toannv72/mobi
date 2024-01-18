@@ -8,7 +8,6 @@ import SignUpScreen from './src/page/SignUp';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import ProfileScreen from './src/page/Profiles';
-import TestApi from './src/page/TestApi';
 import Intro from './src/page/Intro';
 
 const Stack = createStackNavigator();

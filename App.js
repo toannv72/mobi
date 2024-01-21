@@ -19,7 +19,7 @@ const App = () => {
       {/* //là trang ko có  thanh bar */}
       <NavigationContainer>
         <Stack.Navigator >
-          <Stack.Screen name="Home" options={{ headerLeft: null, headerShown: false }} component={MyBottomNavigationBar} />
+          <Stack.Screen name="Homes" options={{ headerLeft: null, headerShown: false }} component={MyBottomNavigationBar} />
           <Stack.Screen name="Login" options={{ headerLeft: null, headerShown: false }} component={LoginScreen} />
           <Stack.Screen name="SignUp" options={{ headerLeft: null, headerShown: false }} component={SignUpScreen} />
         </Stack.Navigator>

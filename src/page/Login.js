@@ -32,11 +32,11 @@ export default function LoginScreen({ navigation }) {
             />
 
             <View style={{ margin: 10 }} />
-    
+
             <CustomButton
                 title='Log in'
                 height={50}
-                onPress={() => navigation.navigate('Home')} />
+                onPress={() => navigation.navigate('IntroSlider')} />
             <View>
                 <View style={{ margin: 10 }} />
 
@@ -48,7 +48,7 @@ export default function LoginScreen({ navigation }) {
             </View>
             <View style={{ margin: 10 }} />
 
-            <Text style={{ textAlign: 'center' }} onPress={() => navigation.navigate('SingUp')}>Don’t have account? Signup</Text>
+            <Text style={{ textAlign: 'center' }} onPress={() => navigation.navigate('SignUp')}>Don’t have account? Signup</Text>
         </View>
     );
 }

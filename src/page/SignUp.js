@@ -50,9 +50,9 @@ export default function SingUpScreen({ navigation }) {
             <CustomButton
                 title='  Sign up'
                 height={50}
-                onPress={() => navigation.navigate('Home')} />
+                onPress={() => navigation.navigate('IntroSlider')} />
 
-          
+
             <View>
                 <View style={{ margin: 10 }} />
 
@@ -74,7 +74,7 @@ export default function SingUpScreen({ navigation }) {
 
 const styles = StyleSheet.create({
     container: {
-        marginTop:50,
+        marginTop: 50,
         justifyContent: 'center',
         padding: 16,
     },

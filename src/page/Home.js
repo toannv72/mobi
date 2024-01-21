@@ -1,360 +1,378 @@
 import { StyleSheet, View, Text, ScrollView, Image } from 'react-native';
-import { Button, Icon, ProgressBar, Searchbar } from 'react-native-paper';
-import ComBar from '../Components/Bar';
+import { ProgressBar, Searchbar } from 'react-native-paper';
+
 import { useState } from 'react';
 import { Card } from '@rneui/themed';
+import PetProfile from './PetProfile';
 
 export default function HomeScreen({ navigation }) {
     const [searchQuery, setSearchQuery] = useState('');
     const [seeMore, setSeeMore] = useState(true);
+    const [show, setShow] = useState(true);
+
+    const handCloseShow = () => {
+        setShow(true)
+    }
     return (
+        <View  style={{backgroundColor: '#fff',}} >
+            {show ?
+                <View style={styles.home} >
+                    <Searchbar
+                        placeholder="Search"
+                        onChangeText={setSearchQuery}
+                        value={searchQuery}
+                    />
+                    <View style={{ flexDirection: 'row', justifyContent: "space-between", alignItems: 'center', paddingRight: 20 }}>
+                        <Text style={{ fontSize: 30 }}>Your pet</Text>
+                        {!seeMore || <Text onPress={() => setSeeMore(!seeMore)} style={{ fontSize: 18 }}>See more</Text>}
+                        {seeMore || <Text onPress={() => setSeeMore(!seeMore)} style={{ fontSize: 18 }}>Hide</Text>}
+                    </View>
 
-        <View style={styles.home} >
-            <Searchbar
-                placeholder="Search"
-                onChangeText={setSearchQuery}
-                value={searchQuery}
-            />
-            <View style={{ flexDirection: 'row', justifyContent: "space-between", alignItems: 'center', paddingRight: 20 }}>
-                <Text style={{ fontSize: 30 }}>Your pet</Text>
-                {!seeMore || <Text onPress={() => setSeeMore(!seeMore)} style={{ fontSize: 18 }}>See more</Text>}
-                {seeMore || <Text onPress={() => setSeeMore(!seeMore)} style={{ fontSize: 18 }}>Hide</Text>}
-            </View>
+                    {seeMore || <ScrollView>
+                        <View style={styles.container}>
 
-            {seeMore || <ScrollView>
-                <View style={styles.container}>
-
-                    <Card containerStyle={styles.cardContainer}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', columnGap: 10 }}>
-                            <View>
-                                <Card.Image
-                                    style={{ padding: 0, width: 50, height: 50, borderRadius: 50 }}
-                                    source={{
-                                        uri:
-                                            'https://vienmoitruong5014.org.vn/wp-content/uploads/2023/03/anh-cho-con-de-thuong_022907461.jpg',
-                                    }}
-                                />
-                                <Card.Title style={{ marginBottom: 10 }}>Dog</Card.Title>
-                            </View>
-                            <View style={{ width: "auto", marginRight: 10 }}>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                    <Text style={{ marginBottom: 10 }} >
-                                        Heal condition
-                                    </Text>
-                                    <View style={{ width: "50%", }}>
-                                        <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
-
+                            <Card containerStyle={styles.cardContainer}>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', columnGap: 10 }}>
+                                    <View>
+                                        <Card.Image
+                                            style={{ padding: 0, width: 50, height: 50, borderRadius: 50 }}
+                                            source={{
+                                                uri:
+                                                    'https://vienmoitruong5014.org.vn/wp-content/uploads/2023/03/anh-cho-con-de-thuong_022907461.jpg',
+                                            }}
+                                        />
+                                        <Card.Title style={{ marginBottom: 10 }}>Dog</Card.Title>
                                     </View>
-                                </View>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                    <Text style={{ marginBottom: 10 }} >
-                                        Feeding
-                                    </Text>
-                                    <View style={{ width: "50%", }}>
-                                        <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
+                                    <View style={{ width: "auto", marginRight: 10 }}>
+                                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                                            <Text style={{ marginBottom: 10 }} >
+                                                Heal condition
+                                            </Text>
+                                            <View style={{ width: "50%", }}>
+                                                <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
 
-                                    </View>
-                                </View>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                    <Text style={{ marginBottom: 10 }} >
-                                        Playing
-                                    </Text>
-                                    <View style={{ width: "50%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={{ width: "50%", }}>
-                                            <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.3} color={"#0d99ff"} />
-
+                                            </View>
                                         </View>
-                                    </View>
-                                </View>
+                                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                                            <Text style={{ marginBottom: 10 }} >
+                                                Feeding
+                                            </Text>
+                                            <View style={{ width: "50%", }}>
+                                                <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
 
-
-                            </View>
-                        </View>
-                    </Card>
-                    <Card containerStyle={styles.cardContainer}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', columnGap: 10 }}>
-                            <View>
-                                <Card.Image
-                                    style={{ padding: 0, width: 50, height: 50, borderRadius: 50 }}
-                                    source={{
-                                        uri:
-                                            'https://vienmoitruong5014.org.vn/wp-content/uploads/2023/03/anh-cho-con-de-thuong_022907461.jpg',
-                                    }}
-                                />
-                                <Card.Title style={{ marginBottom: 10 }}>Dog</Card.Title>
-                            </View>
-                            <View style={{ width: "auto", marginRight: 10 }}>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                    <Text style={{ marginBottom: 10 }} >
-                                        Heal condition
-                                    </Text>
-                                    <View style={{ width: "50%", }}>
-                                        <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.25} color={"#0d99ff"} />
-
-                                    </View>
-                                </View>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                    <Text style={{ marginBottom: 10 }} >
-                                        Feeding
-                                    </Text>
-                                    <View style={{ width: "50%", }}>
-                                        <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.25} color={"#0d99ff"} />
-
-                                    </View>
-                                </View>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                    <Text style={{ marginBottom: 10 }} >
-                                        Playing
-                                    </Text>
-                                    <View style={{ width: "50%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={{ width: "50%", }}>
-                                            <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.13} color={"#0d99ff"} />
+                                            </View>
                                         </View>
-                                    </View>
-                                </View>
+                                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                                            <Text style={{ marginBottom: 10 }} >
+                                                Playing
+                                            </Text>
+                                            <View style={{ width: "50%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
+                                                <View style={{ width: "50%", }}>
+                                                    <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.3} color={"#0d99ff"} />
 
-
-                            </View>
-                        </View>
-                    </Card>
-                    <Card containerStyle={styles.cardContainer}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', columnGap: 10 }}>
-                            <View>
-                                <Card.Image
-                                    style={{ padding: 0, width: 50, height: 50, borderRadius: 50 }}
-                                    source={{
-                                        uri:
-                                            'https://vienmoitruong5014.org.vn/wp-content/uploads/2023/03/anh-cho-con-de-thuong_022907461.jpg',
-                                    }}
-                                />
-                                <Card.Title style={{ marginBottom: 10 }}>Dog</Card.Title>
-                            </View>
-                            <View style={{ width: "auto", marginRight: 10 }}>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                    <Text style={{ marginBottom: 10 }} >
-                                        Heal condition
-                                    </Text>
-                                    <View style={{ width: "50%", }}>
-                                        <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
-
-                                    </View>
-                                </View>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                    <Text style={{ marginBottom: 10 }} >
-                                        Feeding
-                                    </Text>
-                                    <View style={{ width: "50%", }}>
-                                        <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
-
-                                    </View>
-                                </View>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                    <Text style={{ marginBottom: 10 }} >
-                                        Playing
-                                    </Text>
-                                    <View style={{ width: "50%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={{ width: "50%", }}>
-                                            <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.3} color={"#0d99ff"} />
-
+                                                </View>
+                                            </View>
                                         </View>
-                                    </View>
-                                </View>
 
-
-                            </View>
-                        </View>
-                    </Card>
-                    <Card containerStyle={styles.cardContainer}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', columnGap: 10 }}>
-                            <View>
-                                <Card.Image
-                                    style={{ padding: 0, width: 50, height: 50, borderRadius: 50 }}
-                                    source={{
-                                        uri:
-                                            'https://vienmoitruong5014.org.vn/wp-content/uploads/2023/03/anh-cho-con-de-thuong_022907461.jpg',
-                                    }}
-                                />
-                                <Card.Title style={{ marginBottom: 10 }}>Dog</Card.Title>
-                            </View>
-                            <View style={{ width: "auto", marginRight: 10 }}>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                    <Text style={{ marginBottom: 10 }} >
-                                        Heal condition
-                                    </Text>
-                                    <View style={{ width: "50%", }}>
-                                        <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
 
                                     </View>
                                 </View>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                    <Text style={{ marginBottom: 10 }} >
-                                        Feeding
-                                    </Text>
-                                    <View style={{ width: "50%", }}>
-                                        <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
-
+                            </Card>
+                            <Card containerStyle={styles.cardContainer}>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', columnGap: 10 }}>
+                                    <View>
+                                        <Card.Image
+                                            style={{ padding: 0, width: 50, height: 50, borderRadius: 50 }}
+                                            source={{
+                                                uri:
+                                                    'https://vienmoitruong5014.org.vn/wp-content/uploads/2023/03/anh-cho-con-de-thuong_022907461.jpg',
+                                            }}
+                                        />
+                                        <Card.Title style={{ marginBottom: 10 }}>Dog</Card.Title>
                                     </View>
-                                </View>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                    <Text style={{ marginBottom: 10 }} >
-                                        Playing
-                                    </Text>
-                                    <View style={{ width: "50%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={{ width: "50%", }}>
-                                            <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.3} color={"#0d99ff"} />
+                                    <View style={{ width: "auto", marginRight: 10 }}>
+                                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                                            <Text style={{ marginBottom: 10 }} >
+                                                Heal condition
+                                            </Text>
+                                            <View style={{ width: "50%", }}>
+                                                <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.25} color={"#0d99ff"} />
 
+                                            </View>
                                         </View>
-                                    </View>
-                                </View>
+                                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                                            <Text style={{ marginBottom: 10 }} >
+                                                Feeding
+                                            </Text>
+                                            <View style={{ width: "50%", }}>
+                                                <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.25} color={"#0d99ff"} />
 
-
-                            </View>
-                        </View>
-                    </Card>
-                    <Card containerStyle={styles.cardContainer}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', columnGap: 10 }}>
-                            <View>
-                                <Card.Image
-                                    style={{ padding: 0, width: 50, height: 50, borderRadius: 50 }}
-                                    source={{
-                                        uri:
-                                            'https://vienmoitruong5014.org.vn/wp-content/uploads/2023/03/anh-cho-con-de-thuong_022907461.jpg',
-                                    }}
-                                />
-                                <Card.Title style={{ marginBottom: 10 }}>Dog</Card.Title>
-                            </View>
-                            <View style={{ width: "auto", marginRight: 10 }}>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                    <Text style={{ marginBottom: 10 }} >
-                                        Heal condition
-                                    </Text>
-                                    <View style={{ width: "50%", }}>
-                                        <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
-
-                                    </View>
-                                </View>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                    <Text style={{ marginBottom: 10 }} >
-                                        Feeding
-                                    </Text>
-                                    <View style={{ width: "50%", }}>
-                                        <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
-
-                                    </View>
-                                </View>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                    <Text style={{ marginBottom: 10 }} >
-                                        Playing
-                                    </Text>
-                                    <View style={{ width: "50%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                        <View style={{ width: "50%", }}>
-                                            <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.3} color={"#0d99ff"} />
-
+                                            </View>
                                         </View>
+                                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                                            <Text style={{ marginBottom: 10 }} >
+                                                Playing
+                                            </Text>
+                                            <View style={{ width: "50%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
+                                                <View style={{ width: "50%", }}>
+                                                    <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.13} color={"#0d99ff"} />
+                                                </View>
+                                            </View>
+                                        </View>
+
+
                                     </View>
                                 </View>
+                            </Card>
+                            <Card containerStyle={styles.cardContainer}>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', columnGap: 10 }}>
+                                    <View>
+                                        <Card.Image
+                                            style={{ padding: 0, width: 50, height: 50, borderRadius: 50 }}
+                                            source={{
+                                                uri:
+                                                    'https://vienmoitruong5014.org.vn/wp-content/uploads/2023/03/anh-cho-con-de-thuong_022907461.jpg',
+                                            }}
+                                        />
+                                        <Card.Title style={{ marginBottom: 10 }}>Dog</Card.Title>
+                                    </View>
+                                    <View style={{ width: "auto", marginRight: 10 }}>
+                                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                                            <Text style={{ marginBottom: 10 }} >
+                                                Heal condition
+                                            </Text>
+                                            <View style={{ width: "50%", }}>
+                                                <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
+
+                                            </View>
+                                        </View>
+                                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                                            <Text style={{ marginBottom: 10 }} >
+                                                Feeding
+                                            </Text>
+                                            <View style={{ width: "50%", }}>
+                                                <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
+
+                                            </View>
+                                        </View>
+                                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                                            <Text style={{ marginBottom: 10 }} >
+                                                Playing
+                                            </Text>
+                                            <View style={{ width: "50%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
+                                                <View style={{ width: "50%", }}>
+                                                    <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.3} color={"#0d99ff"} />
+
+                                                </View>
+                                            </View>
+                                        </View>
 
 
-                            </View>
+                                    </View>
+                                </View>
+                            </Card>
+                            <Card containerStyle={styles.cardContainer}>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', columnGap: 10 }}>
+                                    <View>
+                                        <Card.Image
+                                            style={{ padding: 0, width: 50, height: 50, borderRadius: 50 }}
+                                            source={{
+                                                uri:
+                                                    'https://vienmoitruong5014.org.vn/wp-content/uploads/2023/03/anh-cho-con-de-thuong_022907461.jpg',
+                                            }}
+                                        />
+                                        <Card.Title style={{ marginBottom: 10 }}>Dog</Card.Title>
+                                    </View>
+                                    <View style={{ width: "auto", marginRight: 10 }}>
+                                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                                            <Text style={{ marginBottom: 10 }} >
+                                                Heal condition
+                                            </Text>
+                                            <View style={{ width: "50%", }}>
+                                                <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
+
+                                            </View>
+                                        </View>
+                                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                                            <Text style={{ marginBottom: 10 }} >
+                                                Feeding
+                                            </Text>
+                                            <View style={{ width: "50%", }}>
+                                                <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
+
+                                            </View>
+                                        </View>
+                                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                                            <Text style={{ marginBottom: 10 }} >
+                                                Playing
+                                            </Text>
+                                            <View style={{ width: "50%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
+                                                <View style={{ width: "50%", }}>
+                                                    <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.3} color={"#0d99ff"} />
+
+                                                </View>
+                                            </View>
+                                        </View>
+
+
+                                    </View>
+                                </View>
+                            </Card>
+                            <Card containerStyle={styles.cardContainer}>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', columnGap: 10 }}>
+                                    <View>
+                                        <Card.Image
+                                            style={{ padding: 0, width: 50, height: 50, borderRadius: 50 }}
+                                            source={{
+                                                uri:
+                                                    'https://vienmoitruong5014.org.vn/wp-content/uploads/2023/03/anh-cho-con-de-thuong_022907461.jpg',
+                                            }}
+                                        />
+                                        <Card.Title style={{ marginBottom: 10 }}>Dog</Card.Title>
+                                    </View>
+                                    <View style={{ width: "auto", marginRight: 10 }}>
+                                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                                            <Text style={{ marginBottom: 10 }} >
+                                                Heal condition
+                                            </Text>
+                                            <View style={{ width: "50%", }}>
+                                                <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
+
+                                            </View>
+                                        </View>
+                                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                                            <Text style={{ marginBottom: 10 }} >
+                                                Feeding
+                                            </Text>
+                                            <View style={{ width: "50%", }}>
+                                                <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
+
+                                            </View>
+                                        </View>
+                                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                                            <Text style={{ marginBottom: 10 }} >
+                                                Playing
+                                            </Text>
+                                            <View style={{ width: "50%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
+                                                <View style={{ width: "50%", }}>
+                                                    <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.3} color={"#0d99ff"} />
+
+                                                </View>
+                                            </View>
+                                        </View>
+
+
+                                    </View>
+                                </View>
+                            </Card>
+
+
+                            <View style={{ height: 100 }}></View>
                         </View>
-                    </Card>
+                    </ScrollView>}
+
+                    {!seeMore || <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                        <View style={{
+                            flexDirection: 'row', paddingBottom: 10
+                        }}>
+                            <Card containerStyle={{
+                                borderRadius: 15, elevation: 5, // Tăng độ nâng để tạo bóng mờ (Android)
+                                shadowColor: 'rgba(0, 0, 2, 2.2)', // Màu của bóng
+                                shadowOffset: { width: 0, height: 2 }, // Kích thước và hướng của bóng
+                                shadowOpacity: 0.8, // Độ đậm của bóng
+                                shadowRadius: 4,
+                                width: 120
+                            }}>
+                                <View style={{ flexDirection: 'column', alignItems: 'center' }} >
+                                    <Card.Image
+                                        onPress={() => setShow(false)}
+                                        style={{ padding: 0, width: 50, height: 50, borderRadius: 50 }}
+                                        source={{
+                                            uri:
+                                                'https://vienmoitruong5014.org.vn/wp-content/uploads/2023/03/anh-cho-con-de-thuong_022907461.jpg',
+                                        }}
+                                    />
+                                    <Card.Title style={{ marginBottom: 10 }}>Dongo</Card.Title>
+                                </View>
+                            </Card>
+                            <Card containerStyle={{
+                                borderRadius: 15, elevation: 5, // Tăng độ nâng để tạo bóng mờ (Android)
+                                shadowColor: 'rgba(0, 0, 2, 2.2)', // Màu của bóng
+                                shadowOffset: { width: 0, height: 2 }, // Kích thước và hướng của bóng
+                                shadowOpacity: 0.8, // Độ đậm của bóng
+                                shadowRadius: 4,
+                                width: 120
+                            }}>
+                                <View style={{ flexDirection: 'column', alignItems: 'center' }}>
+                                    <Card.Image
+                                        style={{ padding: 0, width: 50, height: 50, borderRadius: 50 }}
+                                        source={{
+                                            uri:
+                                                'https://vienmoitruong5014.org.vn/wp-content/uploads/2023/03/anh-cho-con-de-thuong_022907461.jpg',
+                                        }}
+                                    />
+                                    <Card.Title style={{ marginBottom: 10 }}>Dongo</Card.Title>
+                                </View>
+                            </Card><Card containerStyle={{
+                                borderRadius: 15, elevation: 5, // Tăng độ nâng để tạo bóng mờ (Android)
+                                shadowColor: 'rgba(0, 0, 2, 2.2)', // Màu của bóng
+                                shadowOffset: { width: 0, height: 2 }, // Kích thước và hướng của bóng
+                                shadowOpacity: 0.8, // Độ đậm của bóng
+                                shadowRadius: 4,
+                                width: 120
+                            }}>
+                                <View style={{ flexDirection: 'column', alignItems: 'center' }}>
+                                    <Card.Image
+                                        style={{ padding: 0, width: 50, height: 50, borderRadius: 50 }}
+                                        source={{
+                                            uri:
+                                                'https://vienmoitruong5014.org.vn/wp-content/uploads/2023/03/anh-cho-con-de-thuong_022907461.jpg',
+                                        }}
+                                    />
+                                    <Card.Title style={{ marginBottom: 10 }}>Dongo</Card.Title>
+                                </View>
+                            </Card>
+                        </View>
+                    </ScrollView>}
+
+                    <Text style={{ fontSize: 30 }}>Service for pet</Text>
+
+                    <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: "center", alignItems: "center" }}>
+
+                        <Card containerStyle={styles.cardContainer2}>
+                            <View style={{ flexDirection: 'row', gap: 5, justifyContent: "flex-start", alignItems: "flex-start" }}>
+                                <Image style={{ marginTop: 0 }} source={require('../../assets/Stethoscope.png')} />
+                                <Text style={{ color: '#fff', fontSize: 16 }}>Appointment</Text>
+                            </View>
+                        </Card>
+                        <Card containerStyle={styles.cardContainer2}>
+                            <View style={{ flexDirection: 'row', gap: 5, justifyContent: "flex-start", alignItems: "flex-start" }}>
+                                <Image style={{ paddingTop: 10, }} source={require('../../assets/Injection.png')} />
+                                <Text style={{ color: '#fff', fontSize: 16 }}>Vaccination</Text>
+                            </View>
+                        </Card>
+                        <Card containerStyle={styles.cardContainer2}>
+                            <View style={{ flexDirection: 'row', gap: 5, justifyContent: "flex-start", alignItems: "flex-start" }}>
+                                <Image style={{ marginTop: 0, width: 20, height: 20 }} source={require('../../assets/scissors-03.png')} />
+                                <Text style={{ color: '#fff', fontSize: 16 }}>Grooming</Text>
+                            </View>
+                        </Card>
+                        <Card containerStyle={styles.cardContainer2}>
+                            <View style={{ flexDirection: 'row', gap: 5, justifyContent: "flex-start", alignItems: "flex-start" }}>
+                                <Image style={{ marginTop: 0, width: 20, height: 20 }} source={require('../../assets/Group23.png')} />
+                                <Text style={{ color: '#fff', fontSize: 16 }}>Hotels</Text>
+                            </View>
+                        </Card>
 
 
-                    <View style={{ height: 100 }}></View>
+                    </View>
+
                 </View>
-            </ScrollView>}
 
-            {!seeMore || <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                <View style={{
-                    flexDirection: 'row', paddingBottom: 10
-                }}>
-                    <Card containerStyle={{
-                        borderRadius: 15, elevation: 5, // Tăng độ nâng để tạo bóng mờ (Android)
-                        shadowColor: 'rgba(0, 0, 2, 2.2)', // Màu của bóng
-                        shadowOffset: { width: 0, height: 2 }, // Kích thước và hướng của bóng
-                        shadowOpacity: 0.8, // Độ đậm của bóng
-                        shadowRadius: 4,
-                        width: 120
-                    }}>
-                        <View style={{ flexDirection: 'column', alignItems: 'center' }}>
-                            <Card.Image
-                                style={{ padding: 0, width: 50, height: 50, borderRadius: 50 }}
-                                source={{
-                                    uri:
-                                        'https://vienmoitruong5014.org.vn/wp-content/uploads/2023/03/anh-cho-con-de-thuong_022907461.jpg',
-                                }}
-                            />
-                            <Card.Title style={{ marginBottom: 10 }}>Dongo</Card.Title>
-                        </View>
-                    </Card>
-                    <Card containerStyle={{
-                        borderRadius: 15, elevation: 5, // Tăng độ nâng để tạo bóng mờ (Android)
-                        shadowColor: 'rgba(0, 0, 2, 2.2)', // Màu của bóng
-                        shadowOffset: { width: 0, height: 2 }, // Kích thước và hướng của bóng
-                        shadowOpacity: 0.8, // Độ đậm của bóng
-                        shadowRadius: 4,
-                        width: 120
-                    }}>
-                        <View style={{ flexDirection: 'column', alignItems: 'center' }}>
-                            <Card.Image
-                                style={{ padding: 0, width: 50, height: 50, borderRadius: 50 }}
-                                source={{
-                                    uri:
-                                        'https://vienmoitruong5014.org.vn/wp-content/uploads/2023/03/anh-cho-con-de-thuong_022907461.jpg',
-                                }}
-                            />
-                            <Card.Title style={{ marginBottom: 10 }}>Dongo</Card.Title>
-                        </View>
-                    </Card><Card containerStyle={{
-                        borderRadius: 15, elevation: 5, // Tăng độ nâng để tạo bóng mờ (Android)
-                        shadowColor: 'rgba(0, 0, 2, 2.2)', // Màu của bóng
-                        shadowOffset: { width: 0, height: 2 }, // Kích thước và hướng của bóng
-                        shadowOpacity: 0.8, // Độ đậm của bóng
-                        shadowRadius: 4,
-                        width: 120
-                    }}>
-                        <View style={{ flexDirection: 'column', alignItems: 'center' }}>
-                            <Card.Image
-                                style={{ padding: 0, width: 50, height: 50, borderRadius: 50 }}
-                                source={{
-                                    uri:
-                                        'https://vienmoitruong5014.org.vn/wp-content/uploads/2023/03/anh-cho-con-de-thuong_022907461.jpg',
-                                }}
-                            />
-                            <Card.Title style={{ marginBottom: 10 }}>Dongo</Card.Title>
-                        </View>
-                    </Card>
-                </View>
-            </ScrollView>}
+                : <View style={styles.home}>
 
-            <Text style={{ fontSize: 30 }}>Service for pet</Text>
-
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: "center", alignItems: "center" }}>
-
-                <Card containerStyle={styles.cardContainer2}>
-                    <View style={{ flexDirection: 'row', justifyContent: "center", alignItems: "center" }}>
-                        <Text style={{ color: '#fff' }}>Appointment</Text>
-                    </View>
-                </Card>
-                <Card containerStyle={styles.cardContainer2}>
-                    <View style={{ flexDirection: 'row', justifyContent: "center", alignItems: "center" }}>
-                        <Text style={{ color: '#fff' }}>Vaccination</Text>
-                    </View>
-                </Card>
-                <Card containerStyle={styles.cardContainer2}>
-                    <View style={{ flexDirection: 'row', justifyContent: "center", alignItems: "center" }}>
-                        <Text style={{ color: '#fff' }}>Grooming</Text>
-                    </View>
-                </Card>
-                <Card containerStyle={styles.cardContainer2}>
-                    <View style={{ flexDirection: 'row', justifyContent: "center", alignItems: "center" }}>
-                        <Text style={{ color: '#fff' }}>Hotel</Text>
-                    </View>
-                </Card>
-
-
-            </View>
-
+                    <PetProfile handCloseShow={handCloseShow} />
+                </View>}
         </View>
     );
 }
@@ -364,7 +382,7 @@ const styles = StyleSheet.create({
     home: {
         fontSize: "10px",
         paddingTop: 28,
-        paddingHorizontal: 18,
+        paddingHorizontal: 10,
     },
     container: {
         flex: 1,
@@ -419,5 +437,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignContent: 'center',
         width: '40%', // Điều chỉnh kích thước của thẻ Card tùy thuộc vào nhu cầu
+        height: 100
     },
 });

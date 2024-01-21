@@ -61,7 +61,7 @@ function MyBottomNavigationBar() {
     >
       <Tab.Screen name="Home" options={{ headerShown: false }} component={HomeScreen} />
       <Tab.Screen name="Clinics" options={{ headerShown: false }} component={LoginScreen} />
-      <Tab.Screen name="Notification" options={{ headerShown: false }} component={LoginScreen} />
+      <Tab.Screen name="Notification" options={{ headerShown: false }} component={IntroSlider} />
       <Tab.Screen name="Profile" options={{ headerShown: false }} component={ProfileScreen} />
     </Tab.Navigator>
   );

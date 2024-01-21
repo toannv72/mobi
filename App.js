@@ -8,7 +8,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import ProfileScreen from './src/page/Profiles';
 import { IntroSlider } from './src/page/Intro';
-
+import {Survey} from './src/page/Survey';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const App = () => {
@@ -61,7 +61,7 @@ function MyBottomNavigationBar() {
     >
       <Tab.Screen name="Home" options={{ headerShown: false }} component={HomeScreen} />
       <Tab.Screen name="Clinics" options={{ headerShown: false }} component={LoginScreen} />
-      <Tab.Screen name="Notification" options={{ headerShown: false }} component={IntroSlider} />
+      <Tab.Screen name="Notification" options={{ headerShown: false }} component={Survey} />
       <Tab.Screen name="Profile" options={{ headerShown: false }} component={ProfileScreen} />
     </Tab.Navigator>
   );

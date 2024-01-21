@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { ScrollView, View, Text, StyleSheet, ImageBackground } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
-import CustomButton from '../Components/CustomButton';
-import { App } from 'antd';
 
 export const IntroSlider = ({ navigation }) => {
     const [showSlider, setShowSlider] = useState(false);
@@ -59,27 +57,11 @@ export const IntroSlider = ({ navigation }) => {
 
         navigation.navigate('Home')
     };
-    const renderPagination = (activeIndex) => (
-        <View style={styles.paginationContainer}>
-            <Text style={styles.paginationText}>{activeIndex + 1} / {slides.length}</Text>
-        </View>
-    );
-
-    const RenderItem = ({ item }) => {
-        return (
-            <View style={styles.slide}>
-                <ImageBackground
-                    style={styles.imageBackground}
-                    source={item.image}
-                >
-                    <View style={styles.textContainer}>
-                        <Text style={styles.title}>{item.title}</Text>
-                        <Text style={styles.description}>{item.text}</Text>
-                    </View>
-                </ImageBackground>
-            </View>
-        );
-    }
+    // const renderPagination = (activeIndex) => (
+    //     <View style={styles.paginationContainer}>
+    //         <Text style={styles.paginationText}>{activeIndex + 1} / {slides.length}</Text>
+    //     </View>
+    // );
     return (
         <View style={styles.introContainer}>
             {showSlider ? (
@@ -142,12 +124,5 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginBottom: 500,
         flex: 1, // Added to make the container take full height of the image
-    },
-    paginationContainer: {
-        position: 'absolute',
-        top: 20,
-        left: 20,
-        backgroundColor: 'transparent',
-        // zIndex: 1,
     },
 });

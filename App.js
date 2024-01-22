@@ -27,13 +27,44 @@ const App = () => {
       </NavigationContainer>
     </>
   );
+}
+const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
+const App = () => {
+  return (
+    <>
+      {/* //là trang ko có  thanh bar */}
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Homes"
+            options={{ headerLeft: null, headerShown: false }}
+            component={MyBottomNavigationBar}
+          />
+          <Stack.Screen
+            name="Login"
+            options={{ headerLeft: null, headerShown: false }}
+            component={LoginScreen}
+          />
+          <Stack.Screen
+            name="SignUp"
+            options={{ headerLeft: null, headerShown: false }}
+            component={SignUpScreen}
+          />
+          <Stack.Screen
+            name="IntroSlider"
+            options={{ headerLeft: null, headerShown: false }}
+            component={IntroSlider}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </>
+  );
 };
 
 function MyBottomNavigationBar() {
   return (
-
     <Tab.Navigator
-
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
@@ -57,16 +88,15 @@ function MyBottomNavigationBar() {
       // tabBarOptions={{
       //   activeTintColor: 'tomato',
       //   inactiveTintColor: 'gray',
-      // }} 
+      // }}
       keyboardShouldPersistTaps="handled"
     >
       <Tab.Screen name="Home" options={{ headerShown: false }} component={HomeScreen} />
-      <Tab.Screen name="Clinics" options={{ headerShown: false }} component={LoginScreen} />
-      <Tab.Screen name="Notification" options={{ headerShown: false }} component={IntroSlider} />
+      <Tab.Screen name="Clinics" options={{ headerShown: false }} component={Survey} />
+      <Tab.Screen name="Notification" options={{ headerShown: false }} component={Notification} />
       <Tab.Screen name="Profile" options={{ headerShown: false }} component={ProfileScreen} />
     </Tab.Navigator>
   );
 }
-
 
 export default App;

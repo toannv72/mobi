@@ -8,7 +8,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import ProfileScreen from './src/page/Profiles';
 import { IntroSlider } from './src/page/Intro';
-import {Survey} from './src/page/Survey';
+import { Survey } from './src/page/Survey';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const App = () => {
@@ -22,6 +22,7 @@ const App = () => {
           <Stack.Screen name="Login" options={{ headerLeft: null, headerShown: false }} component={LoginScreen} />
           <Stack.Screen name="SignUp" options={{ headerLeft: null, headerShown: false }} component={SignUpScreen} />
           <Stack.Screen name="IntroSlider" options={{ headerLeft: null, headerShown: false }} component={IntroSlider} />
+          <Stack.Screen name="Survey" options={{ headerLeft: null, headerShown: false }} component={Survey} />
         </Stack.Navigator>
       </NavigationContainer>
     </>
@@ -61,7 +62,7 @@ function MyBottomNavigationBar() {
     >
       <Tab.Screen name="Home" options={{ headerShown: false }} component={HomeScreen} />
       <Tab.Screen name="Clinics" options={{ headerShown: false }} component={LoginScreen} />
-      <Tab.Screen name="Notification" options={{ headerShown: false }} component={Survey} />
+      <Tab.Screen name="Notification" options={{ headerShown: false }} component={IntroSlider} />
       <Tab.Screen name="Profile" options={{ headerShown: false }} component={ProfileScreen} />
     </Tab.Navigator>
   );

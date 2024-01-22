@@ -1,29 +1,50 @@
-import React from 'react';
-import { useRef } from 'react';
+import { ButtonGroup } from '@rneui/themed';
+import React, { useRef, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { Button } from 'react-native-paper';
 import Swiper from 'react-native-swiper';
-const SliderComponent = ({ onSkip, onNext, onPrev, onDone }) => {
-    const swiperRef = useRef(null);
-  
-    const handleSkip = () => {
-      if (swiperRef.current) {
-        swiperRef.current.scrollBy(2); // Skip to the last slide
-      }
-    };
-  
+
+export const Survey = ({ navigation }) => {
+  const swiperRef = useRef(null);
+
+
+  const handleSkip = () => {
+    navigation.navigate('Home');
+  };
+
+  const handleDone = () => {
+    navigation.navigate('Home');
+    // Handle done logic
+  };
+  const SliderComponent = () => {
     return (
       <View style={styles.wrapper}>
         <Swiper
           ref={swiperRef}
-          style={styles.wrapper}
           showsButtons={true}
           loop={false}
-          nextButton={<Text style={styles.buttonText}>Next</Text>}
-          prevButton={<Text style={styles.buttonText}>Prev</Text>}
+          nextButton={<Text style={styles.swiperButton}>Next</Text>}
+          prevButton={<Text style={styles.swiperButton}>Prev</Text>}
+          buttonWrapperStyle={{ alignItems: 'flex-end', paddingBottom: 30 }}
+          paginationStyle={{ bottom: 40 }}
+          activeDotStyle={{ backgroundColor: 'white', width: 30 }}
         >
           <View style={styles.slide}>
-            <Text style={styles.text}>Slide 1</Text>
-            <TouchableOpacity onPress={handleSkip}>
+            <View>
+              <Text>Help us understand you by answering few question</Text>
+            </View>
+            <View>
+              <Text>Do you have and experience with pet ?</Text>
+              <View>
+                <Button>Yes</Button>
+                <Button>No</Button>
+              </View>
+            </View>
+            <View>
+              <Text>Give some photo of your pet</Text>
+
+            </View>
+            <TouchableOpacity onPress={handleSkip} style={styles.skipButton}>
               <Text style={styles.buttonText}>Skip</Text>
             </TouchableOpacity>
           </View>
@@ -32,7 +53,7 @@ const SliderComponent = ({ onSkip, onNext, onPrev, onDone }) => {
           </View>
           <View style={styles.slide}>
             <Text style={styles.text}>Slide 3</Text>
-            <TouchableOpacity onPress={onDone}>
+            <TouchableOpacity onPress={handleDone} style={styles.doneButton}>
               <Text style={styles.buttonText}>Done</Text>
             </TouchableOpacity>
           </View>
@@ -40,30 +61,13 @@ const SliderComponent = ({ onSkip, onNext, onPrev, onDone }) => {
       </View>
     );
   };
-  
-export const Survey = ({ navigation }) => {
-  const handleSkip = () => {
-    // Handle skip logic
-  };
-
-  const handleNext = () => {
-    // Handle next logic
-  };
-
-  const handlePrev = () => {
-    // Handle previous logic
-  };
-
-  const handleDone = () => {
-    // Handle done logic
-  };
 
   return (
     <View style={styles.container}>
-      <SliderComponent onSkip={handleSkip} onNext={handleNext} onPrev={handlePrev} onDone={handleDone} />
+      <SliderComponent />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -71,12 +75,22 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  wrapper: {},
+  title: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    textAlign: 'left',
+    position: 'absolute',
+    top: "10%",
+    padding: 5,
+  },
+  wrapper: {
+    position: 'relative',
+    backgroundColor: 'gray',
+  },
   slide: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#9DD6EB',
   },
   text: {
     color: '#fff',
@@ -84,9 +98,36 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   buttonText: {
-    color: '#fff',
+    color: 'black',
     fontSize: 20,
     fontWeight: 'bold',
-    marginVertical: 10,
   },
+  skipButton: {
+    position: 'absolute',
+    fontSize: 20,
+    fontWeight: 'bold',
+    bottom: 30,
+    left: 10,
+    padding: 5,
+
+  },
+  doneButton: {
+    position: 'absolute',
+    fontSize: 20,
+    fontWeight: 'bold',
+    bottom: 30,
+    right: 10,
+    padding: 5,
+  },
+  swiperButton: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    bottom: 0,
+    padding: 5,
+  },
+  customButton: {
+    borderRadius: 40,
+    backgroundColor: 'red',
+    width: '30%'
+  }
 });

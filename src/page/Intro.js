@@ -49,7 +49,7 @@ export const IntroSlider = ({ navigation }) => {
     const handleDone = () => {
         // Handle logic when the user completes the intro
 
-        navigation.navigate('Home')
+        navigation.navigate('Survey')
 
     };
 
@@ -95,6 +95,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
+        position: 'relative',
     },
     title: {
         fontSize: 32,
@@ -123,6 +124,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         marginBottom: 500,
-        flex: 1, // Added to make the container take full height of the image
+        flex: 1,
     },
 });

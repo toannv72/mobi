@@ -14,7 +14,7 @@ export default function HomeScreen({ navigation }) {
         setShow(true)
     }
     return (
-        <View  style={{backgroundColor: '#fff',}} >
+        <View style={{ backgroundColor: '#fff', }} >
             {show ?
                 <View style={styles.home} >
                     <Searchbar
@@ -28,7 +28,7 @@ export default function HomeScreen({ navigation }) {
                         {seeMore || <Text onPress={() => setSeeMore(!seeMore)} style={{ fontSize: 18 }}>Hide</Text>}
                     </View>
 
-                    {seeMore || <ScrollView>
+                    {seeMore || <ScrollView showsHorizontalScrollIndicator={false}>
                         <View style={styles.container}>
 
                             <Card containerStyle={styles.cardContainer}>
@@ -96,52 +96,6 @@ export default function HomeScreen({ navigation }) {
                                                 Heal condition
                                             </Text>
                                             <View style={{ width: "50%", }}>
-                                                <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.25} color={"#0d99ff"} />
-
-                                            </View>
-                                        </View>
-                                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                            <Text style={{ marginBottom: 10 }} >
-                                                Feeding
-                                            </Text>
-                                            <View style={{ width: "50%", }}>
-                                                <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.25} color={"#0d99ff"} />
-
-                                            </View>
-                                        </View>
-                                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                            <Text style={{ marginBottom: 10 }} >
-                                                Playing
-                                            </Text>
-                                            <View style={{ width: "50%", backgroundColor: "#D9D9D9", borderRadius: 50 }}>
-                                                <View style={{ width: "50%", }}>
-                                                    <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.13} color={"#0d99ff"} />
-                                                </View>
-                                            </View>
-                                        </View>
-
-
-                                    </View>
-                                </View>
-                            </Card>
-                            <Card containerStyle={styles.cardContainer}>
-                                <View style={{ flexDirection: 'row', alignItems: 'center', columnGap: 10 }}>
-                                    <View>
-                                        <Card.Image
-                                            style={{ padding: 0, width: 50, height: 50, borderRadius: 50 }}
-                                            source={{
-                                                uri:
-                                                    'https://vienmoitruong5014.org.vn/wp-content/uploads/2023/03/anh-cho-con-de-thuong_022907461.jpg',
-                                            }}
-                                        />
-                                        <Card.Title style={{ marginBottom: 10 }}>Dog</Card.Title>
-                                    </View>
-                                    <View style={{ width: "auto", marginRight: 10 }}>
-                                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                            <Text style={{ marginBottom: 10 }} >
-                                                Heal condition
-                                            </Text>
-                                            <View style={{ width: "50%", }}>
                                                 <ProgressBar style={{ borderRadius: 50, height: 20, backgroundColor: '#D9D9D9' }} progress={0.5} color={"#0d99ff"} />
 
                                             </View>
@@ -218,6 +172,7 @@ export default function HomeScreen({ navigation }) {
                                     </View>
                                 </View>
                             </Card>
+                       
                             <Card containerStyle={styles.cardContainer}>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', columnGap: 10 }}>
                                     <View>
@@ -228,7 +183,7 @@ export default function HomeScreen({ navigation }) {
                                                     'https://vienmoitruong5014.org.vn/wp-content/uploads/2023/03/anh-cho-con-de-thuong_022907461.jpg',
                                             }}
                                         />
-                                        <Card.Title style={{ marginBottom: 10 }}>Dog</Card.Title>
+                                        <Card.Title style={{ marginBottom: 10 }}>Dogsss</Card.Title>
                                     </View>
                                     <View style={{ width: "auto", marginRight: 10 }}>
                                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -265,9 +220,10 @@ export default function HomeScreen({ navigation }) {
                                     </View>
                                 </View>
                             </Card>
+                        
 
 
-                            <View style={{ height: 100 }}></View>
+                            <View style={{ height: 500 }}></View>
                         </View>
                     </ScrollView>}
 

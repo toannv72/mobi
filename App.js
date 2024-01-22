@@ -9,6 +9,7 @@ import { Ionicons } from '@expo/vector-icons';
 import ProfileScreen from './src/page/Profiles';
 import { IntroSlider } from './src/page/Intro';
 import { Survey } from './src/page/Survey';
+import { Notification } from './src/page/notification/Notification';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const App = () => {

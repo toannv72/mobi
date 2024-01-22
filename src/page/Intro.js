@@ -1,30 +1,30 @@
 import React, { useState } from 'react';
 import { ScrollView, View, Text, StyleSheet, ImageBackground } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
-import CustomButton from '../Components/CustomButton';
 
 export const IntroSlider = ({ navigation }) => {
     const [showSlider, setShowSlider] = useState(false);
 
+
     const slides = [
         {
             key: '1',
-            title: 'Discover clinics nearby',
-            text: 'Browse your profile, photo, and descriptions to find clinics that match your cites',
+            title: 'Personalize your preferences',
+            text: 'Customize your ideal pet by setting species, age, size and temperament',
             image: require('../../assets/1.jpg'),
             backgroundColor: '#59b2ab',
         },
         {
             key: '2',
-            title: 'Back',
-            text: 'Description for the second slide goes here.',
+            title: 'Discover clinic near you',
+            text: 'Browse your profile, photo, and descriptions to find clinics that match your cites',
             image: require('../../assets/2.jpg'),
             backgroundColor: '#febe29',
         },
         {
             key: '3',
-            title: 'Next',
-            text: 'Description for the third slide goes here.',
+            title: 'Connect and notify',
+            text: 'Connect and notify owners of vaccination schedules and pet services',
             image: require('../../assets/3.jpg'),
             backgroundColor: '#22bcb5',
         },
@@ -48,36 +48,20 @@ export const IntroSlider = ({ navigation }) => {
 
     const handleDone = () => {
         // Handle logic when the user completes the intro
-      
+
         navigation.navigate('Home')
 
     };
 
     const handleSkip = () => {
-  
+
         navigation.navigate('Home')
     };
-    const renderPagination = (activeIndex) => (
-        <View style={styles.paginationContainer}>
-            <Text style={styles.paginationText}>{activeIndex + 1} / {slides.length}</Text>
-        </View>
-    );
-  
-    const RenderItem = ({ item }) => {
-        return (
-            <View style={styles.slide}>
-            <ImageBackground
-                style={styles.imageBackground}
-                source={item.image}
-            >
-                <View style={styles.textContainer}>
-                    <Text style={styles.title}>{item.title}</Text>
-                    <Text style={styles.description}>{item.text}</Text>
-                </View>
-            </ImageBackground>
-        </View>
-        );
-    }
+    // const renderPagination = (activeIndex) => (
+    //     <View style={styles.paginationContainer}>
+    //         <Text style={styles.paginationText}>{activeIndex + 1} / {slides.length}</Text>
+    //     </View>
+    // );
     return (
         <View style={styles.introContainer}>
             {showSlider ? (
@@ -87,16 +71,17 @@ export const IntroSlider = ({ navigation }) => {
                 </View>
             ) : (
                 <AppIntroSlider
+                    // renderPagination={renderPagination}
                     data={slides}
                     renderItem={renderSlide}
-                    showSkipButton={true}
+                    activeDotStyle={{ backgroundColor: 'white', width: 30 }}
                     onSkip={handleSkip}
                     onDone={handleDone}
-                    
-                    // renderDoneButton={renderDoneButton}
-                    // renderNextButton={renderNextButton}
-                    // showPrevButton={true}
-                    // renderPagination={renderPagination}
+                    showPrevButton={true}
+                    showSkipButton={true}
+                // renderDoneButton={renderDoneButton}
+                // renderNextButton={renderNextButton}
+                // showPrevButton={true}
                 />
             )}
         </View>
@@ -110,20 +95,22 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'transparent',
     },
     title: {
-        fontSize: 30,
+        fontSize: 32,
         fontWeight: 'bold',
         fontFamily: 'Roboto',
-        marginBottom: 8,
+        color: 'whitesmoke',
+        textAlign: 'center',
     },
     description: {
-        fontSize: 16,
+        fontSize: 18,
         textAlign: 'center',
-        marginHorizontal: 16,
-        marginBottom: 16,
+        marginHorizontal: 20,
+        marginTop: 20,
         color: 'white',
+        fontFamily: 'Roboto',
+        fontWeight: 'bold',
     },
     imageBackground: {
         flex: 1,
@@ -135,12 +122,7 @@ const styles = StyleSheet.create({
     textContainer: {
         alignItems: 'center',
         justifyContent: 'center',
-        marginBottom: 60,
+        marginBottom: 500,
         flex: 1, // Added to make the container take full height of the image
-    },
-    paginationContainer: {
-        position: 'absolute',
-        bottom: 16,
-        right: 16,
     },
 });

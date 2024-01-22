@@ -27,39 +27,6 @@ const App = () => {
       </NavigationContainer>
     </>
   );
-}
-const Stack = createStackNavigator();
-const Tab = createBottomTabNavigator();
-const App = () => {
-  return (
-    <>
-      {/* //là trang ko có  thanh bar */}
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Homes"
-            options={{ headerLeft: null, headerShown: false }}
-            component={MyBottomNavigationBar}
-          />
-          <Stack.Screen
-            name="Login"
-            options={{ headerLeft: null, headerShown: false }}
-            component={LoginScreen}
-          />
-          <Stack.Screen
-            name="SignUp"
-            options={{ headerLeft: null, headerShown: false }}
-            component={SignUpScreen}
-          />
-          <Stack.Screen
-            name="IntroSlider"
-            options={{ headerLeft: null, headerShown: false }}
-            component={IntroSlider}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </>
-  );
 };
 
 function MyBottomNavigationBar() {

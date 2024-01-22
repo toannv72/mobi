@@ -8,6 +8,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import ProfileScreen from './src/page/Profiles';
 import { IntroSlider } from './src/page/Intro';
+import { NotiItem } from './src/page/notification/NotiItem';
+import { Notification } from './src/page/notification/Notification';
+import { Survey } from './src/page/Survey';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -73,8 +76,8 @@ function MyBottomNavigationBar() {
             keyboardShouldPersistTaps="handled"
         >
             <Tab.Screen name="Home" options={{ headerShown: false }} component={HomeScreen} />
-            <Tab.Screen name="Clinics" options={{ headerShown: false }} component={LoginScreen} />
-            <Tab.Screen name="Notification" options={{ headerShown: false }} component={LoginScreen} />
+            <Tab.Screen name="Clinics" options={{ headerShown: false }} component={Survey} />
+            <Tab.Screen name="Notification" options={{ headerShown: false }} component={Notification} />
             <Tab.Screen name="Profile" options={{ headerShown: false }} component={ProfileScreen} />
         </Tab.Navigator>
     );

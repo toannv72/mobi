@@ -55,7 +55,7 @@ export const IntroSlider = ({ navigation }) => {
 
     const handleSkip = () => {
 
-        navigation.navigate('Home')
+        navigation.navigate('Homes', { screen: 'home' })
     };
     // const renderPagination = (activeIndex) => (
     //     <View style={styles.paginationContainer}>

@@ -9,11 +9,11 @@ export const Survey = ({ navigation }) => {
 
 
   const handleSkip = () => {
-    navigation.navigate('Home');
+    navigation.navigate('Homes');
   };
 
   const handleDone = () => {
-    navigation.navigate('Home');
+    navigation.navigate('Homes');
     // Handle done logic
   };
   const SliderComponent = () => {

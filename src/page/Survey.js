@@ -8,11 +8,11 @@ import { Slider, Icon } from '@rneui/themed';
 export const Survey = ({ navigation }) => {
   const swiperRef = useRef(null);
   const handleSkip = () => {
-    navigation.navigate('Home');
+    navigation.navigate('Homes');
   };
   const [inputDate, setInputDate] = React.useState(undefined)
   const handleDone = () => {
-    navigation.navigate('Home');
+    navigation.navigate('Homes');
     // Handle done logic
   };
   const SliderComponent = () => {

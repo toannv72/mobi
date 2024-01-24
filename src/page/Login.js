@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Alert, StyleSheet, View } from 'react-native';
 import { Text, TextInput } from 'react-native-paper';
 import CustomButton from '../Components/CustomButton';
 import { Link } from '@react-navigation/native';
@@ -12,7 +12,6 @@ export default function LoginScreen({ }) {
     const passwordInputRef = useRef(null);
     const handleProfileNavigation = () => {
         // Chuyển đến trang Profile trong Tab Navigation
-
         navigation.navigate('SignUp');
     };
     const handleLogin = () => {

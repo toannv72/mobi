@@ -7,14 +7,12 @@ import { SelectList } from 'react-native-dropdown-select-list'
 import { Slider, Icon } from '@rneui/themed';
 export const Survey = ({ navigation }) => {
   const swiperRef = useRef(null);
-  const handleSkip = () => {
-    navigation.navigate('Homes');
-  };
   const [inputDate, setInputDate] = React.useState(undefined)
   const handleDone = () => {
     navigation.navigate('Homes');
     // Handle done logic
   };
+
   const SliderComponent = () => {
     const [selected, setSelected] = React.useState("");
     const [value, setValue] = useState(0);
@@ -43,17 +41,21 @@ export const Survey = ({ navigation }) => {
           activeDotStyle={{ backgroundColor: 'grey', width: 30 }}
         >
           {/* .............................................................................................................. */}
-          
-            <View style={styles.slide}>
-            <ScrollView contentContainerStyle={{justifyContent: 'center', gap: 20, marginTop: 100}}>
+
+          <View style={styles.slide}>
+            <ScrollView contentContainerStyle={{ justifyContent: 'center', gap: 10, marginTop: 100 }}>
               <View>
                 <Text style={{ fontSize: 32 }}>Help us understand you by answering few question</Text>
               </View>
               <View>
                 <Text style={styles.quizText}>Do you have and experience with pet ?</Text>
                 <View style={{ flexDirection: 'row', gap: 50, alignItems: "center" }}>
-                  <Button style={styles.customButton}>Yes</Button>
-                  <Button style={styles.customButton}>No</Button>
+                  <TouchableOpacity style={styles.customButton}>
+                    <Text style={styles.buttonText}>Yes</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.customButton}>
+                    <Text style={styles.buttonText}>No</Text>
+                  </TouchableOpacity>
                 </View>
               </View>
               <View>
@@ -80,104 +82,128 @@ export const Survey = ({ navigation }) => {
                   value={inputDate}>
                 </DatePickerInput>
               </View>
-              </ScrollView>
+            </ScrollView>
 
-            </View>
-          
+          </View>
+
 
           {/* .............................................................................................................. */}
-          
-            <View style={styles.slide}>
-              <View>
-                <Text style={{ fontSize: 32 }}>Help us understand you by answering few question</Text>
-              </View>
-              <View>
-                <Text style={styles.quizText}>Select your pet breed</Text>
-                <SelectList
-                  setSelected={(val) => setSelected(val)}
-                  data={selectData}
-                  save="value" />
-              </View>
-              <View>
-                <Text style={styles.quizText}>Choose gender of your pet</Text>
-                <View style={{ flexDirection: 'row', gap: 50, alignItems: "center" }}>
-                  <Button style={styles.customButton}>Male</Button>
-                  <Button style={styles.customButton}>Female</Button>
-                </View>
-              </View>
-              <View>
-                <Slider
-                  value={value}
-                  onValueChange={setValue}
-                  maximumValue={2}
-                  minimumValue={0}
-                  step={1}
-                  allowTouchTrack
-                  trackStyle={{ height: 5, backgroundColor: 'transparent' }}
-                  thumbStyle={{ height: 20, width: 20, backgroundColor: 'transparent' }}
-                  thumbProps={{
-                    children: (
-                      <Icon
-                        name="paw"
-                        type="font-awesome"
-                        size={15}
-                        reverse
-                        containerStyle={{ bottom: 20, right: 20 }}
-                        color="#f50"
-                      />
-                    ),
-                  }}
-                />
-              </View>
-              <View style={{ flexDirection: 'row', gap: 70, justifyContent: 'center' }}>
-                <Text>Up to 4 moth</Text>
-                <Text>Up to a year</Text>
-                <Text>More than a year</Text>
-              </View>
-              <View>
-                <Text style={styles.quizText}>What your pet's weight</Text>
-                <TextInput
-                  style={styles.textInputStyle}
-                  underlineColor="transparent"
-                ></TextInput>
-              </View>
 
+          <View style={styles.slide}>
+            <View>
+              <Text style={{ fontSize: 32 }}>Help us understand you by answering few question</Text>
             </View>
-          
-          {/* .............................................................................................................. */}         
-            <View style={styles.slide}>
-              <View>
-                <Text style={{ fontSize: 32 }}>Help us understand you by answering few question</Text>
+            <View>
+              <Text style={styles.quizText}>Select your pet breed</Text>
+              <SelectList
+                setSelected={(val) => setSelected(val)}
+                data={selectData}
+                save="value" />
+            </View>
+            <View>
+              <Text style={styles.quizText}>Choose gender of your pet</Text>
+              <View style={{ flexDirection: 'row', gap: 50, alignItems: "center" }}>
+                <TouchableOpacity style={styles.customButton}>
+                  <Text style={styles.buttonText}>Male</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.customButton}>
+                  <Text style={styles.buttonText}>Female</Text>
+                </TouchableOpacity>
               </View>
-              <View>
-                <Text style={styles.quizText}>What kind of your pet chracter ?</Text>
-                <View style={{ flexDirection: 'row', gap: 10, justifyContent: 'center' }}>
-                  <Button style={styles.customButton}>Active</Button>
-                  <Button style={styles.customButton}>Friendly</Button>
-                  <Button style={styles.customButton}>Playful</Button>
-                  <Button style={styles.customButton}>Calm</Button>
-                </View>
+            </View>
+            <View>
+              <Slider
+                value={value}
+                onValueChange={setValue}
+                maximumValue={2}
+                minimumValue={0}
+                step={1}
+                allowTouchTrack
+                trackStyle={{ height: 5, backgroundColor: 'transparent' }}
+                thumbStyle={{ height: 20, width: 20, backgroundColor: 'transparent' }}
+                thumbProps={{
+                  children: (
+                    <Icon
+                      name="paw"
+                      type="font-awesome"
+                      size={15}
+                      reverse
+                      containerStyle={{ bottom: 20, right: 20 }}
+                      color="#f50"
+                    />
+                  ),
+                }}
+              />
+            </View>
+            <View style={{ flexDirection: 'row', gap: 50, justifyContent: 'center', padding: 20 }}>
+              <Text style={styles.buttonText}>Up to 4 moth</Text>
+              <Text style={styles.buttonText}>Up to a year</Text>
+              <Text style={styles.buttonText}>More than a year</Text>
+            </View>
+            <View>
+              <Text style={styles.quizText}>What your pet's weight</Text>
+              <TextInput
+                style={styles.textInputStyle}
+                underlineColor="transparent"
+              ></TextInput>
+            </View>
+
+          </View>
+
+          {/* .............................................................................................................. */}
+          <View style={styles.slide}>
+            <View>
+              <Text style={{ fontSize: 32 }}>Help us understand you by answering few question</Text>
+            </View>
+            <View>
+              <Text style={styles.quizText}>What kind of your pet chracter ?</Text>
+              <View style={{ flexDirection: 'row', gap: 10, justifyContent: 'center' }}>
+                <TouchableOpacity style={styles.customButton}>
+                  <Text style={styles.buttonText}>Active</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.customButton}>
+                  <Text style={styles.buttonText}>Friendly</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.customButton}>
+                  <Text style={styles.buttonText}>Playful</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.customButton}>
+                  <Text style={styles.buttonText}>Calm</Text>
+                </TouchableOpacity>
               </View>
-              <View>
-                <Text style={styles.quizText}>Vaccinated your pet </Text>
-                <View style={{ flexDirection: 'row', gap: 10 }}>
-                  <Button style={styles.customButton}>Yes</Button>
-                  <Button style={styles.customButton}>No</Button>
-                </View>
+            </View>
+            <View>
+              <Text style={styles.quizText}>Vaccinated your pet </Text>
+              <View style={{ flexDirection: 'row', gap: 10 }}>
+                <TouchableOpacity style={styles.customButton}>
+                  <Text style={styles.buttonText}>Yes</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.customButton}>
+                  <Text style={styles.buttonText}>No</Text>
+                </TouchableOpacity>
               </View>
-              <View>
-                <Text style={styles.quizText}>Pedigree of your pet</Text>
-                <View style={{ flexDirection: 'row', gap: 10 }}>
-                  <Button style={styles.customButton}>Yes</Button>
-                  <Button style={styles.customButton}>No</Button>
-                </View>
+            </View>
+            <View>
+              <Text style={styles.quizText}>Pedigree of your pet</Text>
+              <View style={{ flexDirection: 'row', gap: 10 }}>
+                <TouchableOpacity style={styles.customButton}>
+                  <Text style={styles.buttonText}>Yes</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.customButton}>
+                  <Text style={styles.buttonText}>No</Text>
+                </TouchableOpacity>
               </View>
-              <TouchableOpacity onPress={handleDone} style={styles.doneButton}>
-              <Text style={styles.buttonText}>Done</Text>
+            </View>
+            <TouchableOpacity onPress={handleDone} style={styles.doneButton}>
+              <Text style={{
+                color: 'black',
+                fontSize: 20,
+                fontWeight: 'bold',
+              }}>Done</Text>
             </TouchableOpacity>
-            </View>
-            
-          
+          </View>
+
+
         </Swiper>
 
       </View>
@@ -213,7 +239,7 @@ const styles = StyleSheet.create({
   slide: {
     flex: 1,
     justifyContent: 'center',
-    
+
     padding: 15,
     flexDirection: 'column',
     gap: 30
@@ -225,7 +251,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: 'black',
-    fontSize: 20,
+    fontSize: 15,
     fontWeight: 'bold',
   },
   doneButton: {
@@ -249,11 +275,14 @@ const styles = StyleSheet.create({
     width: 90,
     height: 40,
     backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
 
   },
   quizText: {
     fontSize: 18,
-    fontWeight: '600'
+    fontWeight: '600',
+    padding: 10,
   },
   textInputStyle: {
     borderTopEndRadius: 10,

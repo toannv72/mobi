@@ -1,11 +1,49 @@
 import { AntDesign } from "@expo/vector-icons";
 import React, { useState } from "react";
-import { TouchableOpacity, Text, StyleSheet, Image, View } from "react-native";
+import {
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  Image,
+  View,
+  Modal,
+} from "react-native";
 import checkIcon from "../../../assets/check.png";
 import momoIcon from "../../../assets/MoMo_Logo.png";
-export default function CheckOut() {
+export default function CheckOut({ navigation }) {
+  const [modalVisible, setModalVisible] = useState(false);
   return (
     <View style={styles.centeredView}>
+      <Modal
+        animationType="slide"
+        transparent
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.modalBackGround}>
+          <View style={styles.modalContainer}>
+            <Text style={styles.titleModal}>MoMo Payment</Text>
+            <Image source={momoIcon} />
+            <Text>*Hint: Tap the icon to make a payment</Text>
+            <Text>After payment click "Continue"</Text>
+            <TouchableOpacity
+              style={styles.nextBtnV2}
+              onPress={() => navigation.navigate("Completed")}
+            >
+              <Text style={styles.nextV2}>Continue</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.backBtnV2}
+              onPress={() => setModalVisible(false)}
+            >
+              <Text style={styles.backV2}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
       <View style={styles.header}>
         <TouchableOpacity style={styles.backIcon}>
           <AntDesign name="left" size={30} color="#8C8EA3" />
@@ -47,10 +85,16 @@ export default function CheckOut() {
         </View>
       </View>
       <View style={styles.allBtn}>
-        <TouchableOpacity style={styles.nextBtn}>
+        <TouchableOpacity
+          style={styles.nextBtn}
+          onPress={() => setModalVisible(true)}
+        >
           <Text style={styles.next}>Continue</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.backBtn}>
+        <TouchableOpacity
+          style={styles.backBtn}
+          onPress={() => navigation.navigate("Home")}
+        >
           <Text style={styles.back}>Back</Text>
         </TouchableOpacity>
       </View>
@@ -181,6 +225,14 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: "#FEA623",
   },
+  nextBtnV2: {
+    width: "100%",
+    borderWidth: 0.2,
+    borderRadius: 32,
+    padding: 10,
+    marginTop: 10,
+    backgroundColor: "#727272",
+  },
   backBtn: {
     width: "100%",
     borderWidth: 2,
@@ -188,7 +240,21 @@ const styles = StyleSheet.create({
     padding: 10,
     borderColor: "#FEA623",
   },
+  backBtnV2: {
+    width: "100%",
+    borderWidth: 2,
+    borderRadius: 32,
+    padding: 10,
+    marginTop: 10,
+    borderColor: "#727272",
+  },
   next: {
+    textAlign: "center",
+    fontWeight: "600",
+    fontSize: 16,
+    color: "white",
+  },
+  nextV2: {
     textAlign: "center",
     fontWeight: "600",
     fontSize: 16,
@@ -200,4 +266,27 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#FEA623",
   },
+  backV2: {
+    textAlign: "center",
+    fontWeight: "600",
+    fontSize: 16,
+    color: "#727272",
+  },
+  modalBackGround: {
+    flex: 1,
+    backgroundColor: "#45464FCC",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContainer: {
+    width: "80%",
+    backgroundColor: "white",
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+    borderRadius: 20,
+    elevation: 20,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  titleModal: { fontWeight: "700", fontSize: 20 },
 });

@@ -1,7 +1,7 @@
 import React from "react";
 import { Image, Text, TouchableOpacity, View, StyleSheet } from "react-native";
 import checkIcon from "../../../assets/check.png";
-export default function Complete() {
+export default function Complete({ navigation }) {
   return (
     <View style={styles.centeredView}>
       <Image source={checkIcon} style={styles.icon} />
@@ -10,7 +10,10 @@ export default function Complete() {
         You have successfully paid <Text style={styles.pro}>User Pro </Text>
         package
       </Text>
-      <TouchableOpacity style={styles.backBtn}>
+      <TouchableOpacity
+        style={styles.backBtn}
+        onPress={() => navigation.navigate("Home")}
+      >
         <Text style={styles.back}>Back</Text>
       </TouchableOpacity>
     </View>

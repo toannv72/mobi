@@ -11,7 +11,7 @@ import {
   Image,
 } from "react-native";
 
-export default function Model() {
+export default function Model({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <View style={styles.centeredView}>
@@ -57,7 +57,7 @@ export default function Model() {
             </View>
             <TouchableOpacity
               style={styles.button}
-              onPress={() => setModalVisible(false)}
+              onPress={() => navigation.navigate("CheckOut")}
             >
               <Text style={styles.name}>Get Pay</Text>
             </TouchableOpacity>

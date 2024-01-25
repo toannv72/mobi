@@ -13,6 +13,8 @@ import UpImg from "./src/Components/UpImg";
 import { View } from "native-base";
 import { StyleSheet } from "react-native";
 import { NativeBaseConfigProvider } from "native-base";
+import CheckOut from "./src/page/payment/checkout";
+import Completed from "./src/page/payment/Complete";
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -44,6 +46,16 @@ const App = () => {
           name="Survey"
           options={{ headerLeft: null, headerShown: false }}
           component={Survey}
+        />
+        <Stack.Screen
+          name="CheckOut"
+          options={{ headerLeft: null, headerShown: false }}
+          component={CheckOut}
+        />
+        <Stack.Screen
+          name="Completed"
+          options={{ headerLeft: null, headerShown: false }}
+          component={Completed}
         />
       </Stack.Navigator>
     </NavigationContainer>

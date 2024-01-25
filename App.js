@@ -13,6 +13,7 @@ import UpImg from './src/Components/UpImg';
 import { View } from 'native-base';
 import { StyleSheet } from 'react-native';
 import { NativeBaseConfigProvider } from 'native-base';
+import ProfileScreen from './src/page/Profiles';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -62,7 +63,7 @@ function MyBottomNavigationBar() {
       <Tab.Screen name="Home" options={{ headerShown: false }} component={HomeScreen} />
       <Tab.Screen name="Clinics" options={{ headerShown: false }} component={Survey} />
       <Tab.Screen name="Notification" options={{ headerShown: false }} component={Notification} />
-      <Tab.Screen name="Profile" options={{ headerShown: false }} component={UpImg} />
+      <Tab.Screen name="Profile" options={{ headerShown: false }} component={ProfileScreen} />
     </Tab.Navigator>
   );
 }

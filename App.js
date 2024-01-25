@@ -1,18 +1,21 @@
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Ionicons } from '@expo/vector-icons';
-import HomeScreen from './src/page/Home';
-import LoginScreen from './src/page/Login';
-import SignUpScreen from './src/page/SignUp';
-import { IntroSlider } from './src/page/Intro';
-import { Survey } from './src/page/Survey';
-import { Notification } from './src/page/notification/Notification';
-import UpImg from './src/Components/UpImg';
-import { View } from 'native-base';
-import { StyleSheet } from 'react-native';
-import { NativeBaseConfigProvider } from 'native-base';
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Ionicons } from "@expo/vector-icons";
+import HomeScreen from "./src/page/Home";
+import LoginScreen from "./src/page/Login";
+import SignUpScreen from "./src/page/SignUp";
+import { IntroSlider } from "./src/page/Intro";
+import { Survey } from "./src/page/Survey";
+import { Notification } from "./src/page/notification/Notification";
+import UpImg from "./src/Components/UpImg";
+import { View } from "native-base";
+import { StyleSheet } from "react-native";
+import { NativeBaseConfigProvider } from "native-base";
+import CheckOut from "./src/page/payment/checkout";
+import Completed from "./src/page/payment/Complete";
+import ChangeProfile from "./src/page/ChangeProfile";
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -48,7 +51,18 @@ const App = () => {
         <Stack.Screen
           name="Profile"
           options={{ headerLeft: null, headerShown: false }}
-          component={ProfileSettingScreen}
+          component={ChangeProfile}
+
+        />
+        <Stack.Screen
+          name="CheckOut"
+          options={{ headerLeft: null, headerShown: false }}
+          component={CheckOut}
+        />
+        <Stack.Screen
+          name="Completed"
+          options={{ headerLeft: null, headerShown: false }}
+          component={Completed}
         />
       </Stack.Navigator>
     </NavigationContainer>
@@ -82,10 +96,26 @@ function MyBottomNavigationBar() {
       })}
       keyboardShouldPersistTaps="handled"
     >
-      <Tab.Screen name="Home" options={{ headerShown: false }} component={HomeScreen} />
-      <Tab.Screen name="Clinics" options={{ headerShown: false }} component={Survey} />
-      <Tab.Screen name="Notification" options={{ headerShown: false }} component={Notification} />
-      <Tab.Screen name="Profile" options={{ headerShown: false }} component={UpImg} />
+      <Tab.Screen
+        name="Home"
+        options={{ headerShown: false }}
+        component={HomeScreen}
+      />
+      <Tab.Screen
+        name="Clinics"
+        options={{ headerShown: false }}
+        component={Survey}
+      />
+      <Tab.Screen
+        name="Notification"
+        options={{ headerShown: false }}
+        component={Notification}
+      />
+      <Tab.Screen
+        name="Profile"
+        options={{ headerShown: false }}
+        component={UpImg}
+      />
     </Tab.Navigator>
   );
 }

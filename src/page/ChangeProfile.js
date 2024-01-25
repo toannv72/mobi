@@ -5,9 +5,9 @@ import RNPickerSelect from "react-native-picker-select";
 import * as ImagePicker from "expo-image-picker";
 import DateTimePicker from "@react-native-community/datetimepicker";
 export default function ChangeProfile({ navigation }) {
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [dob, setDob] = useState("");
+  const [name, setName] = useState("Toannv");
+  const [phone, setPhone] = useState("0345821712");
+  const [dob, setDob] = useState("2000-2-1T20:35:52.184Z");
   const [gender, setGender] = useState(null);
   const [location, setLocation] = useState("");
   const [selectedGender, setSelectedGender] = useState("null");
@@ -16,8 +16,8 @@ export default function ChangeProfile({ navigation }) {
   );
   const [quote, setQuote] = useState("");
 
-  const [avatarSource, setAvatarSource] = useState(null);
-
+  const [avatarSource, setAvatarSource] = useState('https://firebasestorage.googleapis.com/v0/b/swd-longchim.appspot.com/o/376577375_998270051209102_4679797004619533760_n.jpg?alt=media&token=90d94961-bc1b-46e4-b60a-ad731606b13b');
+console.log(dob);
   const genderOptions = [
     { label: "Male", value: "male" },
     { label: "Female", value: "female" },
@@ -41,15 +41,15 @@ export default function ChangeProfile({ navigation }) {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [432, 250],
+      aspect: [4, 3],
       quality: 1,
     });
 
-    console.log(result);
 
-    if (!result.cancelled) {
+    if (!result.canceled) {
       setAvatarSource(result);
     }
+
   };
   const [showDatePicker, setShowDatePicker] = useState(false);
 
@@ -75,17 +75,17 @@ export default function ChangeProfile({ navigation }) {
           height: 250,
         }}
       >
-        {avatarSource && (
-          <Image
-            source={{ uri: avatarSource.uri }}
-            style={{
-              ...styles.image,
-              marginBottom: 20,
-              width: "100%",
-              height: "100%",
-            }}
-          />
-        )}
+
+        <Image
+          source={{ uri: avatarSource?.assets ? avatarSource?.assets[0]?.uri : 'https://firebasestorage.googleapis.com/v0/b/swd-longchim.appspot.com/o/376577375_998270051209102_4679797004619533760_n.jpg?alt=media&token=90d94961-bc1b-46e4-b60a-ad731606b13b' }}
+          style={{
+            ...styles.image,
+            marginBottom: 20,
+            width: "100%",
+            height: "100%",
+          }}
+        />
+
       </View>
 
       <View style={styles.backIconContainer}>

@@ -81,7 +81,113 @@ export const Notification = ({ navigation }) => {
                     <Text style={style.title}>Notification</Text>
                 </View>
                 <View style={style.selectedDate}>
-                    <Card containerStyle={{ ...style.selectedDateContent, ...style.cartShadow }}></Card>
+                    <Card containerStyle={{ ...style.selectedDateContent, ...style.cartShadow }}>
+                        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                            <View style={{
+                                flexDirection: 'row', 
+                            }}>
+                                <Card containerStyle={{
+                                    borderRadius: 15,
+                                    borderColor: '#8C8EA3',
+                                    shadowRadius: 4,
+                                    padding: 10,
+                                    height: 80,
+                                    width: 80,
+
+                                }}>
+                                    <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                                        <Card.Title style={{ fontSize: 20, color: '#000' }}>Wed</Card.Title>
+                                        <Card.Title style={{ fontSize: 20, color: '#000' }}>24</Card.Title>
+                                    </View>
+                                </Card>
+                                <Card containerStyle={{
+                                    borderRadius: 15,
+                                    borderColor: '#8C8EA3',
+                                    shadowRadius: 4,
+                                    padding: 10,
+                                    height: 80,
+                                    width: 80,
+
+                                }}>
+                                    <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                                        <Card.Title style={{ fontSize: 20, color: '#000' }}>Thu</Card.Title>
+                                        <Card.Title style={{ fontSize: 20, color: '#000' }}>25</Card.Title>
+                                    </View>
+                                </Card>
+                                <Card containerStyle={{
+                                    borderRadius: 15,
+                                    borderColor: '#8C8EA3',
+                                    shadowRadius: 4,
+                                    padding: 10,
+                                    height: 80,
+                                    width: 80,
+
+                                }}>
+                                    <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                                        <Card.Title style={{ fontSize: 20, color: '#000' }}>Fri</Card.Title>
+                                        <Card.Title style={{ fontSize: 20, color: '#000' }}>26</Card.Title>
+                                    </View>
+                                </Card>
+                                <Card containerStyle={{
+                                    borderRadius: 15,
+                                    borderColor: '#8C8EA3',
+                                    shadowRadius: 4,
+                                    padding: 10,
+                                    height: 80,
+                                    width: 80,
+
+                                }}>
+                                    <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                                        <Card.Title style={{ fontSize: 20, color: '#000' }}>Sat</Card.Title>
+                                        <Card.Title style={{ fontSize: 20, color: '#000' }}>27</Card.Title>
+                                    </View>
+                                </Card>
+                                <Card containerStyle={{
+                                    borderRadius: 15,
+                                    borderColor: '#8C8EA3',
+                                    shadowRadius: 4,
+                                    padding: 10,
+                                    height: 80,
+                                    width: 80,
+
+                                }}>
+                                    <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                                        <Card.Title style={{ fontSize: 20, color: '#000' }}>Sun</Card.Title>
+                                        <Card.Title style={{ fontSize: 20, color: '#000' }}>28</Card.Title>
+                                    </View>
+                                </Card>
+                                <Card containerStyle={{
+                                    borderRadius: 15,
+                                    borderColor: '#8C8EA3',
+                                    shadowRadius: 4,
+                                    padding: 10,
+                                    height: 80,
+                                    width: 80,
+
+                                }}>
+                                    <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                                        <Card.Title style={{ fontSize: 20, color: '#000' }}>Mon</Card.Title>
+                                        <Card.Title style={{ fontSize: 20, color: '#000' }}>29</Card.Title>
+                                    </View>
+                                </Card>
+                                <Card containerStyle={{
+                                    borderRadius: 15,
+                                    borderColor: '#8C8EA3',
+                                    shadowRadius: 4,
+                                    padding: 10,
+                                    height: 80,
+                                    width: 80,
+
+                                }}>
+                                    <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                                        <Card.Title style={{ fontSize: 20, color: '#000' }}>Sun</Card.Title>
+                                        <Card.Title style={{ fontSize: 20, color: '#000' }}>30</Card.Title>
+                                    </View>
+                                </Card>
+                            </View>
+                        </ScrollView>
+
+                    </Card>
                 </View>
             </View>
             {!notiCreating ? (
@@ -172,7 +278,7 @@ const style = StyleSheet.create({
 
     selectedDate: {
         width: '100%',
-        height: 156,
+        height: 136,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',

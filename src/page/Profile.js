@@ -60,7 +60,7 @@ export default function ProfileSettingScreen({ navigation }) {
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <Avatar.Image
           size={100}
-          source={{ uri: "https://example.com/avatar.jpg" }}
+          source={{ uri: "https://firebasestorage.googleapis.com/v0/b/swd-longchim.appspot.com/o/376577375_998270051209102_4679797004619533760_n.jpg?alt=media&token=90d94961-bc1b-46e4-b60a-ad731606b13b" }}
           style={{ marginLeft: 25 }}
         />
         <View
@@ -81,11 +81,11 @@ export default function ProfileSettingScreen({ navigation }) {
                 marginLeft: 7,
               }}
             >
-              Your Name
+              Toannv
             </Text>
             <Text style={{ marginTop: 10, fontSize: 16, marginLeft: 7 }}>
               {" "}
-              Date Year
+              2-2-2000
             </Text>
           </View>
           <IconButton
@@ -107,10 +107,10 @@ export default function ProfileSettingScreen({ navigation }) {
             i === 0
               ? "My Pet"
               : i === 1
-              ? "Password"
-              : i === 2
-              ? "Payment Method"
-              : "Support"
+                ? "Password"
+                : i === 2
+                  ? "Payment Method"
+                  : "Support"
           } // Đổi tiêu đề ở đây
           expanded={expanded[i]}
           onPress={() => toggleAccordion(i)}

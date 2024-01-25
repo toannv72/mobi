@@ -16,6 +16,7 @@ import { NativeBaseConfigProvider } from "native-base";
 import CheckOut from "./src/page/payment/checkout";
 import Completed from "./src/page/payment/Complete";
 import ChangeProfile from "./src/page/ChangeProfile";
+import ProfileSettingScreen from "./src/page/Profile";
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -49,7 +50,7 @@ const App = () => {
           component={Survey}
         />
         <Stack.Screen
-          name="Profile"
+          name="ChangeProfile"
           options={{ headerLeft: null, headerShown: false }}
           component={ChangeProfile}
 
@@ -114,7 +115,7 @@ function MyBottomNavigationBar() {
       <Tab.Screen
         name="Profile"
         options={{ headerShown: false }}
-        component={UpImg}
+        component={ProfileSettingScreen}
       />
     </Tab.Navigator>
   );

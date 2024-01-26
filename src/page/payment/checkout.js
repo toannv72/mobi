@@ -7,11 +7,16 @@ import {
   Image,
   View,
   Modal,
+  Linking,
 } from "react-native";
 import checkIcon from "../../../assets/check.png";
 import momoIcon from "../../../assets/MoMo_Logo.png";
 export default function CheckOut({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
+  const handleMomo = () => {
+    const url = "https://me.momo.vn/qr/nguyen-van-toan-IwfnwPi8o4/JSxbSmx5d1";
+    Linking.openURL(url).catch((err) => console.error("Không thể mở URL", err));
+  };
   return (
     <View style={styles.centeredView}>
       <Modal
@@ -26,7 +31,11 @@ export default function CheckOut({ navigation }) {
         <View style={styles.modalBackGround}>
           <View style={styles.modalContainer}>
             <Text style={styles.titleModal}>MoMo Payment</Text>
-            <Image source={momoIcon} />
+            <View>
+              <TouchableOpacity onPress={handleMomo}>
+                <Image source={momoIcon} />
+              </TouchableOpacity>
+            </View>
             <Text>*Hint: Tap the icon to make a payment</Text>
             <Text>After payment click "Continue"</Text>
             <TouchableOpacity
@@ -45,7 +54,10 @@ export default function CheckOut({ navigation }) {
         </View>
       </Modal>
       <View style={styles.header}>
-        <TouchableOpacity style={styles.backIcon}>
+        <TouchableOpacity
+          style={styles.backIcon}
+          onPress={() => navigation.navigate("Profile")}
+        >
           <AntDesign name="left" size={30} color="#8C8EA3" />
         </TouchableOpacity>
         <Text style={styles.titleHeader}>Check Out</Text>
@@ -106,7 +118,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     display: "flex",
-    marginTop: 20,
+    marginTop: 30,
     // justifyContent: "center",
     // alignItems: "center",
     gap: 20,

@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View, ScrollView } from "react-native";
 import { Avatar, Text, List, Icon, IconButton } from "react-native-paper";
+import Model from "../Components/Modal";
 export default function ProfileSettingScreen({ navigation }) {
   const [expanded, setExpanded] = useState({});
-
+  const [show, setShow] = useState(false);
   const list2 = [
     {
       name: "Show Collection",
@@ -28,11 +29,18 @@ export default function ProfileSettingScreen({ navigation }) {
       icon: "lifebuoy",
     },
   ];
+
+  const handClose = () => {
+    setShow(false);
+  };
   const log = (item) => {
     // Only navigate when "Change Password" is pressed
     if (item.name === "Change Password") {
       navigation.navigate("Password", { item });
     }
+  };
+  const hadShow = () => {
+    setShow(!show);
   };
 
   const toggleAccordion = (index) => {
@@ -60,7 +68,9 @@ export default function ProfileSettingScreen({ navigation }) {
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <Avatar.Image
           size={100}
-          source={{ uri: "https://firebasestorage.googleapis.com/v0/b/swd-longchim.appspot.com/o/376577375_998270051209102_4679797004619533760_n.jpg?alt=media&token=90d94961-bc1b-46e4-b60a-ad731606b13b" }}
+          source={{
+            uri: "https://firebasestorage.googleapis.com/v0/b/swd-longchim.appspot.com/o/376577375_998270051209102_4679797004619533760_n.jpg?alt=media&token=90d94961-bc1b-46e4-b60a-ad731606b13b",
+          }}
           style={{ marginLeft: 25 }}
         />
         <View
@@ -107,10 +117,10 @@ export default function ProfileSettingScreen({ navigation }) {
             i === 0
               ? "My Pet"
               : i === 1
-                ? "Password"
-                : i === 2
-                  ? "Payment Method"
-                  : "Support"
+              ? "Password"
+              : i === 2
+              ? "Payment Method"
+              : "Support"
           } // Đổi tiêu đề ở đây
           expanded={expanded[i]}
           onPress={() => toggleAccordion(i)}
@@ -138,12 +148,15 @@ export default function ProfileSettingScreen({ navigation }) {
       <View style={styles.updateAccountContainer}>
         <List.Item
           title={
-            <Text style={styles.updateAccountText}>Update Your Account</Text>
+            <Text style={styles.updateAccountText} onPress={hadShow}>
+              Update Your Account
+            </Text>
           }
           onPress={log}
           style={styles.updateAccount}
         />
       </View>
+      <Model shows={show} handClose={handClose} />
     </ScrollView>
   );
 }

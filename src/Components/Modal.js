@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import checkIcon from "../../assets/check.png";
 import {
   Alert,
@@ -10,25 +10,33 @@ import {
   Pressable,
   Image,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+export default function Model({ shows, handClose }) {
+  const [modalVisible, setModalVisible] = useState(shows);
+  const navigation = useNavigation();
+  useEffect(() => {
+    setModalVisible(shows);
+  }, [shows]);
 
-export default function Model({ navigation }) {
-  const [modalVisible, setModalVisible] = useState(false);
   return (
     <View style={styles.centeredView}>
       <Modal
         animationType="slide"
         transparent
         visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-          setModalVisible(!modalVisible);
-        }}
+        // onRequestClose={() => {
+        //   Alert.alert("Modal has been closed.");
+        //   setModalVisible(!modalVisible);
+        // }}
       >
         <View style={styles.modalBackGround}>
           <View style={styles.modalContainer}>
             <TouchableOpacity
               style={styles.quit}
-              onPress={() => setModalVisible(false)}
+              onPress={() => {
+                setModalVisible(false);
+                handClose();
+              }}
             >
               <Text style={styles.header}>X</Text>
             </TouchableOpacity>

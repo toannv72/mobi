@@ -73,9 +73,10 @@ export default function ChangeProfile({ navigation }) {
           borderWidth: 1,
           width: 432,
           height: 250,
+          marginTop: 20,
         }}
       >
-        {avatarSource && (
+        {/* {avatarSource && (
           <Image
             source={{ uri: avatarSource.uri }}
             style={{
@@ -83,9 +84,22 @@ export default function ChangeProfile({ navigation }) {
               marginBottom: 20,
               width: "100%",
               height: "100%",
+              resizeMode: "cover",
             }}
           />
-        )}
+        )} */}
+        <Image
+          source={{
+            uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQN9NVBIOk_blWPFbW7lJfwX3FNO6jMIsDdZg&usqp=CAU",
+          }}
+          style={{
+            ...styles.image,
+            marginBottom: 20,
+            width: "100%",
+            height: "100%",
+            resizeMode: "cover",
+          }}
+        ></Image>
       </View>
 
       <View style={styles.backIconContainer}>

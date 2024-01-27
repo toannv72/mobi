@@ -7,25 +7,19 @@ export default function ProfileSettingScreen({ navigation }) {
   const [show, setShow] = useState(false);
   const list2 = [
     {
-      name: "Show Collection",
-
+      name: "My Pet",
       icon: "dog",
     },
     {
-      name: "Change Password",
-
+      name: "Password",
       icon: "fingerprint",
     },
     {
-      name: "New User",
-      avatar_url: "https://example.com/avatar3.jpg",
-      subtitle: "New Role",
+      name: "Payment Method",
       icon: "credit-card",
     },
     {
-      name: "New User",
-      avatar_url: "https://example.com/avatar3.jpg",
-      subtitle: "New Role",
+      name: "Support",
       icon: "lifebuoy",
     },
   ];
@@ -34,8 +28,8 @@ export default function ProfileSettingScreen({ navigation }) {
     setShow(false);
   };
   const log = (item) => {
-    // Only navigate when "Change Password" is pressed
-    if (item.name === "Change Password") {
+    // Only navigate when "Password" is pressed
+    if (item.name === "Password") {
       navigation.navigate("Password", { item });
     }
   };
@@ -43,17 +37,19 @@ export default function ProfileSettingScreen({ navigation }) {
     setShow(!show);
   };
 
-  const toggleAccordion = (index) => {
-    setExpanded((prevExpanded) => {
-      return { ...prevExpanded, [index]: !prevExpanded[index] };
-    });
-  };
-
   return (
     <ScrollView
       style={{ backgroundColor: "#F6F6F6" }}
       contentContainerStyle={styles.container}
     >
+      {/* Thêm IconButton cho biểu tượng arrow-left */}
+      <IconButton
+        icon="arrow-left"
+        size={35}
+        style={styles.backIcon}
+        onPress={() => navigation.navigate("Home")}
+      />
+
       <Text
         style={{
           fontSize: 26,
@@ -64,7 +60,6 @@ export default function ProfileSettingScreen({ navigation }) {
       >
         Profile
       </Text>
-      <View style={{ margin: 0 }} />
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <Avatar.Image
           size={100}
@@ -110,40 +105,29 @@ export default function ProfileSettingScreen({ navigation }) {
       </View>
       <View style={{ height: 35 }} />
 
-      {list2.map((l, i) => (
-        <List.Accordion
-          key={i}
-          title={
-            i === 0
-              ? "My Pet"
-              : i === 1
-              ? "Password"
-              : i === 2
-              ? "Payment Method"
-              : "Support"
-          } // Đổi tiêu đề ở đây
-          expanded={expanded[i]}
-          onPress={() => toggleAccordion(i)}
-          style={{
-            backgroundColor: "#F6F6F6",
-            fontWeight: "bold",
-          }}
-          titleStyle={{ fontWeight: "bold", fontSize: 19 }}
-        >
+      {list2.map((item, index) => (
+        <View key={index}>
           <List.Item
-            title={l.name}
-            description={l.subtitle}
-            left={(props) => <List.Icon {...props} icon={l.icon} />}
-            onPress={() => log(l)}
+            title={item.name}
+            left={(props) => <List.Icon {...props} icon={item.icon} />}
+            right={(props) => <List.Icon {...props} icon="arrow-right" />}
+            onPress={() => log(item)}
             titleStyle={styles.titleStyle}
+            style={{
+              backgroundColor: "#F6F6F6",
+              fontWeight: "bold",
+              marginBottom: 5,
+            }}
           />
-        </List.Accordion>
+          {index < list2.length - 1 && <View style={styles.separator} />}
+        </View>
       ))}
+      <View style={styles.separator} />
       <List.Item
         title="Logout"
         right={(props) => <List.Icon {...props} icon="logout" />}
         onPress={log}
-        titleStyle={{ fontSize: 19, fontWeight: "bold" }}
+        titleStyle={{ fontSize: 19, fontWeight: "bold", marginLeft: 40 }}
       />
       <View style={styles.updateAccountContainer}>
         <List.Item
@@ -184,5 +168,20 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "white",
     fontWeight: 700,
+  },
+  titleStyle: {
+    fontWeight: "bold",
+    fontSize: 19,
+  },
+  separator: {
+    height: 1,
+    backgroundColor: "#CCCCCC", // Màu của đường kẻ
+    marginVertical: 5,
+  },
+  backIcon: {
+    position: "absolute",
+    top: 50,
+    left: 16,
+    zIndex: 1,
   },
 });

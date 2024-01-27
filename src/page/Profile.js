@@ -2,9 +2,12 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, View, ScrollView } from "react-native";
 import { Avatar, Text, List, Icon, IconButton } from "react-native-paper";
 import Model from "../Components/Modal";
-export default function ProfileSettingScreen({ navigation }) {
+import { useNavigation } from "@react-navigation/native";
+export default function ProfileSettingScreen({  }) {
   const [expanded, setExpanded] = useState({});
   const [show, setShow] = useState(false);
+  const navigation = useNavigation();
+
   const list2 = [
     {
       name: "My Pet",
@@ -32,9 +35,12 @@ export default function ProfileSettingScreen({ navigation }) {
     if (item.name === "Password") {
       navigation.navigate("Password", { item });
     }
+    if (item.name === "Logout") {
+      navigation.navigate("login");
+    }
   };
   const hadShow = () => {
-    setShow(!show);
+    setShow(true);
   };
 
   return (
@@ -126,7 +132,7 @@ export default function ProfileSettingScreen({ navigation }) {
       <List.Item
         title="Logout"
         right={(props) => <List.Icon {...props} icon="logout" />}
-        onPress={log}
+        onPress={()=>navigation.navigate("Login")}
         titleStyle={{ fontSize: 19, fontWeight: "bold", marginLeft: 40 }}
       />
       <View style={styles.updateAccountContainer}>
@@ -136,7 +142,7 @@ export default function ProfileSettingScreen({ navigation }) {
               Update Your Account
             </Text>
           }
-          onPress={log}
+         
           style={styles.updateAccount}
         />
       </View>

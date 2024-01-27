@@ -4,9 +4,9 @@ import { Text, TextInput } from 'react-native-paper';
 import CustomButton from '../Components/CustomButton';
 import { Link } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
-import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { postData } from '../api/api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import ProfileScreen from './Profiles';
 export default function LoginScreen({ }) {
     const navigation = useNavigation();
     const [email, setEmail] = useState('');
@@ -14,22 +14,30 @@ export default function LoginScreen({ }) {
     const emailInputRef = useRef(null);
     const passwordInputRef = useRef(null);
     const [storedData, setStoredData] = useState([]);
-
+  
     const handleProfileNavigation = () => {
         // Chuyển đến trang Profile trong Tab Navigation
         navigation.navigate('SignUp');
     };
-
-
+    // AsyncStorage.removeItem('@myKey');
+    // console.log('data user ', storedData)
     useEffect(() => {
-        const data = AsyncStorage.getItem('user');
-        console.log(1111111111111, data);
-        if (data !== null) {
-            // setStoredData(JSON.parse(data));
-            // console.log('Data loaded successfully:', data);
-        } else {
-            console.log('No data found in AsyncStorage.');
-        }
+        const loadStoredData = async () => {
+            try {
+                // Load data from AsyncStorage
+                const data = await AsyncStorage.getItem('@myKey');
+                if (data !== null) {
+                    setStoredData(JSON.parse(data));
+                    console.log('Data User successfully:', data);
+                } else {
+                    console.log('No data found in AsyncStorage.');
+                }
+            } catch (error) {
+                console.error('Error loading data:', error);
+            }
+        };
+        loadStoredData();
+
     }, [email]);
     const handleLogin = () => {
         if (!email) {
@@ -43,49 +51,29 @@ export default function LoginScreen({ }) {
             passwordInputRef.current.focus();
             return;
         }
-        // Xử lý logic đăng nhập tại đây
-        // axios.post('https://petside.azurewebsites.net/api/users/login', {
-        //     "email": email,
-        //     "password": password,
-        // })
-        //     .then((e) => {
 
-        //         console.log("data", e.data);
-        //         AsyncStorage.setItem('user', e.data);
-        //         navigation.navigate('Homes', { screen: 'home' })
-        //         if (e.data.success) {
-        //         } else {
-
-        //         }
-        //     })
-        //     .catch((error) => {
-        //         Alert.alert('Error', 'Wrong account or password!');
-        //     });
         postData('/users/login', {
             "email": email,
             "password": password,
         })
             .then((e) => {
-                console.log("data", e.data);
-                AsyncStorage.setItem('user', e.data);
+                console.log("data", JSON.stringify([e]));
+                AsyncStorage.setItem('@myKey', JSON.stringify([e]));
+                console.log('Data saved successfully!');
                 navigation.navigate('Homes', { screen: 'home' })
-                if (e.data.success) {
-                } else {
 
-                }
             })
             .catch((error) => {
-                navigation.navigate('Homes', { screen: 'home' })
-
-                // Alert.alert('Error', 'Wrong account or password!');
+                // navigation.navigate('Homes', { screen: 'home' })
+                console.log(error);
+                Alert.alert('Error', 'Wrong account or password!');
             });
-        // Chuyển đến màn hình chính sau khi đăng nhập thành công
-        // Ví dụ sử dụng React Navigation
-        // navigation.navigate('Main');
+
     };
 
     return (
         <View style={styles.container}>
+            {/* <ProfileScreen /> */}
             <View style={styles.body}>
                 <Text style={{ fontSize: 26, marginTop: 30, }}> Well come back </Text>
                 <View style={{ margin: 20 }} />

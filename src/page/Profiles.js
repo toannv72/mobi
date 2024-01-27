@@ -7,7 +7,7 @@ import { Button, Text, TextInput } from 'react-native-paper';
 
 export default function ProfileScreen({ navigation }) {
     const [storedData, setStoredData] = useState([]);
-    let json = [{ key: '1', name: '2' }]
+    let json = [{ "address": null, "appointments": [], "avatar": null, "dateOfBirth": null, "email": "toannv@gmail.com", "fullName": "toannv", "id": "106ab4cb-1cfd-423e-ffaa-08dc1ed00c11", "lazyLoader": {}, "pets": [], "phoneNumber": "034567890", "status": 1, "usersRoles": [{ "roleId": "11e2a873-acfb-4471-be29-08dc1e0e40ee", "usersId": "106ab4cb-1cfd-423e-ffaa-08dc1ed00c11" }] }]
 
     useEffect(() => {
         // Load stored data when the component mounts
@@ -23,12 +23,11 @@ export default function ProfileScreen({ navigation }) {
             console.error('Error saving data:', error);
         }
     };
-
+    console.log('storedData', storedData);
     const loadStoredData = async () => {
         try {
             // Load data from AsyncStorage
             const data = await AsyncStorage.getItem('@myKey');
-            console.log(data);
             if (data !== null) {
                 setStoredData(JSON.parse(data));
                 console.log('Data loaded successfully:', data);
@@ -162,7 +161,7 @@ export default function ProfileScreen({ navigation }) {
             </ScrollView>
             <Text style={{ textAlign: 'center' }} onPress={() => navigation.navigate('Notification')}>bấm  </Text>
             <View>
-                <Text>Stored Data: {storedData[0]?.name || "null"}</Text>
+                <Text>Stored Data: {storedData[0]?.fullName || "null"}</Text>
                 <Button mode="contained" onPress={saveData}>
                     Save Data
                 </Button>

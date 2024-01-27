@@ -24,10 +24,10 @@ export default function Model({ shows, handClose }) {
         animationType="slide"
         transparent
         visible={modalVisible}
-        // onRequestClose={() => {
-        //   Alert.alert("Modal has been closed.");
-        //   setModalVisible(!modalVisible);
-        // }}
+      // onRequestClose={() => {
+      //   Alert.alert("Modal has been closed.");
+      //   setModalVisible(!modalVisible);
+      // }}
       >
         <View style={styles.modalBackGround}>
           <View style={styles.modalContainer}>
@@ -65,7 +65,10 @@ export default function Model({ shows, handClose }) {
             </View>
             <TouchableOpacity
               style={styles.button}
-              onPress={() => navigation.navigate("CheckOut")}
+              onPress={() => {
+                handClose();
+                navigation.navigate("CheckOut")
+              }}
             >
               <Text style={styles.name}>Get Pay</Text>
             </TouchableOpacity>

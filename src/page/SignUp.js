@@ -97,7 +97,7 @@ export default function SingUpScreen({ navigation }) {
         ref={fullNameInputRef}
         onChangeText={(text) => setFullName(text)}
         value={fullName}
-        mode="circle"
+        mode="outlined"
         left={<TextInput.Icon icon="account" />}
         onSubmitEditing={() => emailInputRef.current.focus()}
       />

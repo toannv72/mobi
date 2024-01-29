@@ -47,7 +47,7 @@ export const Survey = ({ navigation }) => {
           {/* .............................................................................................................. */}
 
           <View style={styles.slide}>
-            <ScrollView contentContainerStyle={{ justifyContent: 'center', gap: 10, marginTop: 100 }}>
+            <ScrollView contentContainerStyle={{}}>
               <View>
                 <Text style={{ fontSize: 32 }}>Help us understand you by answering few question</Text>
               </View>
@@ -87,75 +87,77 @@ export const Survey = ({ navigation }) => {
                   value={inputDate}>
                 </DatePickerInput>
               </View>
+
+              <View style={{ height: 100 }}></View>
             </ScrollView>
 
           </View>
 
 
           {/* .............................................................................................................. */}
-
           <View style={styles.slide}>
-            <View>
-              <Text style={{ fontSize: 32 }}>Help us understand you by answering few question</Text>
-            </View>
-            <View>
-              <Text style={styles.quizText}>Select your pet breed</Text>
-              <SelectList
-                setSelected={(val) => setSelected(val)}
-                data={selectData}
-                save="value" />
-            </View>
-            <View>
-              <Text style={styles.quizText}>Choose gender of your pet</Text>
-              <View style={{ flexDirection: 'row', gap: 50, alignItems: "center" }}>
-                <TouchableOpacity style={styles.customButton}>
-                  <Text style={styles.buttonText}>Male</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.customButton}>
-                  <Text style={styles.buttonText}>Female</Text>
-                </TouchableOpacity>
+            <ScrollView contentContainerStyle={{}}>
+              <View>
+                <Text style={{ fontSize: 32 }}>Help us understand you by answering few question</Text>
               </View>
-            </View>
-            <View>
-              <Slider
-                value={selectedValue}
-                onValueChange={setSelectedValue}
+              <View>
+                <Text style={styles.quizText}>Select your pet breed</Text>
+                <SelectList
+                  setSelected={(val) => setSelected(val)}
+                  data={selectData}
+                  save="value" />
+              </View>
+              <View>
+                <Text style={styles.quizText}>Choose gender of your pet</Text>
+                <View style={{ flexDirection: 'row', gap: 50, alignItems: "center" }}>
+                  <TouchableOpacity style={styles.customButton}>
+                    <Text style={styles.buttonText}>Male</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.customButton}>
+                    <Text style={styles.buttonText}>Female</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+              <View style={{ padding: 20 }}>
+                <Slider
+                  value={value}
+                  onValueChange={setValue}
+                  maximumValue={2}
+                  minimumValue={0}
+                  step={1}
+                  allowTouchTrack
+                  trackStyle={{ height: 5, backgroundColor: 'transparent' }}
+                  thumbStyle={{ height: 20, width: 20, backgroundColor: 'transparent' }}
+                  thumbProps={{
+                    children: (
+                      <Icon
+                        name="paw"
+                        type="font-awesome"
+                        size={15}
+                        reverse
+                        containerStyle={{ bottom: 20, right: 20 }}
+                        color="#f50"
+                      />
+                    ),
+                  }}
+                />
+              </View>
+              <View style={{ flexDirection: 'row', gap: 40, justifyContent: 'center', padding: 20 }}>
+                <Text style={styles.buttonText}>Up to 4 moth</Text>
+                <Text style={styles.buttonText}>Up to a year</Text>
+                <Text style={styles.buttonText}>More than a year</Text>
+              </View>
+              <View>
+                <Text style={styles.quizText}>What your pet's weight</Text>
+                <TextInput
+                  style={styles.textInputStyle}
+                  underlineColor="transparent"
+                ></TextInput>
+              </View>
+              <View style={{ height: 150 }}></View>
 
-                maximumValue={2}
-                minimumValue={0}
-                step={1}
-                allowTouchTrack
-                trackStyle={{ height: 5, backgroundColor: 'transparent' }}
-                thumbStyle={{ height: 20, width: 20, backgroundColor: 'transparent' }}
-                thumbProps={{
-                  children: (
-                    <Icon
-                      name="paw"
-                      type="font-awesome"
-                      size={15}
-                      reverse
-                      containerStyle={{ bottom: 20, right: 20 }}
-                      color="#f50"
-                    />
-                  ),
-                }}
-              />
-            </View>
-            <View style={{ flexDirection: 'row', gap: 50, justifyContent: 'center', padding: 20 }}>
-              <Text style={styles.buttonText}>Up to 4 moth</Text>
-              <Text style={styles.buttonText}>Up to a year</Text>
-              <Text style={styles.buttonText}>More than a year</Text>
-            </View>
-            <View>
-              <Text style={styles.quizText}>What your pet's weight</Text>
-              <TextInput
-                style={styles.textInputStyle}
-                underlineColor="transparent"
-              ></TextInput>
-            </View>
-
+            </ScrollView>
           </View>
-
           {/* .............................................................................................................. */}
           <View style={styles.slide}>
             <View>

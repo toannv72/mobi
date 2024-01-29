@@ -7,26 +7,30 @@ import { SelectList } from 'react-native-dropdown-select-list'
 import { Slider, Icon } from '@rneui/themed';
 export const Survey = ({ navigation }) => {
   const swiperRef = useRef(null);
-  const [inputDate, setInputDate] = React.useState(undefined)
+  const [inputDate, setInputDate] = React.useState("")
+  const [selectedValue, setSelectedValue] = useState(0);
+  const [selected, setSelected] = React.useState("");
+  const [petName, setPetName] = React.useState("");
+  const [petWeight, setPetWeight] = React.useState("");
+  const [screenCompletetion, setScreenCompletetion] = React.useState(false, false, false);
+  const selectData = [
+    { key: '1', selectedValue: 'Mobiles' },
+    { key: '2', selectedValue: 'Appliances' },
+    { key: '3', selectedValue: 'Cameras' },
+    { key: '4', selectedValue: 'Computers' },
+    { key: '5', selectedValue: 'Vegetables' },
+    { key: '6', selectedValue: 'Diary Products' },
+    { key: '7', selectedValue: 'Drinks' },
+  ]
   const handleDone = () => {
     navigation.navigate('Homes');
     // Handle done logic
   };
-
+  const handleNextButtonPress = () => {
+    const currentScreenComplete = checkCurrentScreenComplete();
+    if ()
+  }
   const SliderComponent = () => {
-    const [selected, setSelected] = React.useState("");
-    const [value, setValue] = useState(0);
-    const selectData = [
-      { key: '1', value: 'Mobiles' },
-      { key: '2', value: 'Appliances' },
-      { key: '3', value: 'Cameras' },
-      { key: '4', value: 'Computers' },
-      { key: '5', value: 'Vegetables' },
-      { key: '6', value: 'Diary Products' },
-      { key: '7', value: 'Drinks' },
-    ]
-
-
     return (
       <View style={styles.wrapper}>
         <Swiper
@@ -64,6 +68,7 @@ export const Survey = ({ navigation }) => {
                   <Image
                     source={require('../../assets/ImgInput.jpg')}
                     style={styles.image}
+
                   />
                 </TouchableOpacity>
               </View>
@@ -113,8 +118,9 @@ export const Survey = ({ navigation }) => {
             </View>
             <View>
               <Slider
-                value={value}
-                onValueChange={setValue}
+                value={selectedValue}
+                onValueChange={setSelectedValue}
+
                 maximumValue={2}
                 minimumValue={0}
                 step={1}

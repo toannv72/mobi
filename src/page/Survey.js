@@ -26,10 +26,10 @@ export const Survey = ({ navigation }) => {
     navigation.navigate('Homes');
     // Handle done logic
   };
-  const handleNextButtonPress = () => {
-    const currentScreenComplete = checkCurrentScreenComplete();
-    if ()
-  }
+  // const handleNextButtonPress = () => {
+  //   const currentScreenComplete = checkCurrentScreenComplete();
+  //   if ()
+  // }
   const SliderComponent = () => {
     return (
       <View style={styles.wrapper}>

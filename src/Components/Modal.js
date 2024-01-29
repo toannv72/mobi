@@ -24,10 +24,10 @@ export default function Model({ shows, handClose }) {
         animationType="slide"
         transparent
         visible={modalVisible}
-      // onRequestClose={() => {
-      //   Alert.alert("Modal has been closed.");
-      //   setModalVisible(!modalVisible);
-      // }}
+        // onRequestClose={() => {
+        //   Alert.alert("Modal has been closed.");
+        //   setModalVisible(!modalVisible);
+        // }}
       >
         <View style={styles.modalBackGround}>
           <View style={styles.modalContainer}>
@@ -42,7 +42,7 @@ export default function Model({ shows, handClose }) {
             </TouchableOpacity>
             <Text style={styles.title}>User Pro</Text>
             <Text style={styles.price}>276.000đ</Text>
-            <Text style={styles.paid}>Paid every 6 months</Text>
+            <Text style={styles.paid}>Paid every 3 months</Text>
             <View style={styles.mainContent}>
               <Image source={checkIcon} style={styles.icon} />
               <Text style={styles.content}>
@@ -67,7 +67,7 @@ export default function Model({ shows, handClose }) {
               style={styles.button}
               onPress={() => {
                 handClose();
-                navigation.navigate("CheckOut")
+                navigation.navigate("CheckOut");
               }}
             >
               <Text style={styles.name}>Get Pay</Text>
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "auto",
     fontWeight: "700",
-    fontSize: 28,
+    fontSize: 54,
     textAlign: "center",
     color: "#D46FD0",
   },
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "auto",
     fontWeight: "700",
-    fontSize: 64,
+    fontSize: 54,
     textAlign: "center",
     color: "#F6F6F6",
   },

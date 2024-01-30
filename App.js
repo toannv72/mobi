@@ -17,13 +17,19 @@ import CheckOut from "./src/page/payment/checkout";
 import Completed from "./src/page/payment/Complete";
 import ChangeProfile from "./src/page/ChangeProfile";
 import ProfileSettingScreen from "./src/page/Profile";
+import ImagePickerExample from "./src/Components/UpImg";
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="IntroSlider">
+      <Stack.Navigator initialRouteName="ImagePickerExample">
+        <Stack.Screen
+          name="ImagePickerExample"
+          options={{ headerLeft: null, headerShown: false }}
+          component={ImagePickerExample}
+        />
         <Stack.Screen
           name="Login"
           options={{ headerLeft: null, headerShown: false }}

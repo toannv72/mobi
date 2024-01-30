@@ -23,7 +23,7 @@ const Tab = createBottomTabNavigator();
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
+      <Stack.Navigator initialRouteName="IntroSlider">
         <Stack.Screen
           name="Login"
           options={{ headerLeft: null, headerShown: false }}

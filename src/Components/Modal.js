@@ -41,9 +41,7 @@ export default function Model({ shows, handClose }) {
               <Text style={styles.header}>X</Text>
             </TouchableOpacity>
             <Text style={styles.title}>User Pro</Text>
-            <Text style={styles.price}>
-              109.000<sup>vnđ</sup>
-            </Text>
+            <Text style={styles.price}>109.000vnđ</Text>
             <Text style={styles.paid}>Paid every 3 months</Text>
             <View style={styles.mainContent}>
               <Image source={checkIcon} style={styles.icon} />
@@ -128,7 +126,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "auto",
     fontWeight: "700",
-    fontSize: 54,
+    fontSize: 42,
     textAlign: "center",
     color: "#F6F6F6",
   },
@@ -161,7 +159,7 @@ const styles = StyleSheet.create({
     color: "white",
   },
   button: {
-    width: "100%",
+    width: "70%",
     borderWidth: 1,
     borderRadius: 16,
     justifyContent: "center",
@@ -171,7 +169,7 @@ const styles = StyleSheet.create({
   },
   name: {
     fontWeight: "700",
-    fontSize: 48,
+    fontSize: 40,
     color: "white",
     padding: 20,
   },

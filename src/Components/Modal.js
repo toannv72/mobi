@@ -41,7 +41,9 @@ export default function Model({ shows, handClose }) {
               <Text style={styles.header}>X</Text>
             </TouchableOpacity>
             <Text style={styles.title}>User Pro</Text>
-            <Text style={styles.price}>276.000đ</Text>
+            <Text style={styles.price}>
+              109.000<sup>vnđ</sup>
+            </Text>
             <Text style={styles.paid}>Paid every 3 months</Text>
             <View style={styles.mainContent}>
               <Image source={checkIcon} style={styles.icon} />

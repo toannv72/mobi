@@ -24,7 +24,7 @@ const Tab = createBottomTabNavigator();
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="ImagePickerExample">
+      <Stack.Navigator initialRouteName="Survey">
         <Stack.Screen
           name="ImagePickerExample"
           options={{ headerLeft: null, headerShown: false }}

@@ -17,6 +17,8 @@ import CheckOut from "./src/page/payment/checkout";
 import Completed from "./src/page/payment/Complete";
 import ChangeProfile from "./src/page/ChangeProfile";
 import ProfileSettingScreen from "./src/page/Profile";
+import PetDetailScreen from "./src/page/DetailForPet/PetDetailScreen";
+
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -53,7 +55,6 @@ const App = () => {
           name="ChangeProfile"
           options={{ headerLeft: null, headerShown: false }}
           component={ChangeProfile}
-
         />
         <Stack.Screen
           name="CheckOut"
@@ -64,6 +65,11 @@ const App = () => {
           name="Completed"
           options={{ headerLeft: null, headerShown: false }}
           component={Completed}
+        />
+        <Stack.Screen
+          name="PetDetail"
+          options={{ headerLeft: null, headerShown: false }}
+          component={PetDetailScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

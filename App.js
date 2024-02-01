@@ -17,6 +17,7 @@ import CheckOut from "./src/page/payment/checkout";
 import Completed from "./src/page/payment/Complete";
 import ChangeProfile from "./src/page/ChangeProfile";
 import ProfileSettingScreen from "./src/page/Profile";
+import Service from "./src/page/services/Service";
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -53,7 +54,6 @@ const App = () => {
           name="ChangeProfile"
           options={{ headerLeft: null, headerShown: false }}
           component={ChangeProfile}
-
         />
         <Stack.Screen
           name="CheckOut"
@@ -105,7 +105,7 @@ function MyBottomNavigationBar() {
       <Tab.Screen
         name="Clinics"
         options={{ headerShown: false }}
-        component={Survey}
+        component={Service}
       />
       <Tab.Screen
         name="Notification"

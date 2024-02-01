@@ -107,9 +107,9 @@ export default function VetVisit() {
         </View>
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
+        <Text style={styles.header1}>Book With Previous Veterinarian</Text>
         {veterinarians.map((item) => (
-          <View style={styles.element}>
-            <Text style={styles.header}>Book With Previous Veterinarian</Text>
+          <View style={styles.element} key={item.id}>
             <View style={styles.cardBooking}>
               <Image source={booking} style={{ width: 80, height: 80 }} />
               <View style={styles.information}>
@@ -128,7 +128,28 @@ export default function VetVisit() {
             </View>
           </View>
         ))}
-        <View style={{ height: 500 }}></View>
+        <Text style={styles.header1}>Book With New Veterinarian</Text>
+        {veterinarians.map((item) => (
+          <View style={styles.element} key={item.id}>
+            <View style={styles.cardBooking}>
+              <Image source={booking} style={{ width: 80, height: 80 }} />
+              <View style={styles.information}>
+                <Text style={styles.name}>{item.name}</Text>
+                <Text style={styles.lastVisit}>
+                  Last Visit {item.lastVisit}
+                </Text>
+                <View style={styles.location}>
+                  <Image source={location} />
+                  <Text style={styles.address}>{item.address}</Text>
+                </View>
+              </View>
+              <TouchableOpacity style={styles.bookingBtn}>
+                <Text style={styles.titleButton}>Book</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        ))}
+        <View style={{ height: 800 }}></View>
       </ScrollView>
     </View>
   );
@@ -137,7 +158,13 @@ const styles = StyleSheet.create({
   header: {
     fontWeight: "700",
     fontSize: 16,
-    marginBottom: "2%",
+    marginHorizontal: "2%",
+    marginLeft: "2%",
+  },
+  header1: {
+    fontWeight: "700",
+    fontSize: 16,
+    marginVertical: "2%",
     marginLeft: "2%",
   },
   radioButton: {

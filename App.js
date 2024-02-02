@@ -18,6 +18,7 @@ import Completed from "./src/page/payment/Complete";
 import ChangeProfile from "./src/page/ChangeProfile";
 import ProfileSettingScreen from "./src/page/Profile";
 import ImagePickerExample from "./src/Components/UpImg";
+import Service from "./src/page/services/Service";
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -59,7 +60,6 @@ const App = () => {
           name="ChangeProfile"
           options={{ headerLeft: null, headerShown: false }}
           component={ChangeProfile}
-
         />
         <Stack.Screen
           name="CheckOut"
@@ -95,7 +95,7 @@ function MyBottomNavigationBar() {
             iconName = focused ? "ios-person" : "ios-person-outline";
           } else if (route.name === "Notification") {
             iconName = focused ? "notifications" : "notifications-outline";
-          } else if (route.name === "Clinics") {
+          } else if (route.name === "Service") {
             iconName = focused ? "clipboard" : "clipboard-outline";
           }
           return <Ionicons name={iconName} size={size} color={color} />;
@@ -109,9 +109,9 @@ function MyBottomNavigationBar() {
         component={HomeScreen}
       />
       <Tab.Screen
-        name="Clinics"
+        name="Service"
         options={{ headerShown: false }}
-        component={Survey}
+        component={Service}
       />
       <Tab.Screen
         name="Notification"

@@ -1,42 +1,21 @@
-import React, { useState } from "react";
-import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, View, Image, Text } from "react-native";
 import { TextInput, IconButton } from "react-native-paper";
-import RNPickerSelect from "react-native-picker-select";
 import * as ImagePicker from "expo-image-picker";
-import DateTimePicker from "@react-native-community/datetimepicker";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { putData } from "../api/api";
+
 export default function ChangeProfile({ navigation }) {
   const [name, setName] = useState("Toannv");
   const [phone, setPhone] = useState("0345821712");
-  const [dob, setDob] = useState("2000-2-1T20:35:52.184Z");
-  const [gender, setGender] = useState(null);
+  const [mail, setMail] = useState("");
   const [location, setLocation] = useState("");
-  const [selectedGender, setSelectedGender] = useState("null");
-  const [selectedLocation, setSelectedLocation] = useState(
-    "placeholder_location"
+  const [avatarSource, setAvatarSource] = useState(
+    "https://firebasestorage.googleapis.com/v0/b/swd-longchim.appspot.com/o/376577375_998270051209102_4679797004619533760_n.jpg?alt=media&token=90d94961-bc1b-46e4-b60a-ad731606b13b"
   );
-  const [quote, setQuote] = useState("");
+  const [storedData, setStoredData] = useState([]);
 
-  const [avatarSource, setAvatarSource] = useState('https://firebasestorage.googleapis.com/v0/b/swd-longchim.appspot.com/o/376577375_998270051209102_4679797004619533760_n.jpg?alt=media&token=90d94961-bc1b-46e4-b60a-ad731606b13b');
-console.log(dob);
-  const genderOptions = [
-    { label: "Male", value: "male" },
-    { label: "Female", value: "female" },
-  ];
-  const getColor = (value) => {
-    switch (value) {
-      case "male":
-        return "#24252B";
-      case "female":
-        return "#24252B";
-      default:
-        return "#24252B";
-    }
-  };
-
-  const locationOptions = [
-    { label: "Location 1", value: "location1" },
-    { label: "Location 2", value: "location2" },
-  ];
   const handleChoosePhoto = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -45,23 +24,52 @@ console.log(dob);
       quality: 1,
     });
 
-
     if (!result.canceled) {
       setAvatarSource(result);
     }
-
   };
-  const [showDatePicker, setShowDatePicker] = useState(false);
-
-  const handleDateChange = (event, selectedDate) => {
-    const currentDate = selectedDate || dob;
-    setShowDatePicker(false);
-    setDob(currentDate);
+  const handleResetAll = () => {
+    // Xóa tất cả các trường nhập liệu
+    setName("");
+    setPhone("");
+    setMail("");
+    setLocation("");
+  };
+  const handleSaveChanges = () => {
+    // if (storedData.length > 0) {
+    //   const userId = storedData[0].id;
+    //   putData(`/users/updateInformation/${userId}`, {
+    //     address: location,
+    //     phoneNumber: phone,
+    //     fullname: name,
+    //   })
+    //     .then((response) => {
+    //       // Xử lý phản hồi từ API nếu cần
+    //       console.log("API response:", response);
+    //     })
+    //     .catch((error) => {
+    //       console.error("Error updating information:", error);
+    //     });
+    // }
   };
 
-  const showDatepicker = () => {
-    setShowDatePicker(true);
-  };
+  // useEffect(() => {
+  //   const loadStoredData = async () => {
+  //     try {
+  //       // Load data from AsyncStorage
+  //       const data = await AsyncStorage.getItem("@myKey");
+  //       if (data !== null) {
+  //         setStoredData(JSON.parse(data));
+  //         console.log("Data User successfully:", data);
+  //       } else {
+  //         console.log("No data found in AsyncStorage.");
+  //       }
+  //     } catch (error) {
+  //       console.error("Error loading data:", error);
+  //     }
+  //   };
+  //   loadStoredData();
+  // }, []);
 
   return (
     <View style={styles.container}>
@@ -76,10 +84,12 @@ console.log(dob);
           marginTop: 20,
         }}
       >
-
         <Image
-          source={{ uri: avatarSource?.assets ? avatarSource?.assets[0]?.uri : 'https://firebasestorage.googleapis.com/v0/b/swd-longchim.appspot.com/o/376577375_998270051209102_4679797004619533760_n.jpg?alt=media&token=90d94961-bc1b-46e4-b60a-ad731606b13b' }}
-      
+          source={{
+            uri: avatarSource?.assets
+              ? avatarSource?.assets[0]?.uri
+              : "https://firebasestorage.googleapis.com/v0/b/swd-longchim.appspot.com/o/376577375_998270051209102_4679797004619533760_n.jpg?alt=media&token=90d94961-bc1b-46e4-b60a-ad731606b13b",
+          }}
           style={{
             ...styles.image,
             marginBottom: 20,
@@ -87,22 +97,31 @@ console.log(dob);
             height: "100%",
           }}
         />
-
       </View>
 
       <View style={styles.backIconContainer}>
-        <IconButton
-          style={styles.backIcon}
-          icon="arrow-left"
-          size={35}
-          // color="#fff"
-          onPress={() => navigation.navigate("Profile")}
-        />
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <IconButton
+            style={styles.backIcon}
+            icon="arrow-left"
+            size={35}
+            onPress={() => navigation.navigate("Profile")}
+          />
+          <Text
+            style={{
+              fontSize: 18,
+              color: "#8C8EA3",
+              marginLeft: 5,
+              fontWeight: "600",
+            }}
+          >
+            Back
+          </Text>
+        </View>
       </View>
-
       <View style={styles.cameraIconContainer}>
         <IconButton
-          style={{ ...styles.cameraIcon, marginBottom: 555 }}
+          style={{ ...styles.cameraIcon, marginBottom: 450 }}
           icon="camera"
           size={35}
           onPress={handleChoosePhoto}
@@ -114,6 +133,7 @@ console.log(dob);
           ...styles.searchSection,
           backgroundColor: "#E9E7E7",
           borderRadius: 40,
+          marginTop: -10,
         }}
       >
         <TextInput
@@ -136,6 +156,36 @@ console.log(dob);
             />
           }
           value={name}
+        />
+      </View>
+      <View
+        style={{
+          ...styles.searchSection,
+          backgroundColor: "#E9E7E7",
+          borderRadius: 40,
+          marginBottom: 5,
+        }}
+      >
+        <TextInput
+          style={{
+            ...styles.input,
+            backgroundColor: "#E9E7E7",
+            borderRadius: 40,
+            fontSize: 18,
+          }}
+          placeholder="Mail"
+          onChangeText={(text) => setMail(text)}
+          mode="outlined"
+          left={
+            <TextInput.Icon
+              icon="gmail"
+              size={35}
+              style={{
+                marginTop: 22,
+              }}
+            />
+          }
+          value={mail}
         />
       </View>
 
@@ -168,135 +218,12 @@ console.log(dob);
         />
       </View>
 
-      <View style={styles.rowContainer}>
-        <View
-          style={{
-            ...styles.searchSection,
-            width: 180,
-            backgroundColor: "#E9E7E7",
-            marginTop: 5,
-          }}
-        >
-          <TouchableOpacity onPress={showDatepicker}>
-            <TextInput
-              mode="outlined"
-              style={{
-                ...styles.input,
-                backgroundColor: "#E9E7E7",
-              }}
-              onFocus={showDatepicker}
-              value={dob ? new Date(dob).toLocaleDateString() : ""}
-              placeholder="Select date..."
-              placeholderTextColor="#24252B"
-              editable={false}
-              left={
-                <TextInput.Icon
-                  icon="calendar"
-                  size={35}
-                  style={{ marginTop: 22 }}
-                />
-              }
-            />
-          </TouchableOpacity>
-          {showDatePicker && (
-            <DateTimePicker
-              testID="dateTimePicker"
-              value={dob ? new Date(dob) : new Date()}
-              mode="date"
-              display="default"
-              onChange={handleDateChange}
-            />
-          )}
-        </View>
-
-        <View
-          style={{
-            ...styles.dropdownSection,
-            backgroundColor: "#E9E7E7",
-            borderWidth: 1,
-            borderColor: "grey",
-            borderRadius: 4,
-            marginTop: 5,
-          }}
-        >
-          <IconButton
-            icon="human-male"
-            size={35}
-            style={{ marginBottom: 10 }}
-          />
-          <View style={{ flex: 1 }}>
-            <RNPickerSelect
-              useNativeAndroidPickerStyle={false}
-              items={genderOptions}
-              onValueChange={(value) => {
-                setSelectedGender(value);
-              }}
-              value={selectedGender}
-              placeholder={{}}
-              style={{
-                inputAndroid: { fontSize: 18, color: getColor(selectedGender) },
-                placeholder: {
-                  fontSize: selectedGender ? 18 : 20,
-                  color: getColor(selectedGender),
-                },
-              }}
-            >
-              {!selectedGender && (
-                <Text style={{ fontSize: 20, color: "black" }}>
-                  Select a gender...
-                </Text>
-              )}
-            </RNPickerSelect>
-          </View>
-        </View>
-      </View>
-
       <View
         style={{
-          ...styles.dropdownSection,
-          width: "100%",
+          ...styles.searchSection,
           backgroundColor: "#E9E7E7",
-          borderWidth: 1,
-          borderColor: "grey",
-          borderRadius: 4,
-        }}
-      >
-        <IconButton
-          style={styles.searchIcon}
-          icon="map-legend"
-          size={35}
-          color="#8C8EA3"
-        />
-        <RNPickerSelect
-          useNativeAndroidPickerStyle={false}
-          items={locationOptions}
-          onValueChange={(value) => {
-            setLocation(value);
-            setSelectedLocation(value);
-          }}
-          value={selectedLocation}
-          placeholder={{
-            label: "Select a location...",
-            value: undefined,
-          }}
-          style={{
-            inputAndroid: { fontSize: 18 }, // only for Android
-            placeholder: {
-              fontSize: 18,
-              color: "#24252B", // Đổi màu của placeholder ở đây
-            },
-          }}
-        />
-      </View>
-      <View
-        style={{
-          width: 379,
-          height: 150,
-          backgroundColor: "#E9E7E7",
-          borderWidth: 1,
-          borderColor: "grey",
-          borderRadius: 4,
-          marginTop: 10,
+          borderRadius: 40,
+          marginBottom: 5,
         }}
       >
         <TextInput
@@ -304,12 +231,56 @@ console.log(dob);
             ...styles.input,
             backgroundColor: "#E9E7E7",
             borderRadius: 40,
+            fontSize: 18,
           }}
-          onChangeText={(text) => setQuote(text)}
-          value={quote}
-          placeholder="something..."
-          placeholderTextColor="#24252B"
+          placeholder="Location"
+          onChangeText={(text) => setLocation(text)}
+          mode="outlined"
+          left={
+            <TextInput.Icon
+              icon="map-legend"
+              size={35}
+              style={{
+                marginTop: 22,
+              }}
+            />
+          }
+          value={location}
         />
+      </View>
+      {/* Nút Reset All */}
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          style={{
+            ...styles.button,
+            backgroundColor: "#ffffff",
+          }}
+          onPress={handleResetAll}
+        >
+          <Text
+            style={{
+              ...styles.buttonText,
+              fontSize: 16,
+              fontWeight: 400,
+              color: "#24252B",
+            }}
+          >
+            Reset All
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={{
+            ...styles.button,
+            backgroundColor: "#484B61",
+            borderColor: "#484B61",
+          }}
+          onPress={handleSaveChanges}
+        >
+          <Text style={{ ...styles.buttonText, fontSize: 16, fontWeight: 400 }}>
+            Save Changes
+          </Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -324,24 +295,7 @@ const styles = StyleSheet.create({
   searchSection: {
     flexDirection: "row",
     alignItems: "center",
-
     marginBottom: 10,
-  },
-  rowContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "100%",
-    marginBottom: 10,
-  },
-  dropdownSection: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    marginBottom: 10,
-    width: "48%", // Set width as per your requirement
-  },
-  searchIcon: {
-    padding: 10,
   },
   input: {
     flex: 1,
@@ -357,12 +311,13 @@ const styles = StyleSheet.create({
   },
   backIconContainer: {
     position: "absolute",
-    top: 16,
-    left: 16,
+    top: 50,
+    left: 5,
     zIndex: 1,
   },
   backIcon: {
     padding: 10,
+    color: "#8C8EA3",
   },
   cameraIconContainer: {
     position: "absolute",
@@ -375,5 +330,25 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     padding: 10,
     backgroundColor: "#E9E7E7",
+  },
+  buttonContainer: {
+    flexDirection: "row", // Đảm bảo các nút nằm ngang nhau
+    justifyContent: "space-between", // Các phần tử nằm cách đều nhau
+    marginTop: 25,
+  },
+  button: {
+    marginHorizontal: 6, // Khoảng giữa giữa các nút
+    width: 179,
+    height: 42,
+    borderWidth: 1,
+    borderRadius: 10,
+    borderColor: "#000", // Đổi màu sắc border theo mong muốn
+    backgroundColor: "#4CAF50",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "white",
+    textAlign: "center",
   },
 });

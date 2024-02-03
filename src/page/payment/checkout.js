@@ -74,7 +74,7 @@ export default function CheckOut({ navigation }) {
         <View style={styles.bill}>
           <View style={styles.cost}>
             <Text style={styles.nameCost}>Package Value</Text>
-            <Text style={styles.costValue}>2109.000vnđ</Text>
+            <Text style={styles.costValue}>109.000vnđ</Text>
           </View>
           <View style={styles.cost}>
             <Text style={styles.nameCost}>Discount</Text>
@@ -82,7 +82,7 @@ export default function CheckOut({ navigation }) {
           </View>
           <View style={styles.total}>
             <Text style={styles.nameCost}>Total</Text>
-            <Text style={styles.costValue}>276.000đ</Text>
+            <Text style={styles.costValue}>109.000vnđ</Text>
           </View>
         </View>
       </View>

@@ -62,7 +62,9 @@ export default function Service() {
         </View>
         <View style={styles.notification}>
           <Image source={mess} />
-          <Image source={ring} style={{ marginLeft: 10 }} />
+          <TouchableOpacity onPress={() => navigation.navigate("Notification")}>
+            <Image source={ring} style={{ marginLeft: 10 }} />
+          </TouchableOpacity>
         </View>
       </View>
       <Searchbar

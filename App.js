@@ -101,7 +101,7 @@ function MyBottomNavigationBar() {
             iconName = focused ? "ios-person" : "ios-person-outline";
           } else if (route.name === "Notification") {
             iconName = focused ? "notifications" : "notifications-outline";
-          } else if (route.name === "Clinics") {
+          } else if (route.name === "Service") {
             iconName = focused ? "clipboard" : "clipboard-outline";
           }
           return <Ionicons name={iconName} size={size} color={color} />;
@@ -115,7 +115,7 @@ function MyBottomNavigationBar() {
         component={HomeScreen}
       />
       <Tab.Screen
-        name="Clinics"
+        name="Service"
         options={{ headerShown: false }}
         component={Service}
       />

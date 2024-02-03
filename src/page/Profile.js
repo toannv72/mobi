@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  Modal,
+  TouchableOpacity,
+  Image,
+} from "react-native";
 import { Avatar, Text, List, Icon, IconButton } from "react-native-paper";
+import momoIcon from "../../assets/MoMo_Logo.png";
 import Model from "../Components/Modal";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -9,6 +17,11 @@ import { getData } from "../api/api";
 export default function ProfileSettingScreen({}) {
   const [userData, setUserData] = useState({});
   const [expanded, setExpanded] = useState({});
+  const [modalVisible, setModalVisible] = useState(false);
+  const handleMomo = () => {
+    const url = "https://me.momo.vn/qr/nguyen-van-toan-IwfnwPi8o4/JSxbSmx5d1";
+    Linking.openURL(url).catch((err) => console.error("Không thể mở URL", err));
+  };
   const [show, setShow] = useState(false);
   const navigation = useNavigation();
 
@@ -45,6 +58,9 @@ export default function ProfileSettingScreen({}) {
       navigation.navigate("ChangeProfile", { item }); // Sửa "Change Profile" thành "ChangeProfile"
     } else if (item.name === "Logout") {
       handleLogout();
+    }
+    if (item.name === "Payment Method") {
+      setModalVisible(!modalVisible);
     }
   };
 
@@ -181,6 +197,40 @@ export default function ProfileSettingScreen({}) {
         />
       </View>
       <Model shows={show} handClose={handClose} />
+      <Modal
+        animationType="slide"
+        transparent
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.modalBackGround}>
+          <View style={styles.modalContainer}>
+            <Text style={styles.titleModal}>MoMo Payment</Text>
+            <View>
+              <TouchableOpacity onPress={handleMomo}>
+                <Image source={momoIcon} />
+              </TouchableOpacity>
+            </View>
+            <Text>*Hint: Tap the icon to make a payment</Text>
+            <Text>After payment click "Continue"</Text>
+            <TouchableOpacity
+              style={styles.nextBtnV2}
+              onPress={() => navigation.navigate("Completed")}
+            >
+              <Text style={styles.nextV2}>Continue</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.backBtnV2}
+              onPress={() => setModalVisible(false)}
+            >
+              <Text style={styles.backV2}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </ScrollView>
   );
 }
@@ -191,12 +241,8 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   updateAccountContainer: {
-    height: 200,
-    justifyContent: "center",
-    width: 220,
-    height: 140,
-    marginLeft: 75,
-    marginVertical: 10,
+    width: "70%",
+    alignSelf: "center",
   },
   updateAccount: {
     backgroundColor: "#C660F6",
@@ -223,5 +269,50 @@ const styles = StyleSheet.create({
     top: 50,
     left: 16,
     zIndex: 1,
+  },
+  modalBackGround: {
+    flex: 1,
+    backgroundColor: "#45464FCC",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContainer: {
+    width: "80%",
+    backgroundColor: "white",
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+    borderRadius: 20,
+    elevation: 20,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  titleModal: { fontWeight: "700", fontSize: 20 },
+  nextBtnV2: {
+    width: "100%",
+    borderWidth: 0.2,
+    borderRadius: 32,
+    padding: 10,
+    marginTop: 10,
+    backgroundColor: "#727272",
+  },
+  backBtnV2: {
+    width: "100%",
+    borderWidth: 2,
+    borderRadius: 32,
+    padding: 10,
+    marginTop: 10,
+    borderColor: "#727272",
+  },
+  nextV2: {
+    textAlign: "center",
+    fontWeight: "600",
+    fontSize: 16,
+    color: "white",
+  },
+  backV2: {
+    textAlign: "center",
+    fontWeight: "600",
+    fontSize: 16,
+    color: "#727272",
   },
 });

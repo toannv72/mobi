@@ -139,7 +139,7 @@ export default function Vaccination() {
           <Checkbox
             text="Pavorvirus"
             isChecked={pavorvirusCheck}
-            onPress={() => setPavorvirusCheckk(!pavorvirusCheck)}
+            onPress={() => setPavorvirusCheck(!pavorvirusCheck)}
           />
           <Checkbox
             text="Parainfluenza"

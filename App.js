@@ -19,7 +19,7 @@ import ChangeProfile from "./src/page/ChangeProfile";
 import ProfileSettingScreen from "./src/page/Profile";
 import ImagePickerExample from "./src/Components/UpImg";
 import PetDetailScreen from "./src/page/DetailForPet/PetDetailScreen";
-
+import Service from "./src/page/services/Service";
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -117,7 +117,7 @@ function MyBottomNavigationBar() {
       <Tab.Screen
         name="Clinics"
         options={{ headerShown: false }}
-        component={Survey}
+        component={Service}
       />
       <Tab.Screen
         name="Notification"

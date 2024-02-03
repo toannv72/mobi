@@ -59,84 +59,42 @@ export default function HomeScreen({ navigation }) {
           {seeMore || (
             <ScrollView showsHorizontalScrollIndicator={false}>
               <View style={styles.container}>
-                <Card containerStyle={styles.cardContainer}>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      columnGap: 10,
-                    }}
-                  >
-                    <View>
-                      <Card.Image
-                        style={{
-                          padding: 0,
-                          width: 50,
-                          height: 50,
-                          borderRadius: 50,
-                        }}
-                        source={{
-                          uri: "https://vienmoitruong5014.org.vn/wp-content/uploads/2023/03/anh-cho-con-de-thuong_022907461.jpg",
-                        }}
-                      />
-                      <Card.Title style={{ marginBottom: 10 }}>Dog</Card.Title>
-                    </View>
-                    <View style={{ width: "auto", marginRight: 10 }}>
-                      <View
-                        style={{
-                          flexDirection: "row",
-                          alignItems: "center",
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        <Text style={{ marginBottom: 10 }}>Heal condition</Text>
-                        <View style={{ width: "50%" }}>
-                          <ProgressBar
-                            style={{
-                              borderRadius: 50,
-                              height: 20,
-                              backgroundColor: "#D9D9D9",
-                            }}
-                            progress={0.5}
-                            color={"#0d99ff"}
-                          />
-                        </View>
-                      </View>
-                      <View
-                        style={{
-                          flexDirection: "row",
-                          alignItems: "center",
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        <Text style={{ marginBottom: 10 }}>Feeding</Text>
-                        <View style={{ width: "50%" }}>
-                          <ProgressBar
-                            style={{
-                              borderRadius: 50,
-                              height: 20,
-                              backgroundColor: "#D9D9D9",
-                            }}
-                            progress={0.5}
-                            color={"#0d99ff"}
-                          />
-                        </View>
-                      </View>
-                      <View
-                        style={{
-                          flexDirection: "row",
-                          alignItems: "center",
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        <Text style={{ marginBottom: 10 }}>Playing</Text>
-                        <View
+                <TouchableOpacity onPress={navigateToPetProfile}>
+                  <Card containerStyle={styles.cardContainer}>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        columnGap: 10,
+                      }}
+                    >
+                      <View>
+                        <Card.Image
                           style={{
-                            width: "50%",
-                            backgroundColor: "#D9D9D9",
+                            padding: 0,
+                            width: 50,
+                            height: 50,
                             borderRadius: 50,
                           }}
+                          source={{
+                            uri: "https://vienmoitruong5014.org.vn/wp-content/uploads/2023/03/anh-cho-con-de-thuong_022907461.jpg",
+                          }}
+                        />
+                        <Card.Title style={{ marginBottom: 10 }}>
+                          Dog
+                        </Card.Title>
+                      </View>
+                      <View style={{ width: "auto", marginRight: 10 }}>
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                          }}
                         >
+                          <Text style={{ marginBottom: 10 }}>
+                            Heal condition
+                          </Text>
                           <View style={{ width: "50%" }}>
                             <ProgressBar
                               style={{
@@ -144,15 +102,64 @@ export default function HomeScreen({ navigation }) {
                                 height: 20,
                                 backgroundColor: "#D9D9D9",
                               }}
-                              progress={0.3}
+                              progress={0.5}
                               color={"#0d99ff"}
                             />
                           </View>
                         </View>
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <Text style={{ marginBottom: 10 }}>Feeding</Text>
+                          <View style={{ width: "50%" }}>
+                            <ProgressBar
+                              style={{
+                                borderRadius: 50,
+                                height: 20,
+                                backgroundColor: "#D9D9D9",
+                              }}
+                              progress={0.5}
+                              color={"#0d99ff"}
+                            />
+                          </View>
+                        </View>
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <Text style={{ marginBottom: 10 }}>Playing</Text>
+                          <View
+                            style={{
+                              width: "50%",
+                              backgroundColor: "#D9D9D9",
+                              borderRadius: 50,
+                            }}
+                          >
+                            <View style={{ width: "50%" }}>
+                              <ProgressBar
+                                style={{
+                                  borderRadius: 50,
+                                  height: 20,
+                                  backgroundColor: "#D9D9D9",
+                                }}
+                                progress={0.3}
+                                color={"#0d99ff"}
+                              />
+                            </View>
+                          </View>
+                        </View>
                       </View>
                     </View>
-                  </View>
-                </Card>
+                  </Card>
+                </TouchableOpacity>
+
                 <Card containerStyle={styles.cardContainer}>
                   <View
                     style={{
@@ -824,7 +831,7 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   home: {
     fontSize: "10px",
-    paddingTop: "15%",
+    paddingTop: 28,
     paddingHorizontal: 10,
   },
   container: {

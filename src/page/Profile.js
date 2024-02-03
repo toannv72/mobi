@@ -7,16 +7,23 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import { Avatar, Text, List, Icon, IconButton } from "react-native-paper";
+import {
+  Avatar,
+  Text,
+  List,
+  Icon,
+  IconButton,
+  Button,
+} from "react-native-paper";
 import momoIcon from "../../assets/MoMo_Logo.png";
 import Model from "../Components/Modal";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getData } from "../api/api";
-
 export default function ProfileSettingScreen({}) {
   const [userData, setUserData] = useState({});
   const [expanded, setExpanded] = useState({});
+  const [maintenanceModalVisible, setMaintenanceModalVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const handleMomo = () => {
     const url = "https://me.momo.vn/qr/nguyen-van-toan-IwfnwPi8o4/JSxbSmx5d1";
@@ -24,49 +31,6 @@ export default function ProfileSettingScreen({}) {
   };
   const [show, setShow] = useState(false);
   const navigation = useNavigation();
-
-  const list2 = [
-    {
-      name: "Account Setting",
-      icon: require("../../assets/Setting_line_light.png"),
-    },
-    {
-      name: "Password",
-      icon: require("../../assets/Unlock_light.png"),
-    },
-    {
-      name: "Location Setting",
-      icon: require("../../assets/location.png"),
-    },
-    {
-      name: "Payment Method",
-      icon: "credit-card",
-    },
-    {
-      name: "Help Center",
-      icon: require("../../assets/Question_light.png"),
-    },
-  ];
-
-  const handClose = () => {
-    setShow(false);
-  };
-  const log = (item) => {
-    if (item.name === "Password") {
-      navigation.navigate("Password", { item });
-    } else if (item.name === "Account Setting") {
-      navigation.navigate("ChangeProfile", { item }); // Sửa "Change Profile" thành "ChangeProfile"
-    } else if (item.name === "Logout") {
-      handleLogout();
-    }
-    if (item.name === "Payment Method") {
-      setModalVisible(!modalVisible);
-    }
-  };
-
-  const hadShow = () => {
-    setShow(true);
-  };
   const handleLogout = () => {
     AsyncStorage.removeItem("@myKey")
       .then(() => {
@@ -105,11 +69,92 @@ export default function ProfileSettingScreen({}) {
     // Gọi hàm getStoredUserId khi component được tạo ra
     getStoredUserId();
   }, []); // Thêm mảng rỗng để đảm bảo useEffect chỉ chạy một lần
+  const MaintenanceModal = () => (
+    <Modal
+      visible={maintenanceModalVisible}
+      transparent={true}
+      animationType="slide"
+      onRequestClose={() => setMaintenanceModalVisible(false)}
+    >
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <View
+          style={{ backgroundColor: "white", padding: 30, borderRadius: 20 }}
+        >
+          <Text>This Feature Is Still Under Maintenance</Text>
+          <Button onPress={() => setMaintenanceModalVisible(false)}>OK</Button>
+        </View>
+      </View>
+    </Modal>
+  );
+  const list2 = [
+    {
+      name: "Account Setting",
+      icon: require("../../assets/Setting_line_light.png"),
+    },
+    {
+      name: "Password",
+      icon: require("../../assets/Unlock_light.png"),
+    },
+    // {
+    //   name: "Location Setting",
+    //   icon: require("../../assets/location.png"),
+    // },
+    {
+      name: "Payment Method",
+      icon: "credit-card",
+    },
+    {
+      name: "Help Center",
+      icon: require("../../assets/Question_light.png"),
+    },
+  ];
+
+  const handClose = () => {
+    setShow(false);
+  };
+  const log = (item) => {
+    if (item.name === "Password" || item.name === "Help Center") {
+      setMaintenanceModalVisible(true);
+    } else if (item.name === "Account Setting") {
+      navigation.navigate("ChangeProfile", { item });
+    } else if (item.name === "Logout") {
+      handleLogout();
+    } else if (item.name === "Payment Method") {
+      setModalVisible(!modalVisible);
+    }
+  };
+
+  const hadShow = () => {
+    setShow(true);
+  };
+
+  useEffect(() => {
+    // Gọi hàm getStoredUserId khi component được tạo ra
+    getStoredUserId();
+  }, []); // Thêm mảng rỗng để đảm bảo useEffect chỉ chạy một lần
   return (
     <ScrollView
       style={{ backgroundColor: "#F6F6F6" }}
       contentContainerStyle={styles.container}
     >
+      {/* Thêm IconButton cho biểu tượng arrow-left */}
+      {/* <IconButton
+        icon="arrow-left"
+        size={35}
+        style={styles.backIcon}
+        onPress={() => navigation.navigate("Home")}
+      />
+
+      <Text
+        style={{
+          fontSize: 26,
+          textAlign: "center",
+          margin: 50,
+          fontWeight: "bold",
+        }}
+      >
+        Profile
+      </Text> */}
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <Avatar.Image
           size={80}
@@ -183,7 +228,7 @@ export default function ProfileSettingScreen({}) {
       <List.Item
         title="Logout"
         left={(props) => <List.Icon {...props} icon="logout" />}
-        onPress={() => log({ name: "Logout" })}
+        onPress={() => navigation.navigate("Login")}
         titleStyle={{ fontSize: 19, fontWeight: "bold", marginLeft: 0 }}
       />
       <View style={styles.updateAccountContainer}>
@@ -193,6 +238,7 @@ export default function ProfileSettingScreen({}) {
               Update Your Account
             </Text>
           }
+          titleStyle={{ alignSelf: "center" }}
           style={styles.updateAccount}
         />
       </View>
@@ -231,6 +277,7 @@ export default function ProfileSettingScreen({}) {
           </View>
         </View>
       </Modal>
+      <MaintenanceModal />
     </ScrollView>
   );
 }
@@ -243,6 +290,7 @@ const styles = StyleSheet.create({
   updateAccountContainer: {
     width: "70%",
     alignSelf: "center",
+    marginTop: 40,
   },
   updateAccount: {
     backgroundColor: "#C660F6",

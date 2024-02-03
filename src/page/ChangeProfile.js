@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Image, Text } from "react-native";
-import { TextInput, IconButton } from "react-native-paper";
+import { TextInput, IconButton, Modal, Button } from "react-native-paper";
 import * as ImagePicker from "expo-image-picker";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -15,7 +15,25 @@ export default function ChangeProfile({ navigation }) {
     "https://firebasestorage.googleapis.com/v0/b/swd-longchim.appspot.com/o/376577375_998270051209102_4679797004619533760_n.jpg?alt=media&token=90d94961-bc1b-46e4-b60a-ad731606b13b"
   );
   const [storedData, setStoredData] = useState([]);
-
+  const [maintenanceModalVisible, setMaintenanceModalVisible] = useState(false);
+  const MaintenanceModal = () => (
+    <Modal
+      visible={maintenanceModalVisible}
+      onDismiss={() => setMaintenanceModalVisible(false)}
+    >
+      <View
+        style={{
+          margin: 20,
+          backgroundColor: "white",
+          padding: 30,
+          borderRadius: 10,
+        }}
+      >
+        <Text>This Feature Is Still Under Maintenance</Text>
+        <Button onPress={() => setMaintenanceModalVisible(false)}>OK</Button>
+      </View>
+    </Modal>
+  );
   const handleChoosePhoto = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -51,6 +69,7 @@ export default function ChangeProfile({ navigation }) {
     //       console.error("Error updating information:", error);
     //     });
     // }
+    setMaintenanceModalVisible(true);
   };
 
   // useEffect(() => {
@@ -282,6 +301,7 @@ export default function ChangeProfile({ navigation }) {
           </Text>
         </TouchableOpacity>
       </View>
+      <MaintenanceModal />
     </View>
   );
 }

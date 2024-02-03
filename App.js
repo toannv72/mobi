@@ -18,8 +18,9 @@ import Completed from "./src/page/payment/Complete";
 import ChangeProfile from "./src/page/ChangeProfile";
 import ProfileSettingScreen from "./src/page/Profile";
 import ImagePickerExample from "./src/Components/UpImg";
-import PetDetailScreen from "./src/page/DetailForPet/PetDetailScreen";
-import Service from "./src/page/services/Service";
+import PetDetailScreen from "./src/DetailForPet/PetDetailScreen";
+import Service from "./src/services/Service";
+
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 

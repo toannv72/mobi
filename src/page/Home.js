@@ -1,10 +1,13 @@
 import React from "react";
 import { StyleSheet, View, Text, ScrollView, Image } from "react-native";
-import { ProgressBar, Searchbar } from "react-native-paper";
+import { Avatar, ProgressBar, Searchbar } from "react-native-paper";
 import { useState } from "react";
 import { Card } from "@rneui/themed";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import PetProfile from "./PetProfile";
+import location from "../../assets/Location.png";
+import mess from "../../assets/message-notif.png";
+import ring from "../../assets/Bell_pin_light.png";
 
 export default function HomeScreen({ navigation }) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -24,6 +27,29 @@ export default function HomeScreen({ navigation }) {
     <View style={styles.container}>
       {show ? (
         <View style={styles.home}>
+        <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+          <Avatar.Image
+            size={50}
+            source={{
+              uri: "https://firebasestorage.googleapis.com/v0/b/swd-longchim.appspot.com/o/376577375_998270051209102_4679797004619533760_n.jpg?alt=media&token=90d94961-bc1b-46e4-b60a-ad731606b13b",
+            }}
+          />
+        </TouchableOpacity>
+        <View style={styles.information}>
+          <Text style={{ marginLeft: 5 }}>Hi Toan!</Text>
+          <View style={styles.location}>
+            <Image source={location} />
+            <Text>VN, HCM, D9, Phu Huu</Text>
+          </View>
+        </View>
+        <View style={styles.notification}>
+          <Image source={mess} />
+          <TouchableOpacity onPress={() => navigation.navigate("Notification")}>
+            <Image source={ring} style={{ marginLeft: 10 }} />
+          </TouchableOpacity>
+        </View>
+      </View>
           <Searchbar
             placeholder="Search"
             onChangeText={setSearchQuery}
@@ -887,5 +913,24 @@ const styles = StyleSheet.create({
     alignContent: "center",
     width: "40%", // Điều chỉnh kích thước của thẻ Card tùy thuộc vào nhu cầu
     height: 100,
+  },
+  information: {
+    paddingLeft: 20,
+  },
+  header: {
+    flexDirection: "row",
+    padding: 10,
+  },
+  location: {
+    flexDirection: "row",
+    marginTop: 6,
+  },
+  notification: {
+    marginLeft: "15%",
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  searchbar: {
+    marginTop: "2%",
   },
 });

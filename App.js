@@ -27,7 +27,7 @@ const Tab = createBottomTabNavigator();
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Survey">
+      <Stack.Navigator initialRouteName="Homes">
         <Stack.Screen
           name="ImagePickerExample"
           options={{ headerLeft: null, headerShown: false }}
@@ -92,6 +92,22 @@ function MyBottomNavigationBar() {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
+        tabBarShowLabel: false,
+        tabBarStyle: {
+          position: 'absolute',
+          // bottom: 25,
+          // left: 20,
+          // right: 20,
+          elevation: 0,
+          backgroundColor: '#8D95CB',
+          borderTopLeftRadius: 15,
+          borderTopRightRadius: 15,
+          height: 90,
+          elevation: 30, // Bóng đổ cho Android
+          shadowColor: '#000', // Màu của bóng đổ cho iOS
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.4,
+        },
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
           if (route.name === "Home") {
@@ -105,7 +121,7 @@ function MyBottomNavigationBar() {
           } else if (route.name === "Service") {
             iconName = focused ? "clipboard" : "clipboard-outline";
           }
-          return <Ionicons name={iconName} size={size} color={color} />;
+          return <Ionicons name={iconName} size={size} color={'#F6F6F6'} />;
         },
       })}
       keyboardShouldPersistTaps="handled"

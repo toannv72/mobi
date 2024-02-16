@@ -6,6 +6,7 @@ import {
   Modal,
   TouchableOpacity,
   Image,
+  Linking,
 } from "react-native";
 import {
   Avatar,

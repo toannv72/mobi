@@ -100,7 +100,7 @@ export const Booking = () => {
   const handleCardPress = (index) => {
     setSelectedCardIndex(index);
   };
-
+console.log(2222222,provider?.data?.imageProvider);
   const currentMonth = currentDate.toLocaleString("en-US", { month: "long" });
   const currentYear = currentDate.getFullYear();
   const getNextTimes = () => {
@@ -188,7 +188,7 @@ export const Booking = () => {
             >
               <View style={{ flexDirection: "row", width: 200, padding: 10 }}>
                 <Image
-                  source={{ url: provider?.data?.imageProvide }}
+                  source={{ uri: provider?.data?.imageProvider }}
                   style={{ width: 150, height: 100, borderRadius: 10 }}
                 />
                 <View style={{ flexDirection: "column" }}>

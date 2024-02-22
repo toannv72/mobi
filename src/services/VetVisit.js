@@ -62,7 +62,7 @@ export default function VetVisit() {
           <View style={styles.cardBooking}>
             <View style={{ flexDirection: "row", width: 200 }}>
               <Image
-                source={{ url: item.imageProvider }}
+                source={{ uri: item.imageProvider }}
                 style={{ width: 80, height: 80 }}
               />
               <View style={styles.information}>

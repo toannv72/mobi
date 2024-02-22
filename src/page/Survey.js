@@ -7,40 +7,38 @@ import { SelectList } from 'react-native-dropdown-select-list'
 import DateTimePicker from "@react-native-community/datetimepicker";
 import * as ImagePicker from "expo-image-picker";
 import { firebaseImg } from '../api/firebaseImg';
+import { Alert } from 'react-native';
 export const Survey = ({ navigation }) => {
   const swiperRef = useRef(null);
-<<<<<<< HEAD
-  const [inputDate, setInputDate] = React.useState("")
-  const [selectedValue, setSelectedValue] = useState(0);
-  const [selected, setSelected] = React.useState("");
-  const [petName, setPetName] = React.useState("");
-  const [petWeight, setPetWeight] = React.useState("");
-  const [screenCompletetion, setScreenCompletetion] = React.useState(false, false, false);
-  const selectData = [
-    { key: '1', selectedValue: 'Mobiles' },
-    { key: '2', selectedValue: 'Appliances' },
-    { key: '3', selectedValue: 'Cameras' },
-    { key: '4', selectedValue: 'Computers' },
-    { key: '5', selectedValue: 'Vegetables' },
-    { key: '6', selectedValue: 'Diary Products' },
-    { key: '7', selectedValue: 'Drinks' },
-  ]
-=======
->>>>>>> 181dfa1221df6a72606cd08bab231011bb5a8ddb
+
   const handleDone = () => {
     navigation.navigate('Homes');
     // Handle done logic
   };
-  const handleNextButtonPress = () => {
-    const currentScreenComplete = checkCurrentScreenComplete();
-    if ()
-  }
   const SliderComponent = () => {
-<<<<<<< HEAD
-=======
-    const [hasExperience, setHasExperience] = useState(null);
-    const [selected, setSelected] = React.useState("");
-    const selectData = [
+    const [petGender, setPetGender] = useState('');
+    const [image, setImage] = useState(null);
+    const [hasExperience, setHasExperience] = useState('');
+    const [petName, setPetName] = useState('');
+    console.log(image);
+    const onPetNameChanged = (text) => {
+      let newName = '';
+      let allowedCharacters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ';
+
+      for (let i = 0; i < text.length; i++) {
+        if (allowedCharacters.indexOf(text[i]) > -1) {
+          newName = newName + text[i];
+        } else {
+          // Your callback function
+          Alert.alert('Error', 'Please enter letters only');
+        }
+      }
+
+      setPetName(newName);
+    };
+    console.log(petName);
+    const [breed, setPetBreed] = React.useState("");
+    const breedData = [
       { key: '1', value: 'Mobiles' },
       { key: '2', value: 'Appliances' },
       { key: '3', value: 'Cameras' },
@@ -49,36 +47,55 @@ export const Survey = ({ navigation }) => {
       { key: '6', value: 'Diary Products' },
       { key: '7', value: 'Drinks' },
     ]
+    console.log(breed);
+    const [petWeight, setPetWeight] = useState('');
+    console.log(petWeight);
     const [dob, setDob] = useState("2000-2-1T20:35:52.184Z");
     console.log(dob)
     const [showDatePicker, setShowDatePicker] = useState(false);
     const displayDatePicker = () => {
       setShowDatePicker(true);
     };
-
     const handleDateChange = (event, selectedDate) => {
       const currentDate = selectedDate || dob;
       setShowDatePicker(false);
       setDob(currentDate);
     };
-    const [petAvatar,setPetAvatar] = useState(null);
+    const [petAvatar, setPetAvatar] = useState(null);
     console.log(dob);
+    const onPetWeightChanged = (text) => {
+      let newWeight = '';
+      let numbers = '0123456789';
+
+      for (let i = 0; i < text.length; i++) {
+        if (numbers.indexOf(text[i]) > -1) {
+          newWeight = newWeight + text[i];
+        } else {
+          // Your callback function
+          Alert.alert('Error', 'Please enter numbers only');
+        }
+      }
+
+      setPetWeight(newWeight);
+    };
+
     const handleChoosePhoto = async () => {
       let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.All,
         allowsEditing: true,
-        aspect: [4, 3],
+        // aspect: [4, 4],
         quality: 1,
       });
-
-
+      setImage(result.assets[0].uri);
       if (!result.canceled) {
-        const response = await firebaseImg(result)
-        setPetAvatar(response);
-      }
+        // Upload image to Firebase Storage
+        // gọi thằng firebaseImg để đẩy ảnh lên xong rồi lấy đường dẫn của ảnh đó 
 
+        const response = await firebaseImg(result);
+        setPetAvatar(result.uri);
+        // setImage(response);
+      }
     };
->>>>>>> 181dfa1221df6a72606cd08bab231011bb5a8ddb
     return (
       <View style={styles.wrapper}>
         <Swiper
@@ -105,36 +122,34 @@ export const Survey = ({ navigation }) => {
               <View>
                 <Text style={styles.quizText}>Do you have and experience with pet ?</Text>
                 <View style={{ flexDirection: 'row', gap: 50, alignItems: 'center', marginLeft: 50 }}>
-              <Button
-                style={hasExperience === true ? styles.optionhightlight : styles.option}
-                onPress={() => setHasExperience(true)}
-              >
-                <Text style={{ color: hasExperience === true ? '#F6F6F6' : 'black' }}>Yes</Text>
-              </Button>
-              <Button
-                style={hasExperience === false ? styles.optionhightlight : styles.option}
-                onPress={() => setHasExperience(false)}
-              >
-                <Text style={{ color: hasExperience === false ? '#F6F6F6' : 'black' }}>No</Text>
-              </Button>
-            </View>
+                  <Button
+                    style={hasExperience === true ? styles.optionhightlight : styles.option}
+                    onPress={() => setHasExperience(true)}
+                  >
+                    <Text style={{ color: hasExperience === true ? '#F6F6F6' : 'black' }}>Yes</Text>
+                  </Button>
+                  <Button
+                    style={hasExperience === false ? styles.optionhightlight : styles.option}
+                    onPress={() => setHasExperience(false)}
+                  >
+                    <Text style={{ color: hasExperience === false ? '#F6F6F6' : 'black' }}>No</Text>
+                  </Button>
+                </View>
               </View>
               <View>
                 <Text style={styles.quizText}>Give some photo of your pet</Text>
-                <TouchableOpacity
-                  onPress={handleChoosePhoto}>
-                  {petAvatar ? (
-                    <Image 
-                    // source={{ uri: petAvatar?.assets ? petAvatar.assets[0].uri: 'https://firebasestorage.googleapis.com/v0/b/swd-longchim.appspot.com/o/376577375_998270051209102_4679797004619533760_n.jpg?alt=media&token=90d94961-bc1b-46e4-b60a-ad731606b13b' }}
-                    style = {styles.image}/>
-                  ):(
-                  <Image
-                    source={require('../../assets/ImgInput.jpg')}
-                    style={styles.image}
-
-                  />
+                <View style={styles.container}>
+                  <TouchableOpacity onPress={handleChoosePhoto}>
+                    {image ?
+                      <Image source={{ uri: image }} style={styles.image} />
+                      :
+                      <Image source={require('../../assets/ImgInput.jpg')} style={styles.image} />
+                    }
+                  </TouchableOpacity>
+                  {!image && (
+                    <Button title="Choose Photo" onPress={handleChoosePhoto} />
                   )}
-                </TouchableOpacity>
+                </View>
               </View>
               <View>
                 <Text style={styles.quizText}>What your pet's name</Text>
@@ -142,6 +157,9 @@ export const Survey = ({ navigation }) => {
                   placeholder='Dongo'
                   style={styles.textInputStyle}
                   underlineColor="transparent"
+                  value={petName}
+                  onChangeText={onPetNameChanged}
+                  maxLength={20}
                 ></TextInput>
               </View>
               <View>
@@ -193,24 +211,38 @@ export const Survey = ({ navigation }) => {
               <View>
                 <Text style={styles.quizText}>Select your pet breed</Text>
                 <SelectList
-                  setSelected={(val) => setSelected(val)}
-                  data={selectData}
-                  save="value" />
+                  setSelected={(val) => setPetBreed(val)}
+                  data={breedData}
+                  save="value"
+                />
               </View>
               <View>
                 <Text style={styles.quizText}>Choose gender of your pet</Text>
               </View>
-              <View style={{ flexDirection: 'row', gap: 40, justifyContent: 'center', padding: 20 }}>
-                <Text style={styles.buttonText}>Up to 4 moth</Text>
-                <Text style={styles.buttonText}>Up to a year</Text>
-                <Text style={styles.buttonText}>More than a year</Text>
+              <View style={{ flexDirection: 'row', gap: 50, alignItems: 'center', marginLeft: 50 }}>
+                <Button
+                  style={petGender === true ? styles.optionhightlight : styles.option}
+                  onPress={() => setPetGender(true)}
+                >
+                  <Text style={{ color: petGender === true ? '#F6F6F6' : 'black' }}>Male</Text>
+                </Button>
+                <Button
+                  style={petGender === false ? styles.optionhightlight : styles.option}
+                  onPress={() => setPetGender(false)}
+                >
+                  <Text style={{ color: petGender === false ? '#F6F6F6' : 'black' }}>Female</Text>
+                </Button>
               </View>
               <View>
                 <Text style={styles.quizText}>What your pet's weight</Text>
                 <TextInput
-                  style={styles.textInputStyle}
-                  underlineColor="transparent"
-                ></TextInput>
+                  style={{ height: 40, borderColor: 'gray', borderWidth: 1, marginBottom: 10, paddingLeft: 10 }}
+                  placeholder="Enter pet weight (numbers only)"
+                  onChangeText={onPetWeightChanged}
+                  value={petWeight}
+                  keyboardType="numeric"
+                  maxLength={2}
+                />
               </View>
               <View style={{ height: 150 }}></View>
 
@@ -363,4 +395,9 @@ const styles = StyleSheet.create({
     borderColor: '#8C8EA3',
 
   },
+  image: {
+    width: 200,
+    height: 200,
+    alignSelf: 'center',
+  }
 });

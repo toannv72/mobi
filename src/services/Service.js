@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Text,
   View,
@@ -17,9 +17,12 @@ import VetVisit from "./VetVisit";
 import Grooming from "./Grooming";
 import Vaccination from "./Vaccination";
 import Residence from "./Residence";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getData } from "../api/api";
 export default function Service() {
   const navigation = useNavigation();
   const [searchQuery, setSearchQuery] = useState("");
+  const [userData, setUserData] = useState({});
   const [currentPage, setCurrentPage] = useState("A");
   const renderContent = () => {
     switch (currentPage) {
@@ -35,7 +38,33 @@ export default function Service() {
         return <VetVisit />;
     }
   };
+  const getStoredUserId = async () => {
+    try {
+      const data = await AsyncStorage.getItem("@myKey");
 
+      if (data !== null) {
+        const userData = JSON.parse(data);
+        const id = userData[0].id;
+
+        const endpoint = `/users/getInformation/${id}`;
+        const response = await getData(endpoint);
+
+        // Cập nhật trạng thái userData
+        setUserData(response.data.data);
+
+        console.log("User Information:", response.data);
+      } else {
+        console.log("No data found in AsyncStorage.");
+      }
+    } catch (error) {
+      console.error("Error loading data:", error);
+    }
+  };
+  useEffect(() => {
+    // Gọi hàm getStoredUserId khi component được tạo ra
+    getStoredUserId();
+
+  }, []);
   const getButtonStyle = (page) => {
     return currentPage === page ? styles.selectedButton : styles.button;
   };
@@ -45,21 +74,23 @@ export default function Service() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-          <Avatar.Image
-            size={50}
-            source={{
-              uri: "https://firebasestorage.googleapis.com/v0/b/swd-longchim.appspot.com/o/376577375_998270051209102_4679797004619533760_n.jpg?alt=media&token=90d94961-bc1b-46e4-b60a-ad731606b13b",
-            }}
-          />
-        </TouchableOpacity>
-        <View style={styles.information}>
-          <Text style={{ marginLeft: 5 }}>Hi Toan!</Text>
-          <View style={styles.location}>
-            <Image source={location} />
-            <Text>VN, HCM, D9, Phu Huu</Text>
+       <View  style={styles.header}>
+          <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+            <Avatar.Image
+              size={50}
+              source={{
+                uri: userData.avatar,
+              }}
+            />
+          </TouchableOpacity>
+          <View style={styles.information}>
+            <Text style={{ marginLeft: 5 }}>Hi {userData.fullName}!</Text>
+            <View style={styles.location}>
+              <Image source={location} />
+              <Text>{userData.address}</Text>
+            </View>
           </View>
-        </View>
+       </View>
         <View style={styles.notification}>
           <Image source={mess} />
           <TouchableOpacity onPress={() => navigation.navigate("Notification")}>
@@ -118,6 +149,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     padding: 10,
+    justifyContent: "space-between",
   },
   information: {
     paddingLeft: 20,

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, View, Text, ScrollView, Image } from "react-native";
 import { Avatar, ProgressBar, Searchbar } from "react-native-paper";
 import { useState } from "react";
@@ -8,11 +8,14 @@ import PetProfile from "./PetProfile";
 import location from "../../assets/location.png";
 import mess from "../../assets/message-notif.png";
 import ring from "../../assets/Bell_pin_light.png";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getData } from "../api/api";
 
 export default function HomeScreen({ navigation }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [seeMore, setSeeMore] = useState(true);
   const [show, setShow] = useState(true);
+  const [userData, setUserData] = useState({});
 
   const handleCloseShow = () => {
     setShow(true);
@@ -22,32 +25,59 @@ export default function HomeScreen({ navigation }) {
     // Navigate to the pet profile screen
     navigation.navigate("PetDetail"); // Make sure to replace 'PetProfileScreen' with the actual name of your pet profile screen.
   };
+  const getStoredUserId = async () => {
+    try {
+      const data = await AsyncStorage.getItem("@myKey");
 
+      if (data !== null) {
+        const userData = JSON.parse(data);
+        const id = userData[0].id;
+
+        const endpoint = `/users/getInformation/${id}`;
+        const response = await getData(endpoint);
+
+        // Cập nhật trạng thái userData
+        setUserData(response.data.data);
+
+        console.log("User Information:", response.data);
+      } else {
+        console.log("No data found in AsyncStorage.");
+      }
+    } catch (error) {
+      console.error("Error loading data:", error);
+    }
+  };
+  useEffect(() => {
+    // Gọi hàm getStoredUserId khi component được tạo ra
+    getStoredUserId();
+
+  }, []);
+  console.log(11111111, userData);
   return (
     <View style={styles.container}>
       {show ? (
         <View style={styles.home}>
           <View style={styles.header}>
-            <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-              <Avatar.Image
-                size={50}
-                source={{
-                  uri: "https://firebasestorage.googleapis.com/v0/b/swd-longchim.appspot.com/o/376577375_998270051209102_4679797004619533760_n.jpg?alt=media&token=90d94961-bc1b-46e4-b60a-ad731606b13b",
-                }}
-              />
-            </TouchableOpacity>
-            <View style={styles.information}>
-              <Text style={{ marginLeft: 5 }}>Hi Toan!</Text>
-              <View style={styles.location}>
-                <Image source={location} />
-                <Text>VN, HCM, D9, Phu Huu</Text>
+            <View style={styles.header}>
+              <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+                <Avatar.Image
+                  size={50}
+                  source={{
+                    uri: userData.avatar,
+                  }}
+                />
+              </TouchableOpacity>
+              <View style={styles.information}>
+                <Text style={{ marginLeft: 5 }}>Hi {userData.fullName}!</Text>
+                <View style={styles.location}>
+                  <Image source={location} />
+                  <Text>{userData.address}</Text>
+                </View>
               </View>
             </View>
             <View style={styles.notification}>
               <Image source={mess} />
-              <TouchableOpacity
-                onPress={() => navigation.navigate("Notification")}
-              >
+              <TouchableOpacity onPress={() => navigation.navigate("Notification")}>
                 <Image source={ring} style={{ marginLeft: 10 }} />
               </TouchableOpacity>
             </View>
@@ -922,6 +952,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     padding: 10,
+    justifyContent: "space-between",
   },
   location: {
     flexDirection: "row",

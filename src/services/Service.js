@@ -9,7 +9,7 @@ import {
   SafeAreaView,
 } from "react-native";
 import { Avatar, Searchbar } from "react-native-paper";
-import location from "../../assets/Location.png";
+import location from "../../assets/location.png";
 import mess from "../../assets/message-notif.png";
 import ring from "../../assets/Bell_pin_light.png";
 import { useNavigation } from "@react-navigation/native";
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
   },
   selectedButton: {
     width: 120,
-    backgroundColor: "#00000090",
+    backgroundColor: "#484B61",
     borderRadius: 10,
     padding: 5,
     margin: 10,

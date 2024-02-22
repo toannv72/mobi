@@ -252,7 +252,7 @@ export default function ChangeProfile({ navigation }) {
             borderRadius: 40,
             fontSize: 18,
           }}
-          placeholder="Location"
+          placeholder="Address"
           onChangeText={(text) => setLocation(text)}
           mode="outlined"
           left={

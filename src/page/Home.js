@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Card } from "@rneui/themed";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import PetProfile from "./PetProfile";
-import location from "../../assets/Location.png";
+import location from "../../assets/location.png";
 import mess from "../../assets/message-notif.png";
 import ring from "../../assets/Bell_pin_light.png";
 
@@ -27,29 +27,31 @@ export default function HomeScreen({ navigation }) {
     <View style={styles.container}>
       {show ? (
         <View style={styles.home}>
-        <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-          <Avatar.Image
-            size={50}
-            source={{
-              uri: "https://firebasestorage.googleapis.com/v0/b/swd-longchim.appspot.com/o/376577375_998270051209102_4679797004619533760_n.jpg?alt=media&token=90d94961-bc1b-46e4-b60a-ad731606b13b",
-            }}
-          />
-        </TouchableOpacity>
-        <View style={styles.information}>
-          <Text style={{ marginLeft: 5 }}>Hi Toan!</Text>
-          <View style={styles.location}>
-            <Image source={location} />
-            <Text>VN, HCM, D9, Phu Huu</Text>
+          <View style={styles.header}>
+            <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+              <Avatar.Image
+                size={50}
+                source={{
+                  uri: "https://firebasestorage.googleapis.com/v0/b/swd-longchim.appspot.com/o/376577375_998270051209102_4679797004619533760_n.jpg?alt=media&token=90d94961-bc1b-46e4-b60a-ad731606b13b",
+                }}
+              />
+            </TouchableOpacity>
+            <View style={styles.information}>
+              <Text style={{ marginLeft: 5 }}>Hi Toan!</Text>
+              <View style={styles.location}>
+                <Image source={location} />
+                <Text>VN, HCM, D9, Phu Huu</Text>
+              </View>
+            </View>
+            <View style={styles.notification}>
+              <Image source={mess} />
+              <TouchableOpacity
+                onPress={() => navigation.navigate("Notification")}
+              >
+                <Image source={ring} style={{ marginLeft: 10 }} />
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-        <View style={styles.notification}>
-          <Image source={mess} />
-          <TouchableOpacity onPress={() => navigation.navigate("Notification")}>
-            <Image source={ring} style={{ marginLeft: 10 }} />
-          </TouchableOpacity>
-        </View>
-      </View>
           <Searchbar
             placeholder="Search"
             onChangeText={setSearchQuery}

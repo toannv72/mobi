@@ -1,66 +1,61 @@
 import { Image, ScrollView, Text, View, StyleSheet } from "react-native";
-import image from "../../assets/booking.png";
-import location from "../../assets/Location.png";
+import s1 from "../../assets/s1.png";
+import s2 from "../../assets/s2.png";
+import s3 from "../../assets/s3.png";
+import s4 from "../../assets/s4.png";
+import s5 from "../../assets/s5.png";
+import s6 from "../../assets/s6.png";
+import s7 from "../../assets/s7.png";
+import location from "../../assets/location.png";
 import button from "../../assets/next.png";
 import star from "../../assets/star.png";
 const listResidence = [
   {
     id: "1",
+    url: s1,
     name: "Animals Pet care and store",
     street: "20, Bach Dang",
     rate: "4.8",
   },
   {
     id: "2",
+    url: s2,
     name: "Juno Pet",
     street: "18 Dien Bien Phu",
     rate: "4.6",
   },
   {
     id: "3",
+    url: s3,
     name: "Pet ZZ",
-    street: "20, Bach Dang",
-    rate: "4.8",
+    street: "18 Dakao ,D1",
+    rate: "4.5",
   },
   {
     id: "4",
-    name: "Animals Pet care and store",
-    street: "20, Bach Dang",
-    rate: "4.8",
+    url: s4,
+    name: "Animals Hospital",
+    street: "20 Nguyen Hue",
+    rate: "4.4",
   },
   {
     id: "5",
+    url: s5,
     name: "Animals Pet care and store",
     street: "20, Bach Dang",
     rate: "4.8",
   },
   {
     id: "6",
-    name: "Animals Pet care and store",
+    url: s6,
+    name: "Juno Pet",
     street: "20, Bach Dang",
     rate: "4.8",
   },
   {
     id: "7",
-    name: "Animals Pet care and store",
-    street: "20, Bach Dang",
-    rate: "4.8",
-  },
-  {
-    id: "8",
-    name: "Animals Pet care and store",
-    street: "20, Bach Dang",
-    rate: "4.8",
-  },
-  {
-    id: "9",
-    name: "Animals Pet care and store",
-    street: "20, Bach Dang",
-    rate: "4.8",
-  },
-  {
-    id: "10",
-    name: "Animals Pet care and store",
+    url: s7,
+    name: "Pet ZZ",
     street: "20, Bach Dang",
     rate: "4.8",
   },
@@ -72,7 +67,7 @@ export default function Residence() {
         <View style={styles.container} key={item.id}>
           <View style={styles.itemContainer}>
             <Image
-              source={image}
+              source={item.url}
               style={{ width: 80, height: "auto", borderRadius: 16 }}
             />
             <View style={styles.information}>
@@ -95,7 +90,7 @@ export default function Residence() {
           <Image source={button} style={styles.button}></Image>
         </View>
       ))}
-      <View style={{ height: 500 }}></View>
+      <View style={{ height: 600 }}></View>
     </ScrollView>
   );
 }

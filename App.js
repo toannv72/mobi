@@ -15,11 +15,13 @@ import { StyleSheet } from "react-native";
 import { NativeBaseConfigProvider } from "native-base";
 import CheckOut from "./src/page/payment/checkout";
 import Completed from "./src/page/payment/Complete";
+import Completedv2 from "./src/page/booking/Complete";
 import ChangeProfile from "./src/page/ChangeProfile";
 import ProfileSettingScreen from "./src/page/Profile";
 import ImagePickerExample from "./src/Components/UpImg";
 import PetDetailScreen from "./src/DetailForPet/PetDetailScreen";
 import Service from "./src/services/Service";
+import { Booking } from "./src/page/booking/booking";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -74,6 +76,16 @@ const App = () => {
           component={Completed}
         />
         <Stack.Screen
+          name="Completedv2"
+          options={{ headerLeft: null, headerShown: false }}
+          component={Completedv2}
+        />
+        <Stack.Screen
+          name="Booking"
+          options={{ headerLeft: null, headerShown: false }}
+          component={Booking}
+        />
+        <Stack.Screen
           name="PetDetail"
           options={{ headerLeft: null, headerShown: false }}
           component={PetDetailScreen}
@@ -94,17 +106,17 @@ function MyBottomNavigationBar() {
       screenOptions={({ route }) => ({
         tabBarShowLabel: false,
         tabBarStyle: {
-          position: 'absolute',
+          position: "absolute",
           // bottom: 25,
           // left: 20,
           // right: 20,
           elevation: 0,
-          backgroundColor: '#8D95CB',
+          backgroundColor: "#484B61",
           borderTopLeftRadius: 15,
           borderTopRightRadius: 15,
           height: 90,
           elevation: 30, // Bóng đổ cho Android
-          shadowColor: '#000', // Màu của bóng đổ cho iOS
+          shadowColor: "#000", // Màu của bóng đổ cho iOS
           shadowOffset: { width: 0, height: 2 },
           shadowOpacity: 0.4,
         },
@@ -121,7 +133,7 @@ function MyBottomNavigationBar() {
           } else if (route.name === "Service") {
             iconName = focused ? "clipboard" : "clipboard-outline";
           }
-          return <Ionicons name={iconName} size={size} color={'#F6F6F6'} />;
+          return <Ionicons name={iconName} size={size} color={"#F6F6F6"} />;
         },
       })}
       keyboardShouldPersistTaps="handled"

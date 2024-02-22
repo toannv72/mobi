@@ -54,7 +54,7 @@ export default function ProfileSettingScreen({}) {
         const response = await getData(endpoint);
 
         // Cập nhật trạng thái userData
-        setUserData(response.data.result.data);
+        setUserData(response.data.data);
 
         console.log("User Information:", response.data);
       } else {
@@ -68,7 +68,17 @@ export default function ProfileSettingScreen({}) {
   useEffect(() => {
     // Gọi hàm getStoredUserId khi component được tạo ra
     getStoredUserId();
-  }, []); // Thêm mảng rỗng để đảm bảo useEffect chỉ chạy một lần
+
+    // Thêm listener cho sự kiện 'focus'
+    const unsubscribe = navigation.addListener("focus", () => {
+      // Tải lại dữ liệu khi trang hồ sơ được focus
+      getStoredUserId();
+    });
+
+    // Hủy đăng ký listener khi component unmount
+    return unsubscribe;
+  }, [navigation]); // Thêm navigation vào mảng dependency để cập nhật listener khi navigation thay đổi
+
   const MaintenanceModal = () => (
     <Modal
       visible={maintenanceModalVisible}
@@ -132,29 +142,12 @@ export default function ProfileSettingScreen({}) {
       style={{ backgroundColor: "#F6F6F6" }}
       contentContainerStyle={styles.container}
     >
-      {/* Thêm IconButton cho biểu tượng arrow-left */}
-      {/* <IconButton
-        icon="arrow-left"
-        size={35}
-        style={styles.backIcon}
-        onPress={() => navigation.navigate("Home")}
-      />
-
-      <Text
-        style={{
-          fontSize: 26,
-          textAlign: "center",
-          margin: 50,
-          fontWeight: "bold",
-        }}
-      >
-        Profile
-      </Text> */}
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <Avatar.Image
           size={80}
           source={{
-            uri: "https://firebasestorage.googleapis.com/v0/b/swd-longchim.appspot.com/o/376577375_998270051209102_4679797004619533760_n.jpg?alt=media&token=90d94961-bc1b-46e4-b60a-ad731606b13b",
+            // uri: "https://firebasestorage.googleapis.com/v0/b/swd-longchim.appspot.com/o/376577375_998270051209102_4679797004619533760_n.jpg?alt=media&token=90d94961-bc1b-46e4-b60a-ad731606b13b",
+            uri: userData.avatar,
           }}
           style={{ marginLeft: 25, marginBottom: -70 }}
         />
@@ -180,17 +173,9 @@ export default function ProfileSettingScreen({}) {
             </Text>
             <Text style={{ marginTop: 10, fontSize: 16, marginLeft: 7 }}>
               {" "}
-              2-2-2000
+              {userData.address}
             </Text>
           </View>
-          {/* <IconButton
-            icon="pen"
-            size={35}
-            style={{
-              marginBottom: 60,
-            }}
-            onPress={() => navigation.navigate("ChangeProfile")}
-          /> */}
         </View>
       </View>
       <View style={{ height: 35 }} />
@@ -204,7 +189,7 @@ export default function ProfileSettingScreen({}) {
             onPress={() => log(item)}
             titleStyle={styles.titleStyle}
             style={{
-              backgroundColor: "#F6F6F6",
+              // backgroundColor: "#F6F6F6",
               fontWeight: "bold",
               marginBottom: 5,
             }}
@@ -274,6 +259,8 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
     padding: 16,
+    backgroundColor: "white",
+    flex: 1,
   },
   updateAccountContainer: {
     width: "70%",

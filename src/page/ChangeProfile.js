@@ -1,39 +1,74 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Image, Text } from "react-native";
+import { StyleSheet, View, Image, Text, Platform, Alert } from "react-native";
 import { TextInput, IconButton, Modal, Button } from "react-native-paper";
 import * as ImagePicker from "expo-image-picker";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { putData } from "../api/api";
-
+import DateTimePicker from "@react-native-community/datetimepicker";
+import { firebaseImg } from "../api/firebaseImg";
 export default function ChangeProfile({ navigation }) {
-  const [name, setName] = useState("Toannv");
-  const [phone, setPhone] = useState("0345821712");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
   const [mail, setMail] = useState("");
   const [location, setLocation] = useState("");
+  const [dob, setDob] = useState("");
+  const [date, setDate] = useState(new Date());
+  const [mode, setMode] = useState("date");
+  const [show, setShow] = useState(false);
   const [avatarSource, setAvatarSource] = useState(
-    "https://firebasestorage.googleapis.com/v0/b/swd-longchim.appspot.com/o/376577375_998270051209102_4679797004619533760_n.jpg?alt=media&token=90d94961-bc1b-46e4-b60a-ad731606b13b"
+    // "https://firebasestorage.googleapis.com/v0/b/swd-longchim.appspot.com/o/376577375_998270051209102_4679797004619533760_n.jpg?alt=media&token=90d94961-bc1b-46e4-b60a-ad731606b13b"
+    ""
   );
+
   const [storedData, setStoredData] = useState([]);
   const [maintenanceModalVisible, setMaintenanceModalVisible] = useState(false);
+
   const MaintenanceModal = () => (
     <Modal
       visible={maintenanceModalVisible}
       onDismiss={() => setMaintenanceModalVisible(false)}
+      animationType="slide"
+      transparent={true}
     >
       <View
         style={{
-          margin: 20,
+          margin: 40,
           backgroundColor: "white",
-          padding: 30,
+          padding: 10,
           borderRadius: 10,
         }}
       >
-        <Text>This Feature Is Still Under Maintenance</Text>
-        <Button onPress={() => setMaintenanceModalVisible(false)}>OK</Button>
+        <Text style={{ fontSize: 18, fontWeight: 600, marginLeft: 80 }}>
+          Update Completed!
+        </Text>
+        <Button
+          onPress={() => {
+            setMaintenanceModalVisible(false);
+            navigation.navigate("Profile");
+          }}
+          style={{ marginTop: 15 }}
+        >
+          OK
+        </Button>
       </View>
     </Modal>
   );
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShow(Platform.OS === "ios");
+    setDate(currentDate);
+    setDob(currentDate.toLocaleDateString());
+  };
+
+  const showMode = (currentMode) => {
+    setShow(true);
+    setMode(currentMode);
+  };
+
+  const showDatepicker = () => {
+    showMode("date");
+  };
   const handleChoosePhoto = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -43,7 +78,9 @@ export default function ChangeProfile({ navigation }) {
     });
 
     if (!result.canceled) {
-      setAvatarSource(result);
+      const response = await firebaseImg(result);
+      console.log(response);
+      setAvatarSource(response);
     }
   };
   const handleResetAll = () => {
@@ -54,41 +91,75 @@ export default function ChangeProfile({ navigation }) {
     setLocation("");
   };
   const handleSaveChanges = () => {
-    // if (storedData.length > 0) {
-    //   const userId = storedData[0].id;
-    //   putData(`/users/updateInformation/${userId}`, {
-    //     address: location,
-    //     phoneNumber: phone,
-    //     fullname: name,
-    //   })
-    //     .then((response) => {
-    //       // Xử lý phản hồi từ API nếu cần
-    //       console.log("API response:", response);
-    //     })
-    //     .catch((error) => {
-    //       console.error("Error updating information:", error);
-    //     });
-    // }
+    // Kiểm tra xem các trường đầu vào có rỗng không
+    if (!name || !phone || !mail || !location || !dob) {
+      // Nếu một trong các trường đầu vào rỗng, hiển thị thông báo cảnh báo
+      Alert.alert("Thông báo", "Vui lòng không để trống bất kỳ trường nào.");
+      return; // Dừng hàm ở đây nếu có trường rỗng
+    }
+
+    // Nếu tất cả các trường đều đã được điền, tiếp tục với việc cập nhật thông tin
+    if (storedData.length > 0) {
+      const userId = storedData[0].id;
+      putData(`/users/updateInformation`, userId, {
+        address: location,
+        phoneNumber: phone,
+        fullName: name,
+        avatar: avatarSource,
+        birthday: dob,
+      })
+        .then((response) => {
+          // Xử lý phản hồi từ API nếu cần
+          console.log("API response:", response);
+
+          // Cập nhật thông tin người dùng trong AsyncStorage
+          const updatedUserData = [...storedData];
+          updatedUserData[0] = {
+            ...updatedUserData[0],
+            address: location,
+            phoneNumber: phone,
+            fullName: name,
+            avatar: avatarSource,
+            birthday: dob,
+          };
+          AsyncStorage.setItem("@myKey", JSON.stringify(updatedUserData));
+        })
+        .catch((error) => {
+          console.error("Error updating information:", error);
+        });
+    } else {
+      console.error("No user data found in storedData.");
+    }
     setMaintenanceModalVisible(true);
   };
 
-  // useEffect(() => {
-  //   const loadStoredData = async () => {
-  //     try {
-  //       // Load data from AsyncStorage
-  //       const data = await AsyncStorage.getItem("@myKey");
-  //       if (data !== null) {
-  //         setStoredData(JSON.parse(data));
-  //         console.log("Data User successfully:", data);
-  //       } else {
-  //         console.log("No data found in AsyncStorage.");
-  //       }
-  //     } catch (error) {
-  //       console.error("Error loading data:", error);
-  //     }
-  //   };
-  //   loadStoredData();
-  // }, []);
+  useEffect(() => {
+    const loadStoredData = async () => {
+      try {
+        // Load data from AsyncStorage
+        const data = await AsyncStorage.getItem("@myKey");
+        if (data !== null) {
+          const userData = JSON.parse(data);
+          setStoredData(userData);
+
+          // Update the states with the current user information
+          setName(userData[0].fullName);
+          setPhone(userData[0].phoneNumber);
+          setMail(userData[0].email);
+          setLocation(userData[0].address);
+          setDob(userData[0].dateOfBirth);
+          setAvatarSource(userData[0].avatar);
+
+          console.log("User data loaded successfully:", userData);
+        } else {
+          console.log("No data found in AsyncStorage.");
+        }
+      } catch (error) {
+        console.error("Error loading data:", error);
+      }
+    };
+    loadStoredData();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -105,8 +176,8 @@ export default function ChangeProfile({ navigation }) {
       >
         <Image
           source={{
-            uri: avatarSource?.assets
-              ? avatarSource?.assets[0]?.uri
+            uri: avatarSource
+              ? avatarSource
               : "https://firebasestorage.googleapis.com/v0/b/swd-longchim.appspot.com/o/376577375_998270051209102_4679797004619533760_n.jpg?alt=media&token=90d94961-bc1b-46e4-b60a-ad731606b13b",
           }}
           style={{
@@ -119,7 +190,9 @@ export default function ChangeProfile({ navigation }) {
       </View>
 
       <View style={styles.backIconContainer}>
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <View
+          style={{ flexDirection: "row", alignItems: "center", marginTop: 50 }}
+        >
           <IconButton
             style={styles.backIcon}
             icon="arrow-left"
@@ -140,7 +213,7 @@ export default function ChangeProfile({ navigation }) {
       </View>
       <View style={styles.cameraIconContainer}>
         <IconButton
-          style={{ ...styles.cameraIcon, marginBottom: 450 }}
+          style={{ ...styles.cameraIcon, marginBottom: 500 }}
           icon="camera"
           size={35}
           onPress={handleChoosePhoto}
@@ -208,33 +281,91 @@ export default function ChangeProfile({ navigation }) {
         />
       </View>
 
-      <View
-        style={{
-          ...styles.searchSection,
-          fontSize: 18,
-          marginTop: 5,
-        }}
-      >
-        <TextInput
+      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+        <View
           style={{
-            ...styles.input,
-            backgroundColor: "#E9E7E7",
+            ...styles.searchSection,
             fontSize: 18,
+            marginTop: 6,
+            marginRight: 80,
+            width: 189,
           }}
-          placeholder="Phone Number"
-          onChangeText={(text) => setPhone(text)}
-          value={phone}
-          mode="outlined"
-          left={
-            <TextInput.Icon
-              icon="phone"
-              size={35}
+        >
+          <TextInput
+            style={{
+              ...styles.input,
+              backgroundColor: "#E9E7E7",
+              fontSize: 18,
+            }}
+            placeholder="Phone"
+            onChangeText={(text) => setPhone(text)}
+            value={phone}
+            mode="outlined"
+            keyboardType="number-pad"
+            left={
+              <TextInput.Icon
+                icon="phone"
+                size={35}
+                style={{
+                  marginTop: 22,
+                }}
+              />
+            }
+          />
+        </View>
+
+        <View>
+          <View
+            style={{
+              ...styles.searchSection,
+              backgroundColor: "#E9E7E7",
+              marginTop: -10,
+              width: 180,
+              marginTop: 7,
+              marginLeft: -70,
+            }}
+          >
+            <TouchableOpacity
+              onPress={showDatepicker}
               style={{
-                marginTop: 22,
+                width: 180,
+                height: 73,
               }}
+            >
+              <TextInput
+                style={{
+                  ...styles.input,
+                  backgroundColor: "#E9E7E7",
+                  borderRadius: 20,
+                  fontSize: 18,
+                }}
+                mode="outlined"
+                value={dob}
+                // onTouchStart={showDatepicker} // Show the date picker when the user touches this
+                editable={false}
+                left={
+                  <TextInput.Icon
+                    icon="account-circle"
+                    size={35}
+                    style={{
+                      marginTop: 22,
+                    }}
+                  />
+                }
+              />
+            </TouchableOpacity>
+          </View>
+          {show && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={date}
+              mode={mode}
+              is24Hour={true}
+              display="default"
+              onChange={onChange}
             />
-          }
-        />
+          )}
+        </View>
       </View>
 
       <View
@@ -311,6 +442,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 16,
+    backgroundColor: "white",
+    flex: 1,
   },
   searchSection: {
     flexDirection: "row",

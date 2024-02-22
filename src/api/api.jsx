@@ -2,10 +2,8 @@ import axios from "axios";
 
 // eslint-disable-next-line react-hooks/rules-of-hooks
 
-
 const api = axios.create({
-  baseURL: 'https://petside.azurewebsites.net/api',
-
+  baseURL: "https://petside.azurewebsites.net/api",
 });
 // Thêm các headers mặc định nếu cần
 // api.defaults.headers.common["Authorization"] = "Bearer YOUR_ACCESS_TOKEN";
@@ -22,7 +20,6 @@ export const getData = async (endpoint, params = {}, headers = {}) => {
 
 export const postData = async (endpoint, data, headers = {}) => {
   try {
-
     const response = await api.post(endpoint, data, { headers });
     return response.data;
   } catch (error) {

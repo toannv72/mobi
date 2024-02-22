@@ -821,7 +821,7 @@ export default function HomeScreen({ navigation }) {
         </View>
       ) : (
         <View style={styles.home}>
-          <PetProfile handCloseShow={handCloseShow} />
+          <PetProfile handCloseShow={handleCloseShow} />
         </View>
       )}
     </View>

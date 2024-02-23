@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Text,
   View,
@@ -12,7 +12,7 @@ import { Avatar, Searchbar } from "react-native-paper";
 import location from "../../assets/location.png";
 import mess from "../../assets/message-notif.png";
 import ring from "../../assets/Bell_pin_light.png";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import VetVisit from "./VetVisit";
 import Grooming from "./Grooming";
 import Vaccination from "./Vaccination";
@@ -38,6 +38,14 @@ export default function Service() {
         return <VetVisit />;
     }
   };
+  useFocusEffect(
+    useCallback(() => {
+      getStoredUserId();
+        return () => {
+        };
+    }, []),
+
+);
   const getStoredUserId = async () => {
     try {
       const data = await AsyncStorage.getItem("@myKey");

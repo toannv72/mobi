@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { StyleSheet, View, Text, ScrollView, Image } from "react-native";
 import { Avatar, ProgressBar, Searchbar } from "react-native-paper";
 import { useState } from "react";
@@ -10,6 +10,7 @@ import mess from "../../assets/message-notif.png";
 import ring from "../../assets/Bell_pin_light.png";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getData } from "../api/api";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function HomeScreen({ navigation }) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -52,7 +53,14 @@ export default function HomeScreen({ navigation }) {
     getStoredUserId();
 
   }, []);
-  console.log(11111111, userData);
+  useFocusEffect(
+    useCallback(() => {
+      getStoredUserId();
+        return () => {
+        };
+    }, []),
+
+);
   return (
     <View style={styles.container}>
       {show ? (
@@ -722,7 +730,7 @@ export default function HomeScreen({ navigation }) {
                     style={{ flexDirection: "column", alignItems: "center" }}
                   >
                     <Card.Image
-                      onPress={() => setShow(false)}
+                      onPress={() => navigateToPetProfile()}
                       style={{
                         padding: 0,
                         width: 50,
@@ -796,9 +804,9 @@ export default function HomeScreen({ navigation }) {
             </ScrollView>
           )}
 
-          <Text style={{ fontSize: 30 }}>Service for pet</Text>
+          {/* <Text style={{ fontSize: 30 }}>Service for pet</Text> */}
 
-          <View
+          {/* <View
             style={{
               flexDirection: "row",
               flexWrap: "wrap",
@@ -875,7 +883,7 @@ export default function HomeScreen({ navigation }) {
                 <Text style={{ color: "#fff", fontSize: 16 }}>Hotels</Text>
               </View>
             </Card>
-          </View>
+          </View> */}
         </View>
       ) : (
         <View style={styles.home}>

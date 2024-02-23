@@ -45,7 +45,7 @@ export default function Grooming() {
           <View style={styles.cardBooking}>
             <View style={{ flexDirection: "row", width: 200 }}>
               <Image
-                source={item.imageProvider}
+                source={{uri:item.imageProvider}}
                 style={{ width: 80, height: 80 }}
               />
               <View style={styles.information}>
@@ -74,7 +74,7 @@ export default function Grooming() {
           <View style={styles.cardBooking}>
             <View style={{ flexDirection: "row", width: 200 }}>
               <Image
-                source={item.imageProvider}
+                source={{uri:item.imageProvider}}
                 style={{ width: 80, height: 80 }}
               />
               <View style={styles.information}>

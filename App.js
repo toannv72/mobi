@@ -9,10 +9,6 @@ import SignUpScreen from "./src/page/SignUp";
 import { IntroSlider } from "./src/page/Intro";
 import { Survey } from "./src/page/Survey";
 import { Notification } from "./src/page/notification/Notification";
-import UpImg from "./src/Components/UpImg";
-import { View } from "native-base";
-import { StyleSheet } from "react-native";
-import { NativeBaseConfigProvider } from "native-base";
 import CheckOut from "./src/page/payment/checkout";
 import Completed from "./src/page/payment/Complete";
 import Completedv2 from "./src/page/booking/Complete";
@@ -94,12 +90,7 @@ const App = () => {
     </NavigationContainer>
   );
 };
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#FFF", // Đặt màu nền trắng cho toàn bộ ứng dụng
-  },
-});
+
 function MyBottomNavigationBar() {
   return (
     <Tab.Navigator

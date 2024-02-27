@@ -1,5 +1,5 @@
 // Import thêm TouchableOpacity từ thư viện react-native
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -13,9 +13,22 @@ import { IconButton } from "react-native-paper";
 import OverviewScreen from "./OverViewScreen";
 import AppointmentScreen from "./AppointmentScreen";
 import MedicalRecordScreen from "./MedicalRecordScreen";
+import { useRoute } from "@react-navigation/native";
+import { getData } from "../api/api";
 
 export default function PetDetailScreen({ navigation }) {
   const [selectedTab, setSelectedTab] = useState("Overview");
+  const [pet, setPet] = useState({});
+  const route = useRoute();
+  const { id } = route.params;
+
+  useEffect(() => {
+    getData(`/pets/getPetInformation/${id}`)
+      .then((e) => {
+        setPet(e.data.data)
+      });
+
+  }, [id]);
 
   const renderContent = () => {
     switch (selectedTab) {
@@ -44,7 +57,7 @@ export default function PetDetailScreen({ navigation }) {
           <Image
             style={{ ...styles.petImage, borderRadius: 7 }}
             source={{
-              uri: "https://vienmoitruong5014.org.vn/wp-content/uploads/2023/03/anh-cho-con-de-thuong_022907461.jpg",
+              uri: pet.imagePet,
             }}
           />
           <IconButton
@@ -56,18 +69,20 @@ export default function PetDetailScreen({ navigation }) {
               borderColor: "#8C8EA3",
             }}
             color="#f00"
-            // onPress={() => navigation.navigate("ChangeProfile")}
+          // onPress={() => navigation.navigate("ChangeProfile")}
           />
         </View>
         <View style={styles.petInfoContainer}>
-          <View style={styles.leftInfo}>
-            <Text style={styles.petName}>Dongo ♂ </Text>
+
+          <View>
+            <Text style={styles.petName}>{pet.name} </Text>
             <View style={styles.petDetailsContainer}>
-              <Text style={styles.petDetailsText}>Pembroke Corgi</Text>
+              <Text style={styles.petDetailsText}>{pet.species}</Text>
             </View>
             <View style={styles.dot} />
           </View>
-          <View style={styles.rightInfo}>
+
+          {/* <View style={styles.rightInfo}>
             <View style={styles.locationContainer}>
               <Text style={styles.locationText}>VN, HCM, D9, Phu Huu</Text>
               <IconButton
@@ -77,7 +92,7 @@ export default function PetDetailScreen({ navigation }) {
                 style={styles.iconButton}
               />
             </View>
-          </View>
+          </View> */}
         </View>
       </View>
 
@@ -172,16 +187,10 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   petInfoContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+   
     marginTop: 10,
   },
-  leftInfo: {
-    marginRight: 20,
-  },
-  rightInfo: {
-    marginLeft: -10,
-  },
+
   petName: {
     fontSize: 32,
     color: "#000000",

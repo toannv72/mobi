@@ -17,7 +17,7 @@ export default function VetVisit() {
   const [providers, setProviders] = React.useState([]);
   const allVets = providers.slice(0, 3);
   useEffect(() => {
-    getData("/providers/getAllInformation")
+    getData("/providers/searchCategory?search=VetVisit")
       .then((res) => {
         setProviders(res.data);
       })
@@ -33,7 +33,7 @@ export default function VetVisit() {
           <View style={styles.cardBooking}>
             <View style={{ flexDirection: "row", width: 200 }}>
               <Image
-                source={item.imageProvider}
+                source={{ uri: item.imageProvider }}
                 style={{ width: 80, height: 80 }}
               />
               <View style={styles.information}>
@@ -48,10 +48,10 @@ export default function VetVisit() {
             <TouchableOpacity
               style={styles.bookingBtn}
               onPress={() =>
-                navigation.navigate("Booking", { id: item.providerId })
+                navigation.navigate("Offering", { id: item.providerId })
               }
             >
-              <Text style={styles.titleButton}>Book</Text>
+              <Text style={styles.titleButton}>Detail</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -77,10 +77,10 @@ export default function VetVisit() {
             <TouchableOpacity
               style={styles.bookingBtn}
               onPress={() =>
-                navigation.navigate("Booking", { id: item.providerId })
+                navigation.navigate("Offering", { id: item.providerId })
               }
             >
-              <Text style={styles.titleButton}>Book</Text>
+              <Text style={styles.titleButton}>Detail</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -117,7 +117,6 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     fontSize: 16,
     color: "#000000",
-    marginBottom: "12%",
   },
   lastVisit: {
     marginBottom: "3%",

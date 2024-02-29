@@ -16,7 +16,7 @@ export default function Grooming() {
   const [providers, setProviders] = React.useState([]);
   const allVets = providers.slice(0, 3);
   useEffect(() => {
-    getData("/providers/getAllInformation")
+    getData("/providers/searchCategory?search=Grooming")
       .then((res) => {
         setProviders(res.data);
       })
@@ -27,25 +27,13 @@ export default function Grooming() {
   }, []);
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
-      <View>
-        <Text style={styles.header}>Grooming Term</Text>
-        <View style={styles.checkbox}>
-          <Text>Shower</Text>
-          <Text>Hair Cut</Text>
-          <Text>Blow Dry</Text>
-          <Text>Clean Ear And Eyes</Text>
-          <Text>Nail Clipping</Text>
-          <Text>Tick And Flea Bath</Text>
-        </View>
-      </View>
-
       <Text style={styles.header1}>Book With Previous Veterinarian</Text>
       {allVets.map((item) => (
         <View style={styles.element} key={item.providerId}>
           <View style={styles.cardBooking}>
             <View style={{ flexDirection: "row", width: 200 }}>
               <Image
-                source={{uri:item.imageProvider}}
+                source={{ uri: item.imageProvider }}
                 style={{ width: 80, height: 80 }}
               />
               <View style={styles.information}>
@@ -60,10 +48,10 @@ export default function Grooming() {
             <TouchableOpacity
               style={styles.bookingBtn}
               onPress={() =>
-                navigation.navigate("Booking", { id: item.providerId })
+                navigation.navigate("Offering", { id: item.providerId })
               }
             >
-              <Text style={styles.titleButton}>Book</Text>
+              <Text style={styles.titleButton}>Detail</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -74,7 +62,7 @@ export default function Grooming() {
           <View style={styles.cardBooking}>
             <View style={{ flexDirection: "row", width: 200 }}>
               <Image
-                source={{uri:item.imageProvider}}
+                source={{ uri: item.imageProvider }}
                 style={{ width: 80, height: 80 }}
               />
               <View style={styles.information}>
@@ -89,10 +77,10 @@ export default function Grooming() {
             <TouchableOpacity
               style={styles.bookingBtn}
               onPress={() =>
-                navigation.navigate("Booking", { id: item.providerId })
+                navigation.navigate("Offering", { id: item.providerId })
               }
             >
-              <Text style={styles.titleButton}>Book</Text>
+              <Text style={styles.titleButton}>Detail</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -142,7 +130,6 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     fontSize: 16,
     color: "#000000",
-    marginBottom: "12%",
   },
   lastVisit: {
     marginBottom: "3%",

@@ -20,7 +20,7 @@ export default function Vaccination() {
   const [providers, setProviders] = React.useState([]);
   const allVets = providers.slice(0, 3);
   useEffect(() => {
-    getData("/providers/getAllInformation")
+    getData("/providers/searchCategory?search=Vaccination")
       .then((res) => {
         console.log("get data successful");
         setProviders(res.data);
@@ -32,26 +32,13 @@ export default function Vaccination() {
   }, []);
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
-      <View>
-        <Text style={styles.header}>Vaccine Name</Text>
-        <View style={styles.checkbox}>
-          <Text>Rabies</Text>
-          <Text>Distemper</Text>
-          <Text>Hepatitis - Adenovirus</Text>
-          <Text>Pavorvirus</Text>
-          <Text>Parainfluenza</Text>
-          <Text>Letopspirosis</Text>
-          <Text>Bordetella</Text>
-        </View>
-      </View>
-
       <Text style={styles.header1}>Book With Previous Veterinarian</Text>
       {allVets.map((item) => (
         <View style={styles.element} key={item.providerId}>
           <View style={styles.cardBooking}>
             <View style={{ flexDirection: "row", width: 200 }}>
               <Image
-                source={{uri:item.imageProvider}}
+                source={{ uri: item.imageProvider }}
                 style={{ width: 80, height: 80 }}
               />
               <View style={styles.information}>
@@ -66,10 +53,10 @@ export default function Vaccination() {
             <TouchableOpacity
               style={styles.bookingBtn}
               onPress={() =>
-                navigation.navigate("Booking", { id: item.providerId })
+                navigation.navigate("Offering", { id: item.providerId })
               }
             >
-              <Text style={styles.titleButton}>Book</Text>
+              <Text style={styles.titleButton}>Detail</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -80,7 +67,7 @@ export default function Vaccination() {
           <View style={styles.cardBooking}>
             <View style={{ flexDirection: "row", width: 200 }}>
               <Image
-              source={{uri:item.imageProvider}}
+                source={{ uri: item.imageProvider }}
                 style={{ width: 80, height: 80 }}
               />
               <View style={styles.information}>
@@ -95,10 +82,10 @@ export default function Vaccination() {
             <TouchableOpacity
               style={styles.bookingBtn}
               onPress={() =>
-                navigation.navigate("Booking", { id: item.providerId })
+                navigation.navigate("Offering", { id: item.providerId })
               }
             >
-              <Text style={styles.titleButton}>Book</Text>
+              <Text style={styles.titleButton}>Detail</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -134,7 +121,6 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     fontSize: 16,
     color: "#000000",
-    marginBottom: "12%",
   },
   lastVisit: {
     marginBottom: "3%",

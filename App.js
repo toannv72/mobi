@@ -20,6 +20,7 @@ import Service from "./src/services/Service";
 import { Booking } from "./src/page/booking/booking";
 import AddPet from "./src/DetailForPet/AddPet";
 import ChangePetProfile from "./src/DetailForPet/ChangPetProfile";
+import { Offering } from "./src/page/booking/offering";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -97,6 +98,11 @@ const App = () => {
           name="ChangePetProfile"
           options={{ headerLeft: null, headerShown: false }}
           component={ChangePetProfile}
+        />
+        <Stack.Screen
+          name="Offering"
+          options={{ headerLeft: null, headerShown: false }}
+          component={Offering}
         />
       </Stack.Navigator>
     </NavigationContainer>

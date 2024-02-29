@@ -14,7 +14,7 @@ import momoIcon from "../../../assets/MoMo_Logo.png";
 export default function CheckOut({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const handleMomo = () => {
-    const url = "https://me.momo.vn/qr/nguyen-van-toan-IwfnwPi8o4/JSxbSmx5d1";
+    const url = "https://me.momo.vn/lDI6TWsAijsQt8TNi3IqUx/WPe99XNwxyR8eLy";
     Linking.openURL(url).catch((err) => console.error("Không thể mở URL", err));
   };
   return (

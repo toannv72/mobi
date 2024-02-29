@@ -899,10 +899,12 @@ const styles = StyleSheet.create({
     fontSize: "10px",
     paddingTop: 28,
     paddingHorizontal: 10,
+    
   },
   container: {
     flex: 1,
     backgroundColor: "#FFFFFF",
+    
   },
   fonts: {
     marginBottom: 8,

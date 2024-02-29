@@ -7,11 +7,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { putData } from "../api/api";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { firebaseImg } from "../api/firebaseImg";
-export default function ChangeProfile({ navigation }) {
+import { Picker } from "@react-native-picker/picker";
+import { useRoute } from "@react-navigation/native";
+export default function ChangePetProfile({ navigation }) {
   const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [mail, setMail] = useState("");
-  const [location, setLocation] = useState("");
+  const [species, setSpecies] = useState("");
+  const [weight, setWeight] = useState("");
+  const [gender, setGender] = useState("");
   const [dob, setDob] = useState("");
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState("date");
@@ -21,6 +23,8 @@ export default function ChangeProfile({ navigation }) {
     ""
   );
 
+  const [height, setHeight] = useState("");
+  const [detail, setDetail] = useState("");
   const [storedData, setStoredData] = useState([]);
   const [maintenanceModalVisible, setMaintenanceModalVisible] = useState(false);
 
@@ -40,12 +44,12 @@ export default function ChangeProfile({ navigation }) {
         }}
       >
         <Text style={{ fontSize: 18, fontWeight: 600, marginLeft: 80 }}>
-          Update Completed!
+          Update Successful!
         </Text>
         <Button
           onPress={() => {
             setMaintenanceModalVisible(false);
-            navigation.navigate("Profile");
+            navigation.navigate("Home");
           }}
           style={{ marginTop: 15 }}
         >
@@ -58,7 +62,13 @@ export default function ChangeProfile({ navigation }) {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === "ios");
     setDate(currentDate);
-    setDob(currentDate.toLocaleDateString());
+
+    // Format date in the desired format
+    const formattedDate = `${currentDate.getFullYear()}-${
+      currentDate.getMonth() + 1
+    }-${currentDate.getDate()}`;
+
+    setDob(formattedDate);
   };
 
   const showMode = (currentMode) => {
@@ -86,50 +96,91 @@ export default function ChangeProfile({ navigation }) {
   const handleResetAll = () => {
     // Xóa tất cả các trường nhập liệu
     setName("");
-    setPhone("");
-    setMail("");
-    setLocation("");
+    setSpecies("");
+    setWeight("");
+    setAvatarSource("");
+    setGender("");
+    setHeight("");
+    setDetail(""), setDob("");
   };
+  const route = useRoute();
+  const { petId } = route.params; // Nhận petId từ route params
   const handleSaveChanges = () => {
-    // Kiểm tra xem các trường đầu vào có rỗng không
-    if (!name || !phone || !mail || !location || !dob) {
+    if (
+      !name ||
+      !gender ||
+      !avatarSource ||
+      !species ||
+      !dob ||
+      !weight ||
+      !height ||
+      !detail
+    ) {
       // Nếu một trong các trường đầu vào rỗng, hiển thị thông báo cảnh báo
-      Alert.alert("Thông báo", "Vui lòng không để trống bất kỳ trường nào.");
+      Alert.alert("Alert", "Please fill all the fields.");
       return; // Dừng hàm ở đây nếu có trường rỗng
     }
+    if (!storedData || storedData.length === 0) {
+      console.error("No user data found in storedData.");
+      return;
+    }
 
-    // Nếu tất cả các trường đều đã được điền, tiếp tục với việc cập nhật thông tin
-    if (storedData.length > 0) {
-      const userId = storedData[0].id;
-      putData(`/users/updateInformation`, userId, {
-        address: location,
-        phoneNumber: phone,
-        fullName: name,
-        avatar: avatarSource,
-        birthday: dob,
-      })
-        .then((response) => {
-          // Xử lý phản hồi từ API nếu cần
-          console.log("API response:", response);
+    // Lấy petId của pet bạn muốn cập nhật
 
-          // Cập nhật thông tin người dùng trong AsyncStorage
-          const updatedUserData = [...storedData];
-          updatedUserData[0] = {
-            ...updatedUserData[0],
-            address: location,
-            phoneNumber: phone,
-            fullName: name,
-            avatar: avatarSource,
-            birthday: dob,
+    const petIndex = storedData[0].pets.findIndex((pet) => pet.petId === petId);
+
+    // Chuyển đổi giá trị của gender từ chuỗi sang số nguyên
+    const genderValue = gender; // Sửa ở đây
+
+    // Chuyển đổi định dạng của ngày sinh thành chuỗi đúng định dạng
+    let formattedDob;
+    try {
+      formattedDob = new Date(dob).toISOString();
+    } catch (error) {
+      console.error("Invalid date:", dob);
+      return;
+    }
+
+    putData(`/pets/updatePet/`, petId, {
+      weight: Number(weight),
+      species: species,
+      name: name,
+      imagePet: avatarSource,
+      birthDate: formattedDob,
+      height: Number(height),
+      gender: genderValue,
+      identifyingFeatures: detail,
+    })
+      .then((response) => {
+        console.log("API response:", response);
+
+        // Cập nhật thông tin pet trong AsyncStorage
+        const updatedUserData = [...storedData];
+        const petIndex = storedData[0].pets.findIndex(
+          (pet) => pet.petId === petId
+        );
+        if (petIndex !== -1) {
+          // Cập nhật thông tin pet
+          updatedUserData[0].pets[petIndex] = {
+            ...updatedUserData[0].pets[petIndex],
+            weight: Number(weight),
+            species: species,
+            name: name,
+            imagePet: avatarSource,
+            birthDate: formattedDob,
+            height: Number(height),
+            gender: genderValue,
+            identifyingFeatures: detail,
           };
           AsyncStorage.setItem("@myKey", JSON.stringify(updatedUserData));
-        })
-        .catch((error) => {
-          console.error("Error updating information:", error);
-        });
-    } else {
-      console.error("No user data found in storedData.");
-    }
+        } else {
+          console.error("Pet not found in storedData.");
+        }
+      })
+      .catch((error) => {
+        console.error("Error updating information:", error);
+      });
+
     setMaintenanceModalVisible(true);
   };
 
@@ -143,14 +194,22 @@ export default function ChangeProfile({ navigation }) {
           setStoredData(userData);
 
           // Update the states with the current user information
-          setName(userData[0].fullName);
-          setPhone(userData[0].phoneNumber);
-          setMail(userData[0].email);
-          setLocation(userData[0].address);
-          setDob(userData[0].dateOfBirth);
-          setAvatarSource(userData[0].avatar);
-
+          // setName(userData[0].name);
+          // setWeight(userData[0].weight);
+          // setHeight(userData[0].height);
+          // setAvatarSource(userData[0].imagePet);
+          // setDob(userData[0].birthDate);
+          // setDetail(userData[0].identifyingFeatures);
+          // setGender(userData[0].gender);
+          // setSpecies(userData[0].pet.species);
           console.log("User data loaded successfully:", userData);
+          if (userData[0].pets) {
+            userData[0].pets.forEach((pet, index) => {
+              console.log(`Pet ${index + 1}:`, JSON.stringify(pet, null, 2));
+            });
+          } else {
+            console.log("No pets found.");
+          }
         } else {
           console.log("No data found in AsyncStorage.");
         }
@@ -178,7 +237,7 @@ export default function ChangeProfile({ navigation }) {
           source={{
             uri: avatarSource
               ? avatarSource
-              : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRivW1ifBRkFMXQnSfTAuHMT3wl7-glBBMWxQ&usqp=CAU",
+              : "https://static.chotot.com/storage/chotot-kinhnghiem/c2c/2021/04/748621ef-border-collie-thumb.jpeg",
           }}
           style={{
             ...styles.image,
@@ -191,13 +250,13 @@ export default function ChangeProfile({ navigation }) {
 
       <View style={styles.backIconContainer}>
         <View
-          style={{ flexDirection: "row", alignItems: "center", marginTop: 50 }}
+          style={{ flexDirection: "row", alignItems: "center", marginTop: 10 }}
         >
           <IconButton
             style={styles.backIcon}
             icon="arrow-left"
             size={35}
-            onPress={() => navigation.navigate("Profile")}
+            onPress={() => navigation.navigate("Home")}
           />
           <Text
             style={{
@@ -213,7 +272,7 @@ export default function ChangeProfile({ navigation }) {
       </View>
       <View style={styles.cameraIconContainer}>
         <IconButton
-          style={{ ...styles.cameraIcon, marginBottom: 500 }}
+          style={{ ...styles.cameraIcon, marginBottom: 550 }}
           icon="camera"
           size={35}
           onPress={handleChoosePhoto}
@@ -265,19 +324,19 @@ export default function ChangeProfile({ navigation }) {
             borderRadius: 40,
             fontSize: 18,
           }}
-          placeholder="Mail"
-          onChangeText={(text) => setMail(text)}
+          placeholder="Species"
+          onChangeText={(text) => setSpecies(text)}
           mode="outlined"
           left={
             <TextInput.Icon
-              icon="gmail"
+              icon="dog"
               size={35}
               style={{
                 marginTop: 22,
               }}
             />
           }
-          value={mail}
+          value={species}
         />
       </View>
 
@@ -287,8 +346,9 @@ export default function ChangeProfile({ navigation }) {
             ...styles.searchSection,
             fontSize: 18,
             marginTop: 6,
-            marginRight: 80,
-            width: 189,
+            // marginRight: 80,
+            // marginLeft: 160,
+            width: 180,
           }}
         >
           <TextInput
@@ -297,14 +357,14 @@ export default function ChangeProfile({ navigation }) {
               // backgroundColor: "#E9E7E7",
               fontSize: 18,
             }}
-            placeholder="Phone"
-            onChangeText={(text) => setPhone(text)}
-            value={phone}
+            placeholder="Weight"
+            onChangeText={(text) => setWeight(text)}
+            value={weight}
             mode="outlined"
             keyboardType="number-pad"
             left={
               <TextInput.Icon
-                icon="phone"
+                icon="weight-pound"
                 size={35}
                 style={{
                   marginTop: 22,
@@ -313,61 +373,118 @@ export default function ChangeProfile({ navigation }) {
             }
           />
         </View>
+        <View
+          style={{
+            ...styles.searchSection,
+            fontSize: 18,
+            marginTop: 6,
 
-        <View>
-          <View
+            marginLeft: 20,
+            width: 180,
+          }}
+        >
+          <TextInput
             style={{
-              ...styles.searchSection,
+              ...styles.input,
               // backgroundColor: "#E9E7E7",
-              marginTop: -10,
-              width: 180,
-              marginTop: 7,
-              marginLeft: -70,
+              fontSize: 18,
             }}
-          >
-            <TouchableOpacity
-              onPress={showDatepicker}
-              style={{
-                width: 180,
-                height: 73,
-              }}
-            >
-              <TextInput
+            placeholder="Height"
+            onChangeText={(text) => setHeight(text)}
+            value={height}
+            mode="outlined"
+            keyboardType="number-pad"
+            left={
+              <TextInput.Icon
+                icon="weight-pound"
+                size={35}
                 style={{
-                  ...styles.input,
-                  // backgroundColor: "#E9E7E7",
-                  borderRadius: 20,
-                  fontSize: 18,
+                  marginTop: 22,
                 }}
-                mode="outlined"
-                value={dob}
-                // onTouchStart={showDatepicker} // Show the date picker when the user touches this
-                editable={false}
-                left={
-                  <TextInput.Icon
-                    icon="account-circle"
-                    size={35}
-                    style={{
-                      marginTop: 22,
-                    }}
-                  />
-                }
               />
-            </TouchableOpacity>
-          </View>
-          {show && (
-            <DateTimePicker
-              testID="dateTimePicker"
-              value={date}
-              mode={mode}
-              is24Hour={true}
-              display="default"
-              onChange={onChange}
-            />
-          )}
+            }
+          />
         </View>
       </View>
+      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+        <View
+          style={{
+            ...styles.searchSection,
+            // backgroundColor: "#E9E7E7",
+            marginTop: -10,
+            width: 180,
+            marginTop: 7,
+            marginRight: -50,
+          }}
+        >
+          <TouchableOpacity
+            onPress={showDatepicker}
+            style={{
+              width: 180,
+              height: 73,
+            }}
+          >
+            <TextInput
+              style={{
+                ...styles.input,
+                // backgroundColor: "#E9E7E7",
+                fontSize: 18,
+              }}
+              mode="outlined"
+              placeholder="Birth Date"
+              value={dob}
+              // onTouchStart={showDatepicker} // Show the date picker when the user touches this
+              editable={false}
+              left={
+                <TextInput.Icon
+                  icon="calendar"
+                  size={35}
+                  style={{
+                    marginTop: 22,
+                  }}
+                />
+              }
+            />
+          </TouchableOpacity>
+        </View>
+        {show && (
+          <DateTimePicker
+            testID="dateTimePicker"
+            value={date}
+            mode={mode}
+            is24Hour={true}
+            display="default"
+            onChange={onChange}
+          />
+        )}
 
+        <View
+          style={{
+            ...styles.searchSection,
+            // backgroundColor: "#E9E7E7",
+            marginTop: 6,
+            width: 180,
+            height: 73,
+            marginLeft: 70,
+            borderWidth: 0.8, // Add border width
+          }}
+        >
+          <Picker
+            selectedValue={gender}
+            style={{
+              ...styles.input,
+              // backgroundColor: "#E9E7E7",
+              fontSize: 18,
+            }}
+            placeholder="Select Gender"
+            onValueChange={(itemValue, itemIndex) => setGender(itemValue)}
+          >
+            <Picker.Item label="Select Gender" value={null} />
+            <Picker.Item label="Male" value={0} />
+            <Picker.Item label="Female" value={1} />
+          </Picker>
+        </View>
+      </View>
       <View
         style={{
           ...styles.searchSection,
@@ -383,19 +500,19 @@ export default function ChangeProfile({ navigation }) {
             borderRadius: 40,
             fontSize: 18,
           }}
-          placeholder="Address"
-          onChangeText={(text) => setLocation(text)}
+          placeholder="Identifying Features"
+          onChangeText={(text) => setDetail(text)}
           mode="outlined"
           left={
             <TextInput.Icon
-              icon="map-legend"
+              icon="dog"
               size={35}
               style={{
                 marginTop: 22,
               }}
             />
           }
-          value={location}
+          value={detail}
         />
       </View>
       {/* Nút Reset All */}

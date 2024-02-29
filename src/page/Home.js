@@ -36,10 +36,9 @@ export default function HomeScreen({ navigation }) {
         // Cập nhật trạng thái userData
         setUserData(response.data.data);
 
-        getData(`users/${id}/pets`)
-          .then((e) => {
-            setPet(e.data.contents)
-          });
+        getData(`users/${id}/pets`).then((e) => {
+          setPet(e.data.contents);
+        });
       } else {
         console.log("No data found in AsyncStorage.");
       }
@@ -50,15 +49,12 @@ export default function HomeScreen({ navigation }) {
   useEffect(() => {
     // Gọi hàm getStoredUserId khi component được tạo ra
     getStoredUserId();
-
   }, []);
   useFocusEffect(
     useCallback(() => {
       getStoredUserId();
-      return () => {
-      };
-    }, []),
-
+      return () => {};
+    }, [])
   );
 
   const getB = (data) => {
@@ -66,11 +62,11 @@ export default function HomeScreen({ navigation }) {
 
     // Ngày hiện tại
     const today = moment();
-    const ageYears = today.diff(birthday, 'years');
-    const ageMonths = today.diff(birthday, 'months');
-    const age = `${ageYears}Month ${(ageMonths % 12)}`;
-    return ageYears
-  }
+    const ageYears = today.diff(birthday, "years");
+    const ageMonths = today.diff(birthday, "months");
+    const age = `${ageYears}Month ${ageMonths % 12}`;
+    return ageYears;
+  };
 
   return (
     <View style={styles.container}>
@@ -95,7 +91,9 @@ export default function HomeScreen({ navigation }) {
           </View>
           <View style={styles.notification}>
             <Image source={mess} />
-            <TouchableOpacity onPress={() => navigation.navigate("Notification")}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Notification")}
+            >
               <Image source={ring} style={{ marginLeft: 10 }} />
             </TouchableOpacity>
           </View>
@@ -110,19 +108,39 @@ export default function HomeScreen({ navigation }) {
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center",
-            paddingRight: 20,
+            paddingRight: 22,
+            marginLeft: 10,
           }}
         >
           <Text style={{ fontSize: 30 }}>Your pet</Text>
-
+          <TouchableOpacity
+            style={{
+              borderWidth: 1,
+              borderColor: "#CCCCE5",
+              backgroundColor: "#CCCCE5",
+              padding: 10,
+              borderRadius: 5,
+              alignItems: "center",
+              justifyContent: "center",
+              marginTop: 9,
+              borderRadius: 8,
+            }}
+            onPress={() => {
+              navigation.navigate("AddPet");
+            }}
+          >
+            <Text style={{ fontSize: 16, fontWeight: 500 }}>Add Pet</Text>
+          </TouchableOpacity>
         </View>
-
 
         <ScrollView showsHorizontalScrollIndicator={false}>
           <View style={styles.container}>
-
             {pet.map((data, index) => (
-              <TouchableOpacity key={index} onPress={()=>navigateToPetProfile(data.id)} style={styles.cardContainer} >
+              <TouchableOpacity
+                key={index}
+                onPress={() => navigateToPetProfile(data.id)}
+                style={styles.cardContainer}
+              >
                 <View
                   style={{
                     flexDirection: "row",
@@ -142,7 +160,6 @@ export default function HomeScreen({ navigation }) {
                         uri: data.imagePet,
                       }}
                     />
-
                   </View>
                   <View style={{ width: "auto", marginRight: 10 }}>
                     <View
@@ -164,22 +181,15 @@ export default function HomeScreen({ navigation }) {
                         </Text>
                       </View>
                     </View>
-
                   </View>
                 </View>
               </TouchableOpacity>
             ))}
 
-
-
-
-
             <View style={{ height: 300 }}></View>
           </View>
-
         </ScrollView>
       </View>
-
     </View>
   );
 }
@@ -218,7 +228,7 @@ const styles = StyleSheet.create({
     margin: 10,
     padding: 10,
     borderRadius: 15,
-    backgroundColor: '#CCCCE5',
+    backgroundColor: "#CCCCE5",
     elevation: 5, // Tăng độ nâng để tạo bóng mờ (Android)
     shadowColor: "rgba(0, 0, 1, 1.2)", // Màu của bóng
     shadowOffset: { width: 0, height: 2 }, // Kích thước và hướng của bóng

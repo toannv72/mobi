@@ -1,9 +1,17 @@
-import React, { useRef, useState } from 'react';
-import { StyleSheet, View, Dimensions, Alert } from 'react-native';
-import { Button, Card, MD3Colors, ProgressBar, Text, TextInput, TouchableRipple } from 'react-native-paper';
-import CustomButton from '../Components/CustomButton';
-import { postData } from '../api/api';
-import axios from 'axios';
+import React, { useRef, useState } from "react";
+import { StyleSheet, View, Dimensions, Alert } from "react-native";
+import {
+  Button,
+  Card,
+  MD3Colors,
+  ProgressBar,
+  Text,
+  TextInput,
+  TouchableRipple,
+} from "react-native-paper";
+import CustomButton from "../Components/CustomButton";
+import { postData } from "../api/api";
+import axios from "axios";
 
 export default function SingUpScreen({ navigation }) {
   const [fullName, setFullName] = useState("");
@@ -41,56 +49,51 @@ export default function SingUpScreen({ navigation }) {
       return;
     }
 
-        if (!repeatPassword) {
-            Alert.alert('Error', 'Please repeat your password.');
-            repeatPasswordInputRef.current.focus();
-            return;
-        }
+    if (!repeatPassword) {
+      Alert.alert("Error", "Please repeat your password.");
+      repeatPasswordInputRef.current.focus();
+      return;
+    }
 
-        if (password !== repeatPassword) {
-            Alert.alert('Error', 'Passwords do not match. Please try again.');
-            repeatPasswordInputRef.current.focus();
-            return;
-        }
+    if (password !== repeatPassword) {
+      Alert.alert("Error", "Passwords do not match. Please try again.");
+      repeatPasswordInputRef.current.focus();
+      return;
+    }
 
-
-        try {
-            axios.post('https://petside.azurewebsites.net/api/users/register-member', {
-                "fullName": fullName,
-                "email": email,
-                "password": repeatPassword,
-                "repeatPassword": password,
-                "phoneNumber": phoneNumber
-            })
-                .then((e) => {
-                    console.log(e.data);
-                    if (e.data.success) {
-                        navigation.navigate('IntroSlider')
-                    } else {
-
-                    }
-
-                })
-                .catch((error) => {
-                    console.error('Error fetching data:', error.response);
-
-                });
-
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
-
-    };
-    const handleInputChange = (text) => {
-        // Kiểm tra xem text có phải là số không
-        if (/^\d+$/.test(text) || text === '') {
-            setPhoneNumber(text);
-        }
-    };
-    return (
-        <View style={styles.container}>
-            <Text style={{ fontSize: 26 }}> Create your account</Text>
-            <View style={{ margin: 20 }} />
+    try {
+      axios
+        .post("https://petside.azurewebsites.net/api/users/register-member", {
+          fullName: fullName,
+          email: email,
+          password: repeatPassword,
+          repeatPassword: password,
+          phoneNumber: phoneNumber,
+        })
+        .then((e) => {
+          console.log(e.data);
+          if (e.data.success) {
+            navigation.navigate("IntroSlider");
+          } else {
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error.response);
+        });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  const handleInputChange = (text) => {
+    // Kiểm tra xem text có phải là số không
+    if (/^\d+$/.test(text) || text === "") {
+      setPhoneNumber(text);
+    }
+  };
+  return (
+    <View style={styles.container}>
+      <Text style={{ fontSize: 26 }}> Create your account</Text>
+      <View style={{ margin: 20 }} />
 
       <TextInput
         label="Full name"

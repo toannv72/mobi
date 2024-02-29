@@ -18,6 +18,8 @@ import ImagePickerExample from "./src/Components/UpImg";
 import PetDetailScreen from "./src/DetailForPet/PetDetailScreen";
 import Service from "./src/services/Service";
 import { Booking } from "./src/page/booking/booking";
+import AddPet from "./src/DetailForPet/AddPet";
+import ChangePetProfile from "./src/DetailForPet/ChangPetProfile";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -85,6 +87,16 @@ const App = () => {
           name="PetDetail"
           options={{ headerLeft: null, headerShown: false }}
           component={PetDetailScreen}
+        />
+        <Stack.Screen
+          name="AddPet"
+          options={{ headerLeft: null, headerShown: false }}
+          component={AddPet}
+        />
+        <Stack.Screen
+          name="ChangePetProfile"
+          options={{ headerLeft: null, headerShown: false }}
+          component={ChangePetProfile}
         />
       </Stack.Navigator>
     </NavigationContainer>

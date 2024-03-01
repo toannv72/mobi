@@ -10,24 +10,23 @@ import { firebaseImg } from "../api/firebaseImg";
 import { Picker } from "@react-native-picker/picker";
 import { useRoute } from "@react-navigation/native";
 export default function ChangePetProfile({ navigation }) {
-  const [name, setName] = useState("");
-  const [species, setSpecies] = useState("");
-  const [weight, setWeight] = useState("");
-  const [gender, setGender] = useState("");
-  const [dob, setDob] = useState("");
+  const route = useRoute();
+  const { petId, petData } = route.params;
+  const [name, setName] = useState(petData.name);
+  const [species, setSpecies] = useState(petData.species);
+  const [weight, setWeight] = useState(petData.weight);
+  const [gender, setGender] = useState(petData.gender);
+  const [dob, setDob] = useState(petData.dob);
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
-  const [avatarSource, setAvatarSource] = useState(
-    // "https://firebasestorage.googleapis.com/v0/b/swd-longchim.appspot.com/o/376577375_998270051209102_4679797004619533760_n.jpg?alt=media&token=90d94961-bc1b-46e4-b60a-ad731606b13b"
-    ""
-  );
+  const [avatarSource, setAvatarSource] = useState(petData.imagePet);
 
-  const [height, setHeight] = useState("");
-  const [detail, setDetail] = useState("");
+  const [height, setHeight] = useState(petData.height);
+  const [detail, setDetail] = useState(petData.identifyingFeatures);
   const [storedData, setStoredData] = useState([]);
   const [maintenanceModalVisible, setMaintenanceModalVisible] = useState(false);
-
+  console.log(111111111,petData);
   const MaintenanceModal = () => (
     <Modal
       visible={maintenanceModalVisible}
@@ -64,9 +63,8 @@ export default function ChangePetProfile({ navigation }) {
     setDate(currentDate);
 
     // Format date in the desired format
-    const formattedDate = `${currentDate.getFullYear()}-${
-      currentDate.getMonth() + 1
-    }-${currentDate.getDate()}`;
+    const formattedDate = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1
+      }-${currentDate.getDate()}`;
 
     setDob(formattedDate);
   };
@@ -103,8 +101,7 @@ export default function ChangePetProfile({ navigation }) {
     setHeight("");
     setDetail(""), setDob("");
   };
-  const route = useRoute();
-  const { petId } = route.params; // Nhận petId từ route params
+  // Nhận petId từ route params
   const handleSaveChanges = () => {
     if (
       !name ||
@@ -127,7 +124,7 @@ export default function ChangePetProfile({ navigation }) {
 
     // Lấy petId của pet bạn muốn cập nhật
 
-    const petIndex = storedData[0].pets.findIndex((pet) => pet.petId === petId);
+    // const petIndex = storedData[0].pets.findIndex((pet) => pet.petId === petId);
 
     // Chuyển đổi giá trị của gender từ chuỗi sang số nguyên
     const genderValue = gender; // Sửa ở đây
@@ -141,7 +138,7 @@ export default function ChangePetProfile({ navigation }) {
       return;
     }
 
-    putData(`/pets/updatePet/`, petId, {
+    putData(`/pets/updatePet`, petId, {
       weight: Number(weight),
       species: species,
       name: name,
@@ -156,26 +153,26 @@ export default function ChangePetProfile({ navigation }) {
 
         // Cập nhật thông tin pet trong AsyncStorage
         const updatedUserData = [...storedData];
-        const petIndex = storedData[0].pets.findIndex(
-          (pet) => pet.petId === petId
-        );
-        if (petIndex !== -1) {
-          // Cập nhật thông tin pet
-          updatedUserData[0].pets[petIndex] = {
-            ...updatedUserData[0].pets[petIndex],
-            weight: Number(weight),
-            species: species,
-            name: name,
-            imagePet: avatarSource,
-            birthDate: formattedDob,
-            height: Number(height),
-            gender: genderValue,
-            identifyingFeatures: detail,
-          };
-          AsyncStorage.setItem("@myKey", JSON.stringify(updatedUserData));
-        } else {
-          console.error("Pet not found in storedData.");
-        }
+        // const petIndex = storedData[0].pets.findIndex(
+        //   (pet) => pet.petId === petId
+        // );
+        // if (petIndex !== -1) {
+        //   // Cập nhật thông tin pet
+        //   updatedUserData[0].pets[petIndex] = {
+        //     ...updatedUserData[0].pets[petIndex],
+        //     weight: Number(weight),
+        //     species: species,
+        //     name: name,
+        //     imagePet: avatarSource,
+        //     birthDate: formattedDob,
+        //     height: Number(height),
+        //     gender: genderValue,
+        //     identifyingFeatures: detail,
+        //   };
+        //   AsyncStorage.setItem("@myKey", JSON.stringify(updatedUserData));
+        // } else {
+          // console.error("Pet not found in storedData.");
+        // }
       })
       .catch((error) => {
         console.error("Error updating information:", error);
@@ -218,6 +215,7 @@ export default function ChangePetProfile({ navigation }) {
       }
     };
     loadStoredData();
+
   }, []);
 
   return (
@@ -256,7 +254,7 @@ export default function ChangePetProfile({ navigation }) {
             style={styles.backIcon}
             icon="arrow-left"
             size={35}
-            onPress={() => navigation.navigate("Home")}
+            onPress={() => navigation.goBack()}
           />
           <Text
             style={{
@@ -346,22 +344,19 @@ export default function ChangePetProfile({ navigation }) {
             ...styles.searchSection,
             fontSize: 18,
             marginTop: 6,
-            // marginRight: 80,
-            // marginLeft: 160,
             width: 180,
           }}
         >
           <TextInput
             style={{
               ...styles.input,
-              // backgroundColor: "#E9E7E7",
               fontSize: 18,
             }}
             placeholder="Weight"
             onChangeText={(text) => setWeight(text)}
-            value={weight}
+            value={weight.toString()}
             mode="outlined"
-            keyboardType="number-pad"
+            // keyboardType="number-pad"
             left={
               <TextInput.Icon
                 icon="weight-pound"
@@ -391,7 +386,7 @@ export default function ChangePetProfile({ navigation }) {
             }}
             placeholder="Height"
             onChangeText={(text) => setHeight(text)}
-            value={height}
+            value={height.toString()}
             mode="outlined"
             keyboardType="number-pad"
             left={

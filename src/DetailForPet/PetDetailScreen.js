@@ -29,7 +29,7 @@ export default function PetDetailScreen({ navigation }) {
     }
   }, [id]);
   const navigateToEditPetProfile = () => {
-    navigation.navigate("ChangePetProfile", { petId: pet.petId });
+    navigation.navigate("ChangePetProfile", { petId: pet.petId, petData: pet });
   };
   const renderContent = () => {
     switch (selectedTab) {
@@ -60,7 +60,7 @@ export default function PetDetailScreen({ navigation }) {
             borderWidth: 1,
             borderRadius: 10,
             width: 401,
-            height: 460,
+            height: 300,
             alignItems: "center",
             justifyContent: "center",
           }}
@@ -80,10 +80,11 @@ export default function PetDetailScreen({ navigation }) {
               <Image
                 source={require("../../assets/edit.png")}
                 style={{
-                  marginTop: -390,
+                  marginTop: -250,
                   marginLeft: 360,
                   width: 30,
                   height: 30,
+                  // backgroundColor:'#fff'
                 }}
               />
             </TouchableOpacity>
@@ -182,7 +183,7 @@ const styles = StyleSheet.create({
   },
   petImage: {
     width: 400,
-    height: 390,
+    height: 220,
     marginBottom: 35,
   },
   imageContainer: {

@@ -21,6 +21,7 @@ import { Booking } from "./src/page/booking/booking";
 import AddPet from "./src/DetailForPet/AddPet";
 import ChangePetProfile from "./src/DetailForPet/ChangPetProfile";
 import { Offering } from "./src/page/booking/offering";
+import AddTask from "./src/DetailForPet/AddTask";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -103,6 +104,11 @@ const App = () => {
           name="Offering"
           options={{ headerLeft: null, headerShown: false }}
           component={Offering}
+        />
+        <Stack.Screen
+          name="AddTask"
+          options={{ headerLeft: null, headerShown: false }}
+          component={AddTask}
         />
       </Stack.Navigator>
     </NavigationContainer>

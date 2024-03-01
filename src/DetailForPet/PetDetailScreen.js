@@ -60,7 +60,7 @@ export default function PetDetailScreen({ navigation }) {
             borderWidth: 1,
             borderRadius: 10,
             width: 401,
-            height: 300,
+            height: 350,
             alignItems: "center",
             justifyContent: "center",
           }}
@@ -80,11 +80,10 @@ export default function PetDetailScreen({ navigation }) {
               <Image
                 source={require("../../assets/edit.png")}
                 style={{
-                  marginTop: -250,
+                  marginTop: -280,
                   marginLeft: 360,
                   width: 30,
                   height: 30,
-                  // backgroundColor:'#fff'
                 }}
               />
             </TouchableOpacity>
@@ -99,7 +98,7 @@ export default function PetDetailScreen({ navigation }) {
                   {pet.species}
                 </Text>
               </View>
-              <View style={styles.dot} />
+              <View style={{ ...styles.dot }} />
             </View>
           </View>
         </View>
@@ -183,7 +182,7 @@ const styles = StyleSheet.create({
   },
   petImage: {
     width: 400,
-    height: 220,
+    height: 279,
     marginBottom: 35,
   },
   imageContainer: {

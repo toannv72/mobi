@@ -4,29 +4,21 @@ import { TextInput, IconButton, Modal, Button } from "react-native-paper";
 import * as ImagePicker from "expo-image-picker";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { putData } from "../api/api";
+import { postData } from "../api/api";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { firebaseImg } from "../api/firebaseImg";
 import RNPickerSelect from "react-native-picker-select";
-import { useRoute } from "@react-navigation/native";
-export default function ChangePetProfile({ navigation }) {
-  const route = useRoute();
-  const { petId, petData } = route.params;
-  const [name, setName] = useState(petData.name);
-  const [species, setSpecies] = useState(petData.species);
-  const [weight, setWeight] = useState(petData.weight);
-  const [gender, setGender] = useState(petData.gender);
-  const [dob, setDob] = useState(petData.dob);
+export default function AddTask({ navigation }) {
+  const [time, setTime] = useState("");
+  const [dob, setDob] = useState("");
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
-  const [avatarSource, setAvatarSource] = useState(petData.imagePet);
-
-  const [height, setHeight] = useState(petData.height);
-  const [detail, setDetail] = useState(petData.identifyingFeatures);
+  const [medicine, setMedicine] = useState("");
+  const [detail, setDetail] = useState("");
   const [storedData, setStoredData] = useState([]);
   const [maintenanceModalVisible, setMaintenanceModalVisible] = useState(false);
-  console.log(111111111, petData);
+
   const MaintenanceModal = () => (
     <Modal
       visible={maintenanceModalVisible}
@@ -43,7 +35,7 @@ export default function ChangePetProfile({ navigation }) {
         }}
       >
         <Text style={{ fontSize: 18, fontWeight: 600, marginLeft: 80 }}>
-          Update Successful!
+          Create Successful!
         </Text>
         <Button
           onPress={() => {
@@ -78,59 +70,40 @@ export default function ChangePetProfile({ navigation }) {
   const showDatepicker = () => {
     showMode("date");
   };
-  const handleChoosePhoto = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
 
-    if (!result.canceled) {
-      const response = await firebaseImg(result);
-      console.log(response);
-      setAvatarSource(response);
-    }
-  };
   const handleResetAll = () => {
     // Xóa tất cả các trường nhập liệu
-    setName("");
-    setSpecies("");
-    setWeight("");
-    setAvatarSource("");
-    setGender("");
-    setHeight("");
-    setDetail(""), setDob("");
+    // setName("");
+    // setSpecies("");
+    // setWeight("");
+    // setAvatarSource("");
+    // setGender("");
+    // setHeight("");
+    // setDetail(""), setDob("");
   };
-  // Nhận petId từ route params
   const handleSaveChanges = () => {
-    if (
-      !name ||
-      gender === undefined ||
-      !avatarSource ||
-      !species ||
-      !dob ||
-      !weight ||
-      !height ||
-      !detail
-    ) {
-      // Nếu một trong các trường đầu vào rỗng, hiển thị thông báo cảnh báo
-      Alert.alert("Alert", "Please fill all the fields.");
-      return; // Dừng hàm ở đây nếu có trường rỗng
-    }
+    // if (
+    //   !name ||
+    //   gender === undefined ||
+    //   !avatarSource ||
+    //   !species ||
+    //   !dob ||
+    //   !weight ||
+    //   !height ||
+    //   !detail
+    // ) {
+    //   // Nếu một trong các trường đầu vào rỗng, hiển thị thông báo cảnh báo
+    //   Alert.alert("Alert", "Please fill all the fields.");
+    //   return; // Dừng hàm ở đây nếu có trường rỗng
+    // }
     if (!storedData || storedData.length === 0) {
       console.error("No user data found in storedData.");
       return;
     }
 
-    // Lấy petId của pet bạn muốn cập nhật
+    const userId = storedData[0].id;
+    const petId = storedData[0].petId;
 
-    // const petIndex = storedData[0].pets.findIndex((pet) => pet.petId === petId);
-
-    // Chuyển đổi giá trị của gender từ chuỗi sang số nguyên
-    const genderValue = gender; // Sửa ở đây
-
-    // Chuyển đổi định dạng của ngày sinh thành chuỗi đúng định dạng
     let formattedDob;
     try {
       formattedDob = new Date(dob).toISOString();
@@ -139,19 +112,25 @@ export default function ChangePetProfile({ navigation }) {
       return;
     }
 
-    putData(`/pets/updatePet`, petId, {
-      weight: Number(weight),
-      species: species,
-      name: name,
-      imagePet: avatarSource,
-      birthDate: formattedDob,
-      height: Number(height),
-      gender: genderValue,
-      identifyingFeatures: detail,
+    postData(`/users/${userId}/pets/${petId}/notifications`, {
+      nameMedicine: medicine,
+      dateRemind: dob,
+      timeRemind: time,
+      content: detail,
     })
       .then((response) => {
         console.log("API response:", response);
+
+        // Cập nhật thông tin người dùng trong AsyncStorage
         const updatedUserData = [...storedData];
+        updatedUserData[0] = {
+          ...updatedUserData[0],
+          nameMedicine: medicine,
+          dateRemind: dob,
+          timeRemind: time,
+          content: detail,
+        };
+        AsyncStorage.setItem("@myKey", JSON.stringify(updatedUserData));
       })
       .catch((error) => {
         console.error("Error updating information:", error);
@@ -169,14 +148,9 @@ export default function ChangePetProfile({ navigation }) {
           const userData = JSON.parse(data);
           setStoredData(userData);
 
+          // Update the states with the current user information
+
           console.log("User data loaded successfully:", userData);
-          if (userData[0].pets) {
-            userData[0].pets.forEach((pet, index) => {
-              // console.log(`Pet ${index + 1}:`, JSON.stringify(pet, null, 2));
-            });
-          } else {
-            console.log("No pets found.");
-          }
         } else {
           console.log("No data found in AsyncStorage.");
         }
@@ -189,32 +163,6 @@ export default function ChangePetProfile({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <View
-        style={{
-          ...styles.image,
-          marginBottom: 40,
-          borderColor: "gray",
-          borderWidth: 1,
-          width: 432,
-          height: 250,
-          marginTop: 20,
-        }}
-      >
-        <Image
-          source={{
-            uri: avatarSource
-              ? avatarSource
-              : "https://static.chotot.com/storage/chotot-kinhnghiem/c2c/2021/04/748621ef-border-collie-thumb.jpeg",
-          }}
-          style={{
-            ...styles.image,
-            marginBottom: 20,
-            width: "100%",
-            height: "100%",
-          }}
-        />
-      </View>
-
       <View style={styles.backIconContainer}>
         <View
           style={{ flexDirection: "row", alignItems: "center", marginTop: 10 }}
@@ -223,7 +171,7 @@ export default function ChangePetProfile({ navigation }) {
             style={styles.backIcon}
             icon="arrow-left"
             size={35}
-            onPress={() => navigation.goBack()}
+            onPress={() => navigation.navigate("Home")}
           />
           <Text
             style={{
@@ -237,18 +185,11 @@ export default function ChangePetProfile({ navigation }) {
           </Text>
         </View>
       </View>
-      <View style={styles.cameraIconContainer}>
-        <IconButton
-          style={{ ...styles.cameraIcon, marginBottom: 550 }}
-          icon="camera"
-          size={35}
-          onPress={handleChoosePhoto}
-        />
-      </View>
 
       <View
         style={{
           ...styles.searchSection,
+          // backgroundColor: "#E9E7E7",
           borderRadius: 40,
           marginTop: -10,
         }}
@@ -256,6 +197,7 @@ export default function ChangePetProfile({ navigation }) {
         <TextInput
           style={{
             ...styles.input,
+            // backgroundColor: "#E9E7E7",
             borderRadius: 40,
             fontSize: 18,
           }}
@@ -264,20 +206,20 @@ export default function ChangePetProfile({ navigation }) {
           mode="outlined"
           left={
             <TextInput.Icon
-              icon="dog"
+              icon="account-circle"
               size={35}
               style={{
                 marginTop: 22,
               }}
             />
           }
-          value={name}
+          //   value={name}
         />
       </View>
       <View
         style={{
           ...styles.searchSection,
-          // backgroundColor: "#E9E7E7",
+
           borderRadius: 40,
           marginBottom: 5,
         }}
@@ -294,14 +236,14 @@ export default function ChangePetProfile({ navigation }) {
           mode="outlined"
           left={
             <TextInput.Icon
-              icon="dog-side"
+              icon="dog"
               size={35}
               style={{
                 marginTop: 22,
               }}
             />
           }
-          value={species}
+          //   value={species}
         />
       </View>
 
@@ -311,19 +253,22 @@ export default function ChangePetProfile({ navigation }) {
             ...styles.searchSection,
             fontSize: 18,
             marginTop: 6,
+            // marginRight: 80,
+            // marginLeft: 160,
             width: 180,
           }}
         >
           <TextInput
             style={{
               ...styles.input,
+              // backgroundColor: "#E9E7E7",
               fontSize: 18,
             }}
             placeholder="Weight"
             onChangeText={(text) => setWeight(text)}
-            value={weight.toString()}
+            // value={weight}
             mode="outlined"
-            // keyboardType="number-pad"
+            keyboardType="number-pad"
             left={
               <TextInput.Icon
                 icon="weight-pound"
@@ -353,12 +298,12 @@ export default function ChangePetProfile({ navigation }) {
             }}
             placeholder="Height"
             onChangeText={(text) => setHeight(text)}
-            value={height.toString()}
+            // value={height}
             mode="outlined"
             keyboardType="number-pad"
             left={
               <TextInput.Icon
-                icon="weight"
+                icon="weight-pound"
                 size={35}
                 style={{
                   marginTop: 22,
@@ -426,24 +371,25 @@ export default function ChangePetProfile({ navigation }) {
             // backgroundColor: "#E9E7E7",
             marginTop: 6,
             width: 180,
+            height: 73,
             marginLeft: 70,
             borderWidth: 0.8, // Add border width
           }}
         >
           <RNPickerSelect
-            onValueChange={(value) => setGender(value)}
+            // onValueChange={(value) => setGender(value)}
             items={[
               { label: "Male", value: 0 },
               { label: "Female", value: 1 },
             ]}
             style={{
               inputAndroid: {
+                fontSize: 18,
+
                 width: 180,
                 height: 73,
               },
-              borderRadius: 8,
             }}
-            value={gender}
             placeholder={{}}
           />
         </View>
@@ -451,7 +397,7 @@ export default function ChangePetProfile({ navigation }) {
       <View
         style={{
           ...styles.searchSection,
-
+          // backgroundColor: "#E9E7E7",
           borderRadius: 40,
           marginBottom: 5,
         }}
@@ -459,7 +405,7 @@ export default function ChangePetProfile({ navigation }) {
         <TextInput
           style={{
             ...styles.input,
-
+            // backgroundColor: "#E9E7E7",
             borderRadius: 40,
             fontSize: 18,
           }}
@@ -468,7 +414,7 @@ export default function ChangePetProfile({ navigation }) {
           mode="outlined"
           left={
             <TextInput.Icon
-              icon="dog-service"
+              icon="dog"
               size={35}
               style={{
                 marginTop: 22,
@@ -508,7 +454,7 @@ export default function ChangePetProfile({ navigation }) {
           onPress={handleSaveChanges}
         >
           <Text style={{ ...styles.buttonText, fontSize: 16, fontWeight: 400 }}>
-            Save Changes
+            Create
           </Text>
         </TouchableOpacity>
       </View>

@@ -7,7 +7,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { postData } from "../api/api";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { firebaseImg } from "../api/firebaseImg";
-import { Picker } from "@react-native-picker/picker";
+import RNPickerSelect from "react-native-picker-select";
 export default function AddPet({ navigation }) {
   const [name, setName] = useState("");
   const [species, setSpecies] = useState("");
@@ -104,7 +104,7 @@ export default function AddPet({ navigation }) {
   const handleSaveChanges = () => {
     if (
       !name ||
-      !gender ||
+      gender === undefined ||
       !avatarSource ||
       !species ||
       !dob ||
@@ -232,10 +232,10 @@ export default function AddPet({ navigation }) {
           />
           <Text
             style={{
-              fontSize: 18,
-              color: "#8C8EA3",
+              fontSize: 20,
+              color: "black",
               marginLeft: 5,
-              fontWeight: "600",
+              fontWeight: "700",
             }}
           >
             Back
@@ -271,7 +271,7 @@ export default function AddPet({ navigation }) {
           mode="outlined"
           left={
             <TextInput.Icon
-              icon="account-circle"
+              icon="dog"
               size={35}
               style={{
                 marginTop: 22,
@@ -301,7 +301,7 @@ export default function AddPet({ navigation }) {
           mode="outlined"
           left={
             <TextInput.Icon
-              icon="dog"
+              icon="dog-side"
               size={35}
               style={{
                 marginTop: 22,
@@ -368,7 +368,7 @@ export default function AddPet({ navigation }) {
             keyboardType="number-pad"
             left={
               <TextInput.Icon
-                icon="weight-pound"
+                icon="weight"
                 size={35}
                 style={{
                   marginTop: 22,
@@ -441,20 +441,22 @@ export default function AddPet({ navigation }) {
             borderWidth: 0.8, // Add border width
           }}
         >
-          <Picker
-            selectedValue={gender}
+          <RNPickerSelect
+            onValueChange={(value) => setGender(value)}
+            items={[
+              { label: "Male", value: 0 },
+              { label: "Female", value: 1 },
+            ]}
             style={{
-              ...styles.input,
-              // backgroundColor: "#E9E7E7",
-              fontSize: 18,
+              inputAndroid: {
+                fontSize: 18,
+
+                width: 180,
+                height: 73,
+              },
             }}
-            placeholder="Select Gender"
-            onValueChange={(itemValue, itemIndex) => setGender(itemValue)}
-          >
-            <Picker.Item label="Select Gender" value={null} />
-            <Picker.Item label="Male" value={0} />
-            <Picker.Item label="Female" value={1} />
-          </Picker>
+            placeholder={{}}
+          />
         </View>
       </View>
       <View
@@ -477,7 +479,7 @@ export default function AddPet({ navigation }) {
           mode="outlined"
           left={
             <TextInput.Icon
-              icon="dog"
+              icon="dog-service"
               size={35}
               style={{
                 marginTop: 22,

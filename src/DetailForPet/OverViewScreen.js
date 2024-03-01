@@ -3,12 +3,12 @@ import React, { useState } from "react";
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { IconButton } from "react-native-paper";
-
+import { useNavigation } from "@react-navigation/native";
 const OverviewScreen = ({ pet }) => {
   const { birthDate, species, identifyingFeatures, weight, height, gender } =
     pet;
   const genderStr = gender ? "Female" : "Male";
-
+  const navigation = useNavigation();
   const getB = (pet) => {
     const birthday = moment(pet);
 
@@ -79,7 +79,10 @@ const OverviewScreen = ({ pet }) => {
           >
             Today's Task
           </Text>
-          <TouchableOpacity style={styles.addButton}>
+          <TouchableOpacity
+            style={styles.addButton}
+            // onPress={() => navigation.navigate("AddTask")}
+          >
             <Text style={styles.addButtonText}>+</Text>
           </TouchableOpacity>
         </View>

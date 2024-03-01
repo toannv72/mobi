@@ -33,11 +33,23 @@ export default function Vaccination() {
             <View style={{ flexDirection: "row", width: 200 }}>
               <Image
                 source={{ uri: item.image }}
-                style={{ width: 80, height: 80 }}
+                style={{ width: 80, height: 80, borderRadius: 20 }}
               />
               <View style={styles.information}>
-                <Text style={styles.name}>{item.serviceName}</Text>
-                <Text style={styles.lastVisit}>{item.description}</Text>
+                <Text
+                  style={styles.name}
+                  numberOfLines={2}
+                  ellipsizeMode="tail"
+                >
+                  {item.serviceName}
+                </Text>
+                <Text
+                  style={styles.lastVisit}
+                  numberOfLines={2}
+                  ellipsizeMode="tail"
+                >
+                  {item.description}
+                </Text>
                 <Text style={styles.address}>
                   {item.price.toLocaleString("vi-VN", {
                     style: "currency",
@@ -89,12 +101,13 @@ const styles = StyleSheet.create({
     marginLeft: "4%",
   },
   name: {
+    width: 180,
     fontWeight: "600",
     fontSize: 16,
     color: "#000000",
   },
   lastVisit: {
-    marginBottom: "3%",
+    width: 180,
     marginLeft: 2,
     fontWeight: "400",
     fontSize: 12,

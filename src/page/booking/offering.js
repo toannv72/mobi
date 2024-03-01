@@ -154,10 +154,14 @@ export const Offering = () => {
                           justifyContent: "space-between",
                         }}
                       >
-                        <Text style={{ fontSize: 20 }}>
+                        <Text
+                          style={{ fontSize: 16 }}
+                          numberOfLines={2}
+                          ellipsizeMode="tail"
+                        >
                           {offerProvider?.offerings?.serviceName}
                         </Text>
-                        <Text style={{ fontSize: 16 }}>
+                        <Text style={{ fontSize: 14 }}>
                           {offerProvider?.offerings?.price.toLocaleString(
                             "vi-VN",
                             { style: "currency", currency: "VND" }

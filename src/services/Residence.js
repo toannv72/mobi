@@ -1,4 +1,11 @@
-import { Image, ScrollView, Text, View, StyleSheet } from "react-native";
+import {
+  Image,
+  ScrollView,
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import s1 from "../../assets/s1.png";
 import s2 from "../../assets/s2.png";
 import s3 from "../../assets/s3.png";
@@ -9,86 +16,49 @@ import s7 from "../../assets/s7.png";
 import location from "../../assets/location.png";
 import button from "../../assets/next.png";
 import star from "../../assets/star.png";
-const listResidence = [
-  {
-    id: "1",
-    url: s1,
-    name: "Animals Pet care and store",
-    street: "20, Bach Dang",
-    rate: "4.8",
-  },
-  {
-    id: "2",
-    url: s2,
-    name: "Juno Pet",
-    street: "18 Dien Bien Phu",
-    rate: "4.6",
-  },
-  {
-    id: "3",
-    url: s3,
-    name: "Pet ZZ",
-    street: "18 Dakao ,D1",
-    rate: "4.5",
-  },
-  {
-    id: "4",
-    url: s4,
-    name: "Animals Hospital",
-    street: "20 Nguyen Hue",
-    rate: "4.4",
-  },
-  {
-    id: "5",
-    url: s5,
-    name: "Animals Pet care and store",
-    street: "20, Bach Dang",
-    rate: "4.8",
-  },
-  {
-    id: "6",
-    url: s6,
-    name: "Juno Pet",
-    street: "20, Bach Dang",
-    rate: "4.8",
-  },
-  {
-    id: "7",
-    url: s7,
-    name: "Pet ZZ",
-    street: "20, Bach Dang",
-    rate: "4.8",
-  },
-];
+import { useEffect, useState } from "react";
+import { getData } from "../api/api";
+import { useNavigation } from "@react-navigation/native";
+
 export default function Residence() {
+  const navigation = useNavigation();
+  const [providers, setProviders] = useState([]);
+  useEffect(() => {
+    getData("/providers/getAllInformation")
+      .then((res) => {
+        setProviders(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
-      {listResidence.map((item) => (
-        <View style={styles.container} key={item.id}>
+      {providers.map((item) => (
+        <TouchableOpacity
+          style={styles.container}
+          key={item.providerId}
+          onPress={() =>
+            navigation.navigate("Offering", { id: item.providerId })
+          }
+        >
           <View style={styles.itemContainer}>
             <Image
-              source={item.url}
+              source={{ uri: item.imageProvider }}
               style={{ width: 80, height: "auto", borderRadius: 16 }}
             />
             <View style={styles.information}>
-              <Text style={styles.name}>{item.name}</Text>
+              <Text style={styles.name}>{item.providerName}</Text>
               <View style={styles.location}>
                 <View style={styles.address}>
                   <Image source={location} />
-                  <Text style={styles.street}>{item.street}</Text>
-                </View>
-                <View style={styles.rate}>
-                  <Image
-                    source={star}
-                    style={{ width: 20, height: 20, tintColor: "#8C8EA3" }}
-                  />
-                  <Text style={styles.star}>{item.rate}</Text>
+                  <Text style={styles.street}>{item.location}</Text>
                 </View>
               </View>
             </View>
           </View>
-          <Image source={button} style={styles.button}></Image>
-        </View>
+          <Image source={button} style={styles.button} />
+        </TouchableOpacity>
       ))}
       <View style={{ height: 600 }}></View>
     </ScrollView>
@@ -113,7 +83,7 @@ const styles = StyleSheet.create({
   name: { fontWeight: "600", fontSize: 18, marginLeft: "3%" },
   location: { flexDirection: "row", gap: 10 },
   address: { flexDirection: "row", gap: 2 },
-  street: { fontWeight: "400", fontSize: 12, alignSelf: "center" },
+  street: { fontWeight: "400", fontSize: 12, alignSelf: "center", width: 200 },
   rate: { flexDirection: "row", gap: 2 },
   star: { fontWeight: "400", fontSize: 12, alignSelf: "center" },
   button: { alignSelf: "center", marginRight: 10 },

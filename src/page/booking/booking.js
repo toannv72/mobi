@@ -73,7 +73,17 @@ export const Booking = () => {
     ).format(outputDateFormat);
     return convertedDate;
   };
-  console.log("222", fixFormatDate());
+  const fixFormatDate1 = () => {
+    const inputDateString = new Date();
+    const outputDateFormat = "YYYY-MM-DDTHH:mm:ss.SSS[Z]";
+
+    const convertedDate = moment(
+      inputDateString,
+      "ddd MMM DD YYYY h:mm A"
+    ).format(outputDateFormat);
+    return convertedDate;
+  };
+  console.log("222", fixFormatDate(), fixFormatDate1());
   const toggleDatepicker = () => {
     setShowPicker(!showPicker);
   };
@@ -165,9 +175,10 @@ export const Booking = () => {
   };
   const handleBooking = () => {
     postData(
-      `/appointment/createAppointment/${userData.id}?listGuidOffer=${offersId}`,
+      `/appointment/createAppointment/${userData.id}?listGuidOffer=${offersId}&providerId=0cb84163-3df2-4160-acd0-08dc39513829`,
       {
-        bookingDate: fixFormatDate(),
+        bookingDate: fixFormatDate1(),
+        returnDate: fixFormatDate(),
         appointmentFee: fee,
       }
     )

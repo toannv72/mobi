@@ -308,6 +308,7 @@ export const Booking = () => {
           >
             <Text style={style.nextV2}>Booking</Text>
           </TouchableOpacity>
+          <View style={{ height: 200 }}></View>
         </ScrollView>
       </View>
     </View>

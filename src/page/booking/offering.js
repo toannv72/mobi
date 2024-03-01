@@ -89,16 +89,19 @@ export const Offering = () => {
                     }}
                   >
                     <View style={{ flexDirection: "row" }}>
-                      <Image source={star} style={{ width: 30, height: 30 }} />
-                      <Text style={{ alignSelf: "center", fontSize: 14 }}>
+                      <Text style={{ alignSelf: "center", fontSize: 24 }}>
                         {provider?.data?.rating == 0
                           ? 5
                           : provider?.data?.rating}
                       </Text>
+                      <Image
+                        source={star}
+                        style={{ width: 20, height: 20, alignSelf: "center" }}
+                      />
                     </View>
                     <View style={{ flexDirection: "row", marginTop: 10 }}>
                       <Image source={marker} />
-                      <Text style={{ fontSize: 10 }}>
+                      <Text style={{ fontSize: 10, alignSelf: "center" }}>
                         {provider?.data?.location}
                       </Text>
                     </View>
@@ -133,23 +136,34 @@ export const Offering = () => {
                       justifyContent: "space-between",
                     }}
                   >
-                    <View
-                      key={index}
-                      style={{
-                        width: 200,
-                        flexDirection: "column",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <Text style={{ fontSize: 20 }}>
-                        {offerProvider?.offerings?.serviceName}
-                      </Text>
-                      <Text style={{ fontSize: 16 }}>
-                        {offerProvider?.offerings?.price.toLocaleString(
-                          "vi-VN",
-                          { style: "currency", currency: "VND" }
-                        )}
-                      </Text>
+                    <View style={{ flexDirection: "row" }}>
+                      <Image
+                        source={{ uri: offerProvider?.offerings?.image }}
+                        style={{
+                          width: 80,
+                          height: 60,
+                          borderRadius: 10,
+                          marginRight: 10,
+                        }}
+                      />
+                      <View
+                        key={index}
+                        style={{
+                          width: 150,
+                          flexDirection: "column",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <Text style={{ fontSize: 20 }}>
+                          {offerProvider?.offerings?.serviceName}
+                        </Text>
+                        <Text style={{ fontSize: 16 }}>
+                          {offerProvider?.offerings?.price.toLocaleString(
+                            "vi-VN",
+                            { style: "currency", currency: "VND" }
+                          )}
+                        </Text>
+                      </View>
                     </View>
                     <TouchableOpacity
                       style={{

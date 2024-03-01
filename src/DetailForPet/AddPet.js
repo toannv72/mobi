@@ -12,7 +12,7 @@ export default function AddPet({ navigation }) {
   const [name, setName] = useState("");
   const [species, setSpecies] = useState("");
   const [weight, setWeight] = useState("");
-  const [gender, setGender] = useState("");
+  const [gender, setGender] = useState(0);
   const [dob, setDob] = useState("");
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState("date");
@@ -102,6 +102,17 @@ export default function AddPet({ navigation }) {
     setDetail(""), setDob("");
   };
   const handleSaveChanges = () => {
+
+    console.log({
+      weight: Number(weight),
+      species: species,
+      name: name,
+      imagePet: avatarSource,
+      birthDate: formattedDob,
+      height: Number(height),
+      gender: genderValue,
+      identifyingFeatures: detail,
+    });
     if (
       !name ||
       !gender ||

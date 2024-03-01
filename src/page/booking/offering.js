@@ -121,6 +121,7 @@ export const Offering = () => {
           <View style={style.selectedDate}>
             {offerings.map((offerProvider, index) => (
               <Card
+                key={index}
                 containerStyle={{
                   ...style.selectedDateContent,
                   ...style.cartShadow,

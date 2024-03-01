@@ -36,7 +36,6 @@ export const Booking = () => {
   const [showPicker, setShowPicker] = useState(false);
   const [userData, setUserData] = useState({});
   const format = bookDate + " " + selectedTime;
-  console.log("111", format);
   useFocusEffect(
     useCallback(() => {
       getStoredUserId();
@@ -90,9 +89,9 @@ export const Booking = () => {
     }
   };
   const route = useRoute();
-  const { id, offersId, fee } = route.params;
+  const { offersId, fee } = route.params;
   useEffect(() => {
-    getData(`/providers/getInformation/${id}`)
+    getData(`/offers/getInformation/${offersId}`)
       .then((res) => {
         setProvider(res.data);
       })
@@ -128,7 +127,7 @@ export const Booking = () => {
   };
 
   const renderNextTimes = () => {
-    const nextTimes = getNextTimes();
+    const nextTimes = getNextTimes(0);
     return nextTimes.map((time, index) => (
       <TouchableOpacity
         key={index}
@@ -164,10 +163,9 @@ export const Booking = () => {
       </TouchableOpacity>
     ));
   };
-  console.log(userData.id, offersId, id, fee);
   const handleBooking = () => {
     postData(
-      `/appointment/createAppointment/${userData.id}?listGuidOffer=${offersId}&providerId=${id}`,
+      `/appointment/createAppointment/${userData.id}?listGuidOffer=${offersId}`,
       {
         bookingDate: fixFormatDate(),
         appointmentFee: fee,
@@ -178,13 +176,14 @@ export const Booking = () => {
       })
       .catch((err) => console.log(err));
   };
+  console.log(userData.id, offersId, fee);
   return (
     <View style={style.main}>
       <View style={style.titleAndDate}>
         <View style={style.titleAndRollback}>
           <Button
             style={style.rollbackBtn}
-            onPress={() => navigation.navigate("Offering", { id: id })}
+            onPress={() => navigation.navigate("Service")}
           >
             <AntDesign name="left" size={22} color="#8C8EA3" />
           </Button>
@@ -203,19 +202,19 @@ export const Booking = () => {
             >
               <View style={{ flexDirection: "row", width: 200, padding: 10 }}>
                 <Image
-                  source={{ uri: provider?.data?.imageProvider }}
+                  source={{ uri: provider?.data?.image }}
                   style={{ width: 150, height: 100, borderRadius: 10 }}
                 />
                 <View style={{ flexDirection: "column" }}>
                   <Text
                     style={{
                       fontWeight: 600,
-                      fontSize: 16,
+                      fontSize: 24,
                       marginLeft: 10,
                       width: 200,
                     }}
                   >
-                    {provider?.data?.providerName}
+                    {provider?.data?.serviceName}
                   </Text>
                   <View
                     style={{
@@ -226,18 +225,12 @@ export const Booking = () => {
                       justifyContent: "space-between",
                     }}
                   >
-                    <View style={{ flexDirection: "row" }}>
-                      <Image source={star} style={{ width: 30, height: 30 }} />
-                      <Text style={{ alignSelf: "center", fontSize: 14 }}>
-                        {provider?.data?.rating == 0
-                          ? 5
-                          : provider?.data?.rating}
-                      </Text>
-                    </View>
                     <View style={{ flexDirection: "row", marginTop: 10 }}>
-                      <Image source={marker} />
-                      <Text style={{ fontSize: 10 }}>
-                        {provider?.data?.location}
+                      <Text style={{ fontSize: 18, fontWeight: 500 }}>
+                        {provider?.data?.price.toLocaleString("vi-VN", {
+                          style: "currency",
+                          currency: "VND",
+                        })}
                       </Text>
                     </View>
                   </View>
@@ -248,7 +241,7 @@ export const Booking = () => {
                   paddingVertical: 10,
                   textAlign: "center",
                   fontWeight: 200,
-                  fontSize: 12,
+                  fontSize: 16,
                 }}
               >
                 {provider?.data?.description}

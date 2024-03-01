@@ -14,12 +14,11 @@ import { useNavigation } from "@react-navigation/native";
 
 export default function VetVisit() {
   const navigation = useNavigation();
-  const [providers, setProviders] = React.useState([]);
-  const allVets = providers.slice(0, 3);
+  const [offers, setOffers] = React.useState([]);
   useEffect(() => {
-    getData("/providers/searchCategory?search=VetVisit")
+    getData("/offers/getByCriteria?Category=Vet Visit")
       .then((res) => {
-        setProviders(res.data);
+        setOffers(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -27,60 +26,36 @@ export default function VetVisit() {
   }, []);
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
-      <Text style={styles.header1}>Book With Previous Veterinarian</Text>
-      {allVets.map((item) => (
-        <View style={styles.element} key={item.providerId}>
-          <View style={styles.cardBooking}>
-            <View style={{ flexDirection: "row", width: 200 }}>
-              <Image
-                source={{ uri: item.imageProvider }}
-                style={{ width: 80, height: 80 }}
-              />
-              <View style={styles.information}>
-                <Text style={styles.name}>{item.providerName}</Text>
-                <Text style={styles.lastVisit}>{item.serviceType}</Text>
-                <View style={styles.location}>
-                  <Image source={marker} />
-                  <Text style={styles.address}>{item.location}</Text>
-                </View>
-              </View>
-            </View>
-            <TouchableOpacity
-              style={styles.bookingBtn}
-              onPress={() =>
-                navigation.navigate("Offering", { id: item.providerId })
-              }
-            >
-              <Text style={styles.titleButton}>Detail</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      ))}
       <Text style={styles.header1}>Book With New Veterinarian</Text>
-      {providers?.map((item) => (
-        <View style={styles.element} key={item.providerId}>
+      {offers?.map((item) => (
+        <View style={styles.element} key={item.offerId}>
           <View style={styles.cardBooking}>
             <View style={{ flexDirection: "row", width: 200 }}>
               <Image
-                source={{ uri: item.imageProvider }}
+                source={{ uri: item.image }}
                 style={{ width: 80, height: 80 }}
               />
               <View style={styles.information}>
-                <Text style={styles.name}>{item.providerName}</Text>
-                <Text style={styles.lastVisit}>{item.serviceType}</Text>
-                <View style={styles.location}>
-                  <Image source={marker} />
-                  <Text style={styles.address}>{item.location}</Text>
-                </View>
+                <Text style={styles.name}>{item.serviceName}</Text>
+                <Text style={styles.lastVisit}>{item.description}</Text>
+                <Text style={styles.address}>
+                  {item.price.toLocaleString("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
+                </Text>
               </View>
             </View>
             <TouchableOpacity
               style={styles.bookingBtn}
               onPress={() =>
-                navigation.navigate("Offering", { id: item.providerId })
+                navigation.navigate("Booking", {
+                  offersId: item.offerId,
+                  fee: item.price,
+                })
               }
             >
-              <Text style={styles.titleButton}>Detail</Text>
+              <Text style={styles.titleButton}>Booking</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -126,7 +101,7 @@ const styles = StyleSheet.create({
     color: "#8C8EA3",
   },
   location: { flexDirection: "row", alignItems: "center" },
-  address: { fontWeight: "400", fontSize: 12, color: "#8C8EA3", width: 175 },
+  address: { fontWeight: "400", fontSize: 20, color: "#8C8EA3", width: 175 },
   bookingBtn: {
     marginLeft: "10%",
     alignSelf: "center",

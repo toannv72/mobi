@@ -101,13 +101,13 @@ const styles = StyleSheet.create({
     marginLeft: "4%",
   },
   name: {
-    width: 180,
+    width: 150,
     fontWeight: "600",
     fontSize: 16,
     color: "#000000",
   },
   lastVisit: {
-    width: 180,
+    width: 150,
     marginLeft: 2,
     fontWeight: "400",
     fontSize: 12,

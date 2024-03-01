@@ -150,7 +150,7 @@ export const Booking = () => {
             shadowRadius: 4,
             backgroundColor: selectedTimeIndex === index ? "#8C8EA3" : "white",
             padding: 5,
-            width: 80,
+            width: 90,
           }}
         >
           <View

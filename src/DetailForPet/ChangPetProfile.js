@@ -21,7 +21,6 @@ export default function ChangePetProfile({ navigation }) {
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
   const [avatarSource, setAvatarSource] = useState(petData.imagePet);
-
   const [height, setHeight] = useState(petData.height);
   const [detail, setDetail] = useState(petData.identifyingFeatures);
   const [storedData, setStoredData] = useState([]);

@@ -180,7 +180,7 @@ export default function AddPet({ navigation }) {
           setStoredData(userData);
 
           // Update the states with the current user information
-
+          console.log(JSON.stringify(userData, null, 2));
           console.log("User data loaded successfully:", userData);
         } else {
           console.log("No data found in AsyncStorage.");
@@ -455,6 +455,7 @@ export default function AddPet({ navigation }) {
                 height: 73,
               },
             }}
+            value={gender}
             placeholder={{}}
           />
         </View>

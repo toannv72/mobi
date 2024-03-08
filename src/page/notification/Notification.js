@@ -285,9 +285,15 @@ export const Notification = ({ navigation }) => {
           <View style={style.listHeader}>
             <View style={style.titleAndInsertBtn}>
               <Text style={style.listTitle}>Task</Text>
-              <Button
+              {/* <Button
                 style={style.addBtn}
                 onPress={() => setNotiCreating(true)}
+              >
+                <AntDesign name="pluscircleo" size={20} color="#8C8EA3" />
+              </Button> */}
+              <Button
+                style={style.addBtn}
+                onPress={() => navigation.navigate("AddTaskFromHome")}
               >
                 <AntDesign name="pluscircleo" size={20} color="#8C8EA3" />
               </Button>

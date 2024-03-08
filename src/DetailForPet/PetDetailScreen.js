@@ -19,15 +19,19 @@ export default function PetDetailScreen({ navigation }) {
   const route = useRoute();
   const { id } = route.params;
 
+  // Trong trang PetDetail
   useEffect(() => {
     if (id) {
       getData(`/pets/getPetInformation/${id}`).then((e) => {
         setPet(e.data.data);
+        console.log("Pet data:", e.data.data); // Log pet data
+        console.log("Pet ID:", e.data.data.petId); // Log petId
       });
     } else {
       console.error("No id found in route params");
     }
   }, [id]);
+
   const navigateToEditPetProfile = () => {
     navigation.navigate("ChangePetProfile", { petId: pet.petId, petData: pet });
   };

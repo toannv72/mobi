@@ -7,7 +7,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import axios from "axios";
 import RNPickerSelect from "react-native-picker-select";
 import { getData } from "../api/api";
-export default function AddTask({ route, navigation }) {
+export default function AddTaskFromHome({ navigation }) {
   const [time, setTime] = useState(new Date());
   const [dob, setDob] = useState("");
   const [type, setType] = useState("Gromming");
@@ -21,40 +21,45 @@ export default function AddTask({ route, navigation }) {
   const [maintenanceModalVisible, setMaintenanceModalVisible] = useState(false);
   const [petList, setPetList] = useState([]);
   const [selectedPet, setSelectedPet] = useState(null);
-  const { petId } = route.params;
+  const [selectedPetImage, setSelectedPetImage] = useState(null);
 
-  useEffect(() => {
-    const getPetsItems = async () => {
-      try {
-        const data = await AsyncStorage.getItem("@myKey");
-        if (data !== null) {
-          const userData = JSON.parse(data);
-          const userId = userData[0].id;
+  const getPetsItems = async () => {
+    try {
+      // Load data from AsyncStorage
+      const data = await AsyncStorage.getItem("@myKey");
+      console.log("Data from AsyncStorage:", data); // Log data from AsyncStorage
+      if (data !== null) {
+        const userData = JSON.parse(data);
+        const userId = userData[0].id;
+        console.log("User ID:", userId); // Log user ID
 
-          const response = await getData(`users/${userId}/pets`);
-          const petsData = response.data.contents.map((pet) => ({
-            label: pet.name,
-            value: pet.id,
-          }));
-          // console.log("petsData:", petsData); // log petsData
-          // Update selectedPet based on petId
-          const selected = petsData.find((pet) => pet.value === petId);
-          if (selected) {
-            setSelectedPet(selected.value);
-            setPetList([selected]);
-            // console.log("selectedPet:", selectedPet);
-            // console.log("petList:", petList);
+        // giả sử `response` là dữ liệu lấy từ server hoặc AsyncStorage
+        const response = await getData(`users/${userId}/pets`);
+        // console.log("Response from server:", response); // Log response from server
+        console.log("aaaaa", response.data.contents);
+        const petsData = response.data.contents.map((pet, index) => {
+          if (!pet.id) {
+            console.error(`Pet at index ${index} does not have an id.`);
           }
-        } else {
-          console.log("No data found in AsyncStorage.");
-        }
-      } catch (error) {
-        console.error("Error fetching pets:", error);
-      }
-    };
+          return {
+            label: pet.name,
+            value: pet.id || index,
+            image: pet.imagePet,
+          };
+        });
 
+        console.log("Pets data:", petsData); // Log pets data
+        setPetList(petsData); // Cập nhật state `petList`
+      } else {
+        console.log("No data found in AsyncStorage.");
+      }
+    } catch (error) {
+      console.error("Error fetching pets:", error);
+    }
+  };
+  useEffect(() => {
     getPetsItems();
-  }, [petId]);
+  }, []);
 
   const MaintenanceModal = () => (
     <Modal
@@ -77,7 +82,7 @@ export default function AddTask({ route, navigation }) {
         <Button
           onPress={() => {
             setMaintenanceModalVisible(false);
-            navigation.goBack();
+            navigation.navigate("Home");
           }}
           style={{ marginTop: 15 }}
         >
@@ -137,11 +142,10 @@ export default function AddTask({ route, navigation }) {
     }
 
     const userId = storedData[0].id;
-    const { petId } = route.params;
 
     // Log the values of userId and petId
     console.log("userId:", userId);
-    console.log("petId:", petId);
+    console.log("petId:", selectedPet);
 
     let formattedDob;
     if (isNaN(Date.parse(dob))) {
@@ -153,7 +157,7 @@ export default function AddTask({ route, navigation }) {
     const timeInSeconds =
       time.getHours() * 3600 + time.getMinutes() * 60 + time.getSeconds();
     // Construct the URL and log it
-    const url = `https://petside.azurewebsites.net/users/${userId}/pets/${petId}/notifications`;
+    const url = `https://petside.azurewebsites.net/users/${userId}/pets/${selectedPet}/notifications`;
     console.log("URL:", url);
 
     axios
@@ -211,13 +215,14 @@ export default function AddTask({ route, navigation }) {
             flexDirection: "row",
             alignItems: "center",
             position: "absolute",
+            bottom: -15,
           }}
         >
           <IconButton
             style={styles.backIcon}
             icon="arrow-left"
             size={35}
-            onPress={() => navigation.navigate("Home")}
+            onPress={() => navigation.goBack()}
           />
         </View>
         <Text
@@ -225,7 +230,7 @@ export default function AddTask({ route, navigation }) {
             textAlign: "center",
             flex: 1,
             marginLeft: 140,
-            marginTop: 15,
+            marginTop: 0,
             fontSize: 25,
             fontWeight: 700,
           }}
@@ -233,11 +238,25 @@ export default function AddTask({ route, navigation }) {
           Add Task
         </Text>
       </View>
-
+      {selectedPetImage && (
+        <Image
+          source={{ uri: selectedPetImage }}
+          style={{
+            ...styles.image,
+            marginBottom: 40,
+            borderColor: "gray",
+            borderWidth: 1,
+            width: 432,
+            height: 300,
+            marginTop: 80,
+            objectFit: "cover",
+          }}
+        />
+      )}
       <View
         style={{
           ...styles.searchSection,
-          marginTop: 6,
+          marginTop: -15,
           width: 380,
           borderWidth: 0.8, // Add border width
         }}
@@ -405,7 +424,12 @@ export default function AddTask({ route, navigation }) {
         }}
       >
         <RNPickerSelect
-          onValueChange={(value) => setSelectedPet(value)}
+          onValueChange={(value) => {
+            setSelectedPet(value);
+            // Tìm hình ảnh tương ứng với pet được chọn
+            const selectedPetData = petList.find((pet) => pet.value === value);
+            setSelectedPetImage(selectedPetData ? selectedPetData.image : null);
+          }}
           items={petList}
           style={{
             inputAndroid: {
@@ -476,7 +500,11 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     paddingLeft: 0,
   },
-
+  image: {
+    width: 432,
+    height: 250,
+    marginBottom: 20,
+  },
   backIconContainer: {
     position: "absolute",
     top: 50,

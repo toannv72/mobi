@@ -276,6 +276,7 @@ export const Notification = ({ navigation }) => {
                   </View>
                 </Card>
               </View>
+              
             </ScrollView>
           </Card>
         </View>
@@ -319,6 +320,7 @@ export const Notification = ({ navigation }) => {
                   </View>
                 </NotiItem>
               ))}
+              <View style={{height:100}}></View>
             </ScrollView>
           </View>
         </Card>

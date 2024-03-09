@@ -396,7 +396,7 @@ export default function AddTask({ route, navigation }) {
           value={detail}
         />
       </View>
-      <View
+      {/* <View
         style={{
           ...styles.searchSection,
           marginTop: 6,
@@ -417,7 +417,7 @@ export default function AddTask({ route, navigation }) {
           value={selectedPet}
           placeholder={{}}
         />
-      </View>
+      </View> */}
       {/* Nút Reset All */}
       <View style={styles.buttonContainer}>
         <TouchableOpacity

@@ -11,6 +11,8 @@ import {
 } from "react-native";
 import checkIcon from "../../../assets/check.png";
 import momoIcon from "../../../assets/MoMo_Logo.png";
+import momoIcon2 from "../../../assets/momo.png";
+
 import { getData, postData } from "../../api/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function CheckOut({ navigation }) {
@@ -38,7 +40,7 @@ export default function CheckOut({ navigation }) {
     getStoredUserId();
   }, []);
   const handleMomo = () => {
-    const url = "https://me.momo.vn/lDI6TWsAijsQt8TNi3IqUx/WPe99XNwxyR8eLy";
+    const url = "https://me.momo.vn/lDI6TWsAijsQt8TNi3IqUx/YQdJ8XgkP4l2aOG";
     Linking.openURL(url).catch((err) => console.error("Không thể mở URL", err));
   };
   const handleAccept = () => {
@@ -65,7 +67,7 @@ export default function CheckOut({ navigation }) {
             <Text style={styles.titleModal}>MoMo Payment</Text>
             <View>
               <TouchableOpacity onPress={handleMomo}>
-                <Image source={momoIcon} />
+                <Image source={momoIcon2} style={{width:260,height:260}} />
               </TouchableOpacity>
             </View>
             <Text>*Hint: Tap the icon to make a payment</Text>

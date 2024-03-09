@@ -7,7 +7,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { putData } from "../api/api";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { firebaseImg } from "../api/firebaseImg";
-import { Picker } from "@react-native-picker/picker";
+import RNPickerSelect from "react-native-picker-select";
 import { useRoute } from "@react-navigation/native";
 export default function ChangePetProfile({ navigation }) {
   const route = useRoute();
@@ -21,12 +21,11 @@ export default function ChangePetProfile({ navigation }) {
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
   const [avatarSource, setAvatarSource] = useState(petData.imagePet);
-
   const [height, setHeight] = useState(petData.height);
   const [detail, setDetail] = useState(petData.identifyingFeatures);
   const [storedData, setStoredData] = useState([]);
   const [maintenanceModalVisible, setMaintenanceModalVisible] = useState(false);
-  console.log(111111111,petData);
+  console.log(111111111, petData);
   const MaintenanceModal = () => (
     <Modal
       visible={maintenanceModalVisible}
@@ -63,8 +62,9 @@ export default function ChangePetProfile({ navigation }) {
     setDate(currentDate);
 
     // Format date in the desired format
-    const formattedDate = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1
-      }-${currentDate.getDate()}`;
+    const formattedDate = `${currentDate.getFullYear()}-${
+      currentDate.getMonth() + 1
+    }-${currentDate.getDate()}`;
 
     setDob(formattedDate);
   };
@@ -105,7 +105,7 @@ export default function ChangePetProfile({ navigation }) {
   const handleSaveChanges = () => {
     if (
       !name ||
-      !gender ||
+      gender === undefined ||
       !avatarSource ||
       !species ||
       !dob ||
@@ -150,29 +150,7 @@ export default function ChangePetProfile({ navigation }) {
     })
       .then((response) => {
         console.log("API response:", response);
-
-        // Cập nhật thông tin pet trong AsyncStorage
         const updatedUserData = [...storedData];
-        // const petIndex = storedData[0].pets.findIndex(
-        //   (pet) => pet.petId === petId
-        // );
-        // if (petIndex !== -1) {
-        //   // Cập nhật thông tin pet
-        //   updatedUserData[0].pets[petIndex] = {
-        //     ...updatedUserData[0].pets[petIndex],
-        //     weight: Number(weight),
-        //     species: species,
-        //     name: name,
-        //     imagePet: avatarSource,
-        //     birthDate: formattedDob,
-        //     height: Number(height),
-        //     gender: genderValue,
-        //     identifyingFeatures: detail,
-        //   };
-        //   AsyncStorage.setItem("@myKey", JSON.stringify(updatedUserData));
-        // } else {
-          // console.error("Pet not found in storedData.");
-        // }
       })
       .catch((error) => {
         console.error("Error updating information:", error);
@@ -190,19 +168,10 @@ export default function ChangePetProfile({ navigation }) {
           const userData = JSON.parse(data);
           setStoredData(userData);
 
-          // Update the states with the current user information
-          // setName(userData[0].name);
-          // setWeight(userData[0].weight);
-          // setHeight(userData[0].height);
-          // setAvatarSource(userData[0].imagePet);
-          // setDob(userData[0].birthDate);
-          // setDetail(userData[0].identifyingFeatures);
-          // setGender(userData[0].gender);
-          // setSpecies(userData[0].pet.species);
           console.log("User data loaded successfully:", userData);
           if (userData[0].pets) {
             userData[0].pets.forEach((pet, index) => {
-              console.log(`Pet ${index + 1}:`, JSON.stringify(pet, null, 2));
+              // console.log(`Pet ${index + 1}:`, JSON.stringify(pet, null, 2));
             });
           } else {
             console.log("No pets found.");
@@ -215,7 +184,6 @@ export default function ChangePetProfile({ navigation }) {
       }
     };
     loadStoredData();
-
   }, []);
 
   return (
@@ -258,10 +226,10 @@ export default function ChangePetProfile({ navigation }) {
           />
           <Text
             style={{
-              fontSize: 18,
-              color: "#8C8EA3",
+              fontSize: 20,
+              color: "black",
               marginLeft: 5,
-              fontWeight: "600",
+              fontWeight: "700",
             }}
           >
             Back
@@ -280,7 +248,6 @@ export default function ChangePetProfile({ navigation }) {
       <View
         style={{
           ...styles.searchSection,
-          // backgroundColor: "#E9E7E7",
           borderRadius: 40,
           marginTop: -10,
         }}
@@ -288,7 +255,6 @@ export default function ChangePetProfile({ navigation }) {
         <TextInput
           style={{
             ...styles.input,
-            // backgroundColor: "#E9E7E7",
             borderRadius: 40,
             fontSize: 18,
           }}
@@ -297,7 +263,7 @@ export default function ChangePetProfile({ navigation }) {
           mode="outlined"
           left={
             <TextInput.Icon
-              icon="account-circle"
+              icon="dog"
               size={35}
               style={{
                 marginTop: 22,
@@ -327,7 +293,7 @@ export default function ChangePetProfile({ navigation }) {
           mode="outlined"
           left={
             <TextInput.Icon
-              icon="dog"
+              icon="dog-side"
               size={35}
               style={{
                 marginTop: 22,
@@ -391,7 +357,7 @@ export default function ChangePetProfile({ navigation }) {
             keyboardType="number-pad"
             left={
               <TextInput.Icon
-                icon="weight-pound"
+                icon="weight"
                 size={35}
                 style={{
                   marginTop: 22,
@@ -459,31 +425,32 @@ export default function ChangePetProfile({ navigation }) {
             // backgroundColor: "#E9E7E7",
             marginTop: 6,
             width: 180,
-            height: 73,
             marginLeft: 70,
             borderWidth: 0.8, // Add border width
           }}
         >
-          <Picker
-            selectedValue={gender}
+          <RNPickerSelect
+            onValueChange={(value) => setGender(value)}
+            items={[
+              { label: "Male", value: 0 },
+              { label: "Female", value: 1 },
+            ]}
             style={{
-              ...styles.input,
-              // backgroundColor: "#E9E7E7",
-              fontSize: 18,
+              inputAndroid: {
+                width: 180,
+                height: 73,
+              },
+              borderRadius: 8,
             }}
-            placeholder="Select Gender"
-            onValueChange={(itemValue, itemIndex) => setGender(itemValue)}
-          >
-            <Picker.Item label="Select Gender" value={null} />
-            <Picker.Item label="Male" value={0} />
-            <Picker.Item label="Female" value={1} />
-          </Picker>
+            value={gender}
+            placeholder={{}}
+          />
         </View>
       </View>
       <View
         style={{
           ...styles.searchSection,
-          // backgroundColor: "#E9E7E7",
+
           borderRadius: 40,
           marginBottom: 5,
         }}
@@ -491,7 +458,7 @@ export default function ChangePetProfile({ navigation }) {
         <TextInput
           style={{
             ...styles.input,
-            // backgroundColor: "#E9E7E7",
+
             borderRadius: 40,
             fontSize: 18,
           }}
@@ -500,7 +467,7 @@ export default function ChangePetProfile({ navigation }) {
           mode="outlined"
           left={
             <TextInput.Icon
-              icon="dog"
+              icon="dog-service"
               size={35}
               style={{
                 marginTop: 22,

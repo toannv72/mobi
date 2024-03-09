@@ -19,15 +19,19 @@ export default function PetDetailScreen({ navigation }) {
   const route = useRoute();
   const { id } = route.params;
 
+  // Trong trang PetDetail
   useEffect(() => {
     if (id) {
       getData(`/pets/getPetInformation/${id}`).then((e) => {
         setPet(e.data.data);
+        console.log("Pet data:", e.data.data); // Log pet data
+        console.log("Pet ID:", e.data.data.petId); // Log petId
       });
     } else {
       console.error("No id found in route params");
     }
   }, [id]);
+
   const navigateToEditPetProfile = () => {
     navigation.navigate("ChangePetProfile", { petId: pet.petId, petData: pet });
   };
@@ -60,7 +64,7 @@ export default function PetDetailScreen({ navigation }) {
             borderWidth: 1,
             borderRadius: 10,
             width: 401,
-            height: 300,
+            height: 350,
             alignItems: "center",
             justifyContent: "center",
           }}
@@ -80,11 +84,10 @@ export default function PetDetailScreen({ navigation }) {
               <Image
                 source={require("../../assets/edit.png")}
                 style={{
-                  marginTop: -250,
+                  marginTop: -280,
                   marginLeft: 360,
                   width: 30,
                   height: 30,
-                  // backgroundColor:'#fff'
                 }}
               />
             </TouchableOpacity>
@@ -99,7 +102,7 @@ export default function PetDetailScreen({ navigation }) {
                   {pet.species}
                 </Text>
               </View>
-              <View style={styles.dot} />
+              <View style={{ ...styles.dot }} />
             </View>
           </View>
         </View>
@@ -183,7 +186,7 @@ const styles = StyleSheet.create({
   },
   petImage: {
     width: 400,
-    height: 220,
+    height: 279,
     marginBottom: 35,
   },
   imageContainer: {

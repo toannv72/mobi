@@ -20,7 +20,6 @@ export default function ChangeProfile({ navigation }) {
     // "https://firebasestorage.googleapis.com/v0/b/swd-longchim.appspot.com/o/376577375_998270051209102_4679797004619533760_n.jpg?alt=media&token=90d94961-bc1b-46e4-b60a-ad731606b13b"
     ""
   );
-
   const [storedData, setStoredData] = useState([]);
   const [maintenanceModalVisible, setMaintenanceModalVisible] = useState(false);
 
@@ -191,7 +190,7 @@ export default function ChangeProfile({ navigation }) {
 
       <View style={styles.backIconContainer}>
         <View
-          style={{ flexDirection: "row", alignItems: "center", marginTop: 50 }}
+          style={{ flexDirection: "row", alignItems: "center", marginTop: 25 }}
         >
           <IconButton
             style={styles.backIcon}
@@ -201,10 +200,10 @@ export default function ChangeProfile({ navigation }) {
           />
           <Text
             style={{
-              fontSize: 18,
-              color: "#8C8EA3",
+              fontSize: 20,
+              color: "black",
               marginLeft: 5,
-              fontWeight: "600",
+              fontWeight: "700",
             }}
           >
             Back

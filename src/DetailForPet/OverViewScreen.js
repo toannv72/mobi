@@ -3,12 +3,13 @@ import React, { useState } from "react";
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { IconButton } from "react-native-paper";
-
+import { useNavigation } from "@react-navigation/native";
 const OverviewScreen = ({ pet }) => {
   const { birthDate, species, identifyingFeatures, weight, height, gender } =
     pet;
   const genderStr = gender ? "Female" : "Male";
-
+  const navigation = useNavigation();
+  const [selectedPetId, setSelectedPetId] = useState(null);
   const getB = (pet) => {
     const birthday = moment(pet);
 
@@ -79,7 +80,15 @@ const OverviewScreen = ({ pet }) => {
           >
             Today's Task
           </Text>
-          <TouchableOpacity style={styles.addButton}>
+          <TouchableOpacity
+            style={styles.addButton}
+            onPress={() => {
+              console.log("pet:", pet);
+              console.log("petId111:", pet.petId); // Log petId
+              setSelectedPetId(pet.petId); // Set the selectedPetId state
+              navigation.navigate("AddTask", { petId: pet.petId });
+            }}
+          >
             <Text style={styles.addButtonText}>+</Text>
           </TouchableOpacity>
         </View>

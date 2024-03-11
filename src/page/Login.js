@@ -55,6 +55,8 @@ export default function LoginScreen({}) {
       password: password,
     })
       .then((e) => {
+
+        console.log("login",e);
         console.log("data", JSON.stringify([e]));
         AsyncStorage.setItem("@myKey", JSON.stringify([e]));
         console.log("Data saved successfully!");

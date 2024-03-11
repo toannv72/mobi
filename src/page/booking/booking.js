@@ -1,12 +1,16 @@
 import { AntDesign } from "@expo/vector-icons";
 import { Card } from "@rneui/base";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import moment from "moment";
 import {
+  Platform,
   Alert,
   Image,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -14,19 +18,90 @@ import booking from "../../../assets/s1.png";
 import marker from "../../../assets/location.png";
 import star from "../../../assets/star.png";
 import { Button } from "react-native-paper";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import { getData } from "../../api/api";
-
+import {
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
+import { getData, postData } from "../../api/api";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 export const Booking = () => {
-  const [currentDate, setCurrentDate] = useState(new Date());
+  const [bookDate, setBookDate] = useState();
   const navigation = useNavigation();
-  const [selectedCardIndex, setSelectedCardIndex] = useState(0);
   const [selectedTimeIndex, setSelectedTimeIndex] = useState(0);
+  const [selectedTime, setSelectedTime] = useState(0);
   const [provider, setProvider] = useState({});
-  const route = useRoute();
-  const { id } = route.params;
+  const [date, setDate] = useState(new Date());
+  const [showPicker, setShowPicker] = useState(false);
+  const [userData, setUserData] = useState({});
+  const format = bookDate + " " + selectedTime;
+  useFocusEffect(
+    useCallback(() => {
+      getStoredUserId();
+      return () => {};
+    }, [])
+  );
+  const getStoredUserId = async () => {
+    try {
+      const data = await AsyncStorage.getItem("@myKey");
+
+      if (data !== null) {
+        const userData = JSON.parse(data);
+        const id = userData[0].id;
+
+        const endpoint = `/users/getInformation/${id}`;
+        const response = await getData(endpoint);
+        setUserData(response.data.data);
+      } else {
+        console.log("No data found in AsyncStorage.");
+      }
+    } catch (error) {
+      console.error("Error loading data:", error);
+    }
+  };
   useEffect(() => {
-    getData(`/providers/getInformation/${id}`)
+    getStoredUserId();
+  }, []);
+  const fixFormatDate = () => {
+    const inputDateString = format;
+    const outputDateFormat = "YYYY-MM-DDTHH:mm:ss.SSS[Z]";
+
+    const convertedDate = moment(
+      inputDateString,
+      "ddd MMM DD YYYY h:mm A"
+    ).format(outputDateFormat);
+    return convertedDate;
+  };
+  const fixFormatDate1 = () => {
+    const inputDateString = new Date();
+    const outputDateFormat = "YYYY-MM-DDTHH:mm:ss.SSS[Z]";
+
+    const convertedDate = moment(
+      inputDateString,
+      "ddd MMM DD YYYY h:mm A"
+    ).format(outputDateFormat);
+    return convertedDate;
+  };
+  console.log("222", fixFormatDate(), fixFormatDate1());
+  const toggleDatepicker = () => {
+    setShowPicker(!showPicker);
+  };
+  const onChange = ({ type }, selectedDate) => {
+    if (type === "set") {
+      const currentDate = selectedDate;
+      setDate(currentDate);
+      if (Platform.OS === "android") {
+        toggleDatepicker();
+        setBookDate(currentDate.toDateString());
+      }
+      toggleDatepicker();
+    }
+  };
+  const route = useRoute();
+  const { offersId, fee } = route.params;
+  useEffect(() => {
+    getData(`/offers/getInformation/${offersId}`)
       .then((res) => {
         setProvider(res.data);
       })
@@ -35,74 +110,6 @@ export const Booking = () => {
       });
   }, []);
 
-  const getNextDays = () => {
-    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    const nextDays = [];
-    for (let i = 0; i < 7; i++) {
-      const nextDate = new Date();
-      nextDate.setDate(currentDate.getDate() + i);
-      const day = days[nextDate.getDay()];
-      const date = nextDate.getDate();
-      nextDays.push({ day, date });
-    }
-    return nextDays;
-  };
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentDate(new Date());
-    }, 60000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  const renderNextDays = () => {
-    const nextDays = getNextDays();
-    return nextDays.map((day, index) => (
-      <TouchableOpacity key={index} onPress={() => handleCardPress(index)}>
-        <Card
-          containerStyle={{
-            borderRadius: 15,
-            borderColor: "black",
-            shadowRadius: 4,
-            backgroundColor: selectedCardIndex === index ? "#8C8EA3" : "white",
-            width: 80,
-          }}
-        >
-          <View
-            style={{
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 20,
-                color: selectedCardIndex === index ? "white" : "#000",
-              }}
-            >
-              {day.day}
-            </Text>
-            <Text
-              style={{
-                fontSize: 20,
-                color: selectedCardIndex === index ? "white" : "#000",
-              }}
-            >
-              {day.date}
-            </Text>
-          </View>
-        </Card>
-      </TouchableOpacity>
-    ));
-  };
-  const handleCardPress = (index) => {
-    setSelectedCardIndex(index);
-  };
-console.log(2222222,provider?.data?.imageProvider);
-  const currentMonth = currentDate.toLocaleString("en-US", { month: "long" });
-  const currentYear = currentDate.getFullYear();
   const getNextTimes = () => {
     const times = [
       "9:00 AM",
@@ -124,14 +131,18 @@ console.log(2222222,provider?.data?.imageProvider);
     return times.map((time) => ({ time }));
   };
 
-  const handleTimeCardPress = (index) => {
+  const handleTimeCardPress = (index, time) => {
     setSelectedTimeIndex(index);
+    setSelectedTime(time);
   };
 
   const renderNextTimes = () => {
-    const nextTimes = getNextTimes();
+    const nextTimes = getNextTimes(0);
     return nextTimes.map((time, index) => (
-      <TouchableOpacity key={index} onPress={() => handleTimeCardPress(index)}>
+      <TouchableOpacity
+        key={index}
+        onPress={() => handleTimeCardPress(index, time.time)}
+      >
         <Card
           containerStyle={{
             borderRadius: 15,
@@ -139,7 +150,7 @@ console.log(2222222,provider?.data?.imageProvider);
             shadowRadius: 4,
             backgroundColor: selectedTimeIndex === index ? "#8C8EA3" : "white",
             padding: 5,
-            width: 80,
+            width: 90,
           }}
         >
           <View
@@ -162,7 +173,21 @@ console.log(2222222,provider?.data?.imageProvider);
       </TouchableOpacity>
     ));
   };
-
+  const handleBooking = () => {
+    postData(
+      `/appointment/createAppointment/${userData.id}?listGuidOffer=${offersId}&providerId=0cb84163-3df2-4160-acd0-08dc39513829`,
+      {
+        bookingDate: fixFormatDate1(),
+        returnDate: fixFormatDate(),
+        appointmentFee: fee,
+      }
+    )
+      .then((e) => {
+        navigation.navigate("Completedv2");
+      })
+      .catch((err) => console.log(err));
+  };
+  console.log(userData.id, offersId, fee);
   return (
     <View style={style.main}>
       <View style={style.titleAndDate}>
@@ -188,19 +213,19 @@ console.log(2222222,provider?.data?.imageProvider);
             >
               <View style={{ flexDirection: "row", width: 200, padding: 10 }}>
                 <Image
-                  source={{ uri: provider?.data?.imageProvider }}
+                  source={{ uri: provider?.data?.image }}
                   style={{ width: 150, height: 100, borderRadius: 10 }}
                 />
                 <View style={{ flexDirection: "column" }}>
                   <Text
                     style={{
                       fontWeight: 600,
-                      fontSize: 16,
+                      fontSize: 24,
                       marginLeft: 10,
                       width: 200,
                     }}
                   >
-                    {provider?.data?.providerName}
+                    {provider?.data?.serviceName}
                   </Text>
                   <View
                     style={{
@@ -211,18 +236,12 @@ console.log(2222222,provider?.data?.imageProvider);
                       justifyContent: "space-between",
                     }}
                   >
-                    <View style={{ flexDirection: "row" }}>
-                      <Image source={star} style={{ width: 30, height: 30 }} />
-                      <Text style={{ alignSelf: "center", fontSize: 14 }}>
-                        {provider?.data?.rating == 0
-                          ? 5
-                          : provider?.data?.rating}
-                      </Text>
-                    </View>
                     <View style={{ flexDirection: "row", marginTop: 10 }}>
-                      <Image source={marker} />
-                      <Text style={{ fontSize: 10 }}>
-                        {provider?.data?.location}
+                      <Text style={{ fontSize: 18, fontWeight: 500 }}>
+                        {provider?.data?.price.toLocaleString("vi-VN", {
+                          style: "currency",
+                          currency: "VND",
+                        })}
                       </Text>
                     </View>
                   </View>
@@ -233,7 +252,7 @@ console.log(2222222,provider?.data?.imageProvider);
                   paddingVertical: 10,
                   textAlign: "center",
                   fontWeight: 200,
-                  fontSize: 12,
+                  fontSize: 16,
                 }}
               >
                 {provider?.data?.description}
@@ -248,25 +267,29 @@ console.log(2222222,provider?.data?.imageProvider);
                 ...style.cartShadow,
               }}
             >
-              <Text style={{ fontWeight: 500, fontSize: 32 }}>Choose Date</Text>
-              <Text style={{ fontWeight: 400, fontSize: 22, left: 15 }}>
-                {currentMonth} {currentYear}
-              </Text>
-              <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                style={{ backgroundColor: "white" }}
-              >
-                <View
-                  style={{
-                    flexDirection: "row",
-                    paddingVertical: 10,
-                    left: -10,
-                  }}
-                >
-                  {renderNextDays()}
-                </View>
-              </ScrollView>
+              {showPicker && (
+                <DateTimePicker
+                  mode="date"
+                  display="spinner"
+                  value={date}
+                  onChange={onChange}
+                />
+              )}
+              {!showPicker && (
+                <Pressable onPress={toggleDatepicker}>
+                  <TextInput
+                    placeholder="Click here to choose date"
+                    value={bookDate}
+                    onChangeText={setBookDate}
+                    editable={false}
+                    style={{
+                      color: "black",
+                      fontSize: 20,
+                      textAlign: "center",
+                    }}
+                  />
+                </Pressable>
+              )}
             </Card>
           </View>
           <View style={style.selectedDate}>
@@ -276,7 +299,7 @@ console.log(2222222,provider?.data?.imageProvider);
                 ...style.cartShadow,
               }}
             >
-              <Text style={{ fontWeight: 500, fontSize: 32 }}>Choose Time</Text>
+              <Text style={{ fontWeight: 700, fontSize: 22 }}>Choose Time</Text>
               <View
                 style={{
                   flexDirection: "row",
@@ -292,9 +315,9 @@ console.log(2222222,provider?.data?.imageProvider);
           </View>
           <TouchableOpacity
             style={style.nextBtnV2}
-            onPress={() => navigation.navigate("Completedv2")}
+            onPress={() => handleBooking()}
           >
-            <Text style={style.nextV2}>Continue</Text>
+            <Text style={style.nextV2}>Booking</Text>
           </TouchableOpacity>
           <View style={{ height: 200 }}></View>
         </ScrollView>

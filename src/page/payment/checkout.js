@@ -1,5 +1,5 @@
 import { AntDesign } from "@expo/vector-icons";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   TouchableOpacity,
   Text,
@@ -11,11 +11,45 @@ import {
 } from "react-native";
 import checkIcon from "../../../assets/check.png";
 import momoIcon from "../../../assets/MoMo_Logo.png";
+import momoIcon2 from "../../../assets/momo.png";
+
+import { getData, postData } from "../../api/api";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function CheckOut({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
+  const [userData, setUserData] = useState({});
+  const getStoredUserId = async () => {
+    try {
+      const data = await AsyncStorage.getItem("@myKey");
+
+      if (data !== null) {
+        const userData = JSON.parse(data);
+        const id = userData[0].id;
+
+        const endpoint = `/users/getInformation/${id}`;
+        const response = await getData(endpoint);
+        setUserData(response.data.data);
+      } else {
+        console.log("No data found in AsyncStorage.");
+      }
+    } catch (error) {
+      console.error("Error loading data:", error);
+    }
+  };
+  useEffect(() => {
+    getStoredUserId();
+  }, []);
   const handleMomo = () => {
-    const url = "https://me.momo.vn/qr/nguyen-van-toan-IwfnwPi8o4/JSxbSmx5d1";
+    const url = "https://me.momo.vn/lDI6TWsAijsQt8TNi3IqUx/YQdJ8XgkP4l2aOG";
     Linking.openURL(url).catch((err) => console.error("Không thể mở URL", err));
+  };
+  const handleAccept = () => {
+    postData(`/account/${userData.id}/register-pro-upgrade`)
+      .then((e) => {
+        navigation.navigate("Completed");
+        console.log(e);
+      })
+      .catch((err) => console.log(err));
   };
   return (
     <View style={styles.centeredView}>
@@ -33,14 +67,14 @@ export default function CheckOut({ navigation }) {
             <Text style={styles.titleModal}>MoMo Payment</Text>
             <View>
               <TouchableOpacity onPress={handleMomo}>
-                <Image source={momoIcon} />
+                <Image source={momoIcon2} style={{width:260,height:260}} />
               </TouchableOpacity>
             </View>
             <Text>*Hint: Tap the icon to make a payment</Text>
             <Text>After payment click "Continue"</Text>
             <TouchableOpacity
               style={styles.nextBtnV2}
-              onPress={() => navigation.navigate("Completed")}
+              onPress={() => handleAccept()}
             >
               <Text style={styles.nextV2}>Continue</Text>
             </TouchableOpacity>

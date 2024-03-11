@@ -151,12 +151,15 @@ export default function Service() {
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    top: "5%",
+    
+    backgroundColor: "#FFFFFF",
     padding: 10,
   },
   header: {
     flexDirection: "row",
-    padding: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
+    marginTop: "5%",
     justifyContent: "space-between",
   },
   information: {

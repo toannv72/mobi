@@ -9,10 +9,6 @@ import SignUpScreen from "./src/page/SignUp";
 import { IntroSlider } from "./src/page/Intro";
 import { Survey } from "./src/page/Survey";
 import { Notification } from "./src/page/notification/Notification";
-import UpImg from "./src/Components/UpImg";
-import { View } from "native-base";
-import { StyleSheet } from "react-native";
-import { NativeBaseConfigProvider } from "native-base";
 import CheckOut from "./src/page/payment/checkout";
 import Completed from "./src/page/payment/Complete";
 import Completedv2 from "./src/page/booking/Complete";
@@ -22,6 +18,11 @@ import ImagePickerExample from "./src/Components/UpImg";
 import PetDetailScreen from "./src/DetailForPet/PetDetailScreen";
 import Service from "./src/services/Service";
 import { Booking } from "./src/page/booking/booking";
+import AddPet from "./src/DetailForPet/AddPet";
+import ChangePetProfile from "./src/DetailForPet/ChangPetProfile";
+import { Offering } from "./src/page/booking/offering";
+import AddTask from "./src/DetailForPet/AddTask";
+import AddTaskFromHome from "./src/DetailForPet/AddTaskFromHome";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -29,7 +30,7 @@ const Tab = createBottomTabNavigator();
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Survey">
+      <Stack.Navigator initialRouteName="Homes">
         <Stack.Screen
           name="ImagePickerExample"
           options={{ headerLeft: null, headerShown: false }}
@@ -90,16 +91,36 @@ const App = () => {
           options={{ headerLeft: null, headerShown: false }}
           component={PetDetailScreen}
         />
+        <Stack.Screen
+          name="AddPet"
+          options={{ headerLeft: null, headerShown: false }}
+          component={AddPet}
+        />
+        <Stack.Screen
+          name="ChangePetProfile"
+          options={{ headerLeft: null, headerShown: false }}
+          component={ChangePetProfile}
+        />
+        <Stack.Screen
+          name="Offering"
+          options={{ headerLeft: null, headerShown: false }}
+          component={Offering}
+        />
+        <Stack.Screen
+          name="AddTask"
+          options={{ headerLeft: null, headerShown: false }}
+          component={AddTask}
+        />
+        <Stack.Screen
+          name="AddTaskFromHome"
+          options={{ headerLeft: null, headerShown: false }}
+          component={AddTaskFromHome}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
 };
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#FFF", // Đặt màu nền trắng cho toàn bộ ứng dụng
-  },
-});
+
 function MyBottomNavigationBar() {
   return (
     <Tab.Navigator

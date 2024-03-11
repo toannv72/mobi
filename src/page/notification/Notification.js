@@ -276,6 +276,7 @@ export const Notification = ({ navigation }) => {
                   </View>
                 </Card>
               </View>
+              
             </ScrollView>
           </Card>
         </View>
@@ -285,9 +286,15 @@ export const Notification = ({ navigation }) => {
           <View style={style.listHeader}>
             <View style={style.titleAndInsertBtn}>
               <Text style={style.listTitle}>Task</Text>
-              <Button
+              {/* <Button
                 style={style.addBtn}
                 onPress={() => setNotiCreating(true)}
+              >
+                <AntDesign name="pluscircleo" size={20} color="#8C8EA3" />
+              </Button> */}
+              <Button
+                style={style.addBtn}
+                onPress={() => navigation.navigate("AddTaskFromHome")}
               >
                 <AntDesign name="pluscircleo" size={20} color="#8C8EA3" />
               </Button>
@@ -319,6 +326,7 @@ export const Notification = ({ navigation }) => {
                   </View>
                 </NotiItem>
               ))}
+              <View style={{height:100}}></View>
             </ScrollView>
           </View>
         </Card>

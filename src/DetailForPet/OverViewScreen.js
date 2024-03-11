@@ -1,16 +1,25 @@
+import moment from "moment";
 import React, { useState } from "react";
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { IconButton } from "react-native-paper";
-import ProgressBar from "./ProgessBar";
+import { useNavigation } from "@react-navigation/native";
+const OverviewScreen = ({ pet }) => {
+  const { birthDate, species, identifyingFeatures, weight, height, gender } =
+    pet;
+  const genderStr = gender ? "Female" : "Male";
+  const navigation = useNavigation();
+  const [selectedPetId, setSelectedPetId] = useState(null);
+  const getB = (pet) => {
+    const birthday = moment(pet);
 
-const OverviewScreen = () => {
-  const [completedCount, setCompletedCount] = useState(2); // Số lần đã hoàn thành
-  const [expectedCount, setExpectedCount] = useState(5); // Số lần dự kiến
-
-  // Tính toán giá trị tiến trình
-  const progressValue = (completedCount / expectedCount) * 100 || 0;
-
+    // Ngày hiện tại
+    const today = moment();
+    const ageYears = today.diff(birthday, "years");
+    const ageMonths = today.diff(birthday, "months");
+    const age = `${ageYears}Month ${ageMonths % 12}`;
+    return ageYears;
+  };
   return (
     <ScrollView
       contentContainerStyle={{
@@ -22,24 +31,27 @@ const OverviewScreen = () => {
         <View style={styles.buttonsContainer}>
           <View style={styles.buttonRow}>
             <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}> 1 Year Old</Text>
+              <Text style={styles.buttonText}>
+                {" "}
+                {getB(pet.birthDate)} Year Old
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}>Pembroke Corgi</Text>
+              <Text style={styles.buttonText}>{species}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}>Long Hair</Text>
+              <Text style={styles.buttonText}>{genderStr}</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.buttonRow}>
             <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}>Gold & White</Text>
+              <Text style={styles.buttonText}>{identifyingFeatures}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}>W: 15,4 kg</Text>
+              <Text style={styles.buttonText}>W: {weight} kg</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}>H: 40 cm</Text>
+              <Text style={styles.buttonText}>H: {height} cm</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -68,7 +80,15 @@ const OverviewScreen = () => {
           >
             Today's Task
           </Text>
-          <TouchableOpacity style={styles.addButton}>
+          <TouchableOpacity
+            style={styles.addButton}
+            onPress={() => {
+              console.log("pet:", pet);
+              console.log("petId111:", pet.petId); // Log petId
+              setSelectedPetId(pet.petId); // Set the selectedPetId state
+              navigation.navigate("AddTask", { petId: pet.petId });
+            }}
+          >
             <Text style={styles.addButtonText}>+</Text>
           </TouchableOpacity>
         </View>
@@ -150,13 +170,6 @@ const OverviewScreen = () => {
             </Text>
             <View style={styles.divider} />
           </View>
-          <ProgressBar
-            progress={progressValue}
-            style={{
-              marginBottom: 200,
-              marginLeft: 115,
-            }}
-          />
         </View>
       </View>
     </ScrollView>

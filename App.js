@@ -23,6 +23,7 @@ import ChangePetProfile from "./src/DetailForPet/ChangPetProfile";
 import { Offering } from "./src/page/booking/offering";
 import AddTask from "./src/DetailForPet/AddTask";
 import AddTaskFromHome from "./src/DetailForPet/AddTaskFromHome";
+import Search from "./src/services/Search";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -115,6 +116,11 @@ const App = () => {
           name="AddTaskFromHome"
           options={{ headerLeft: null, headerShown: false }}
           component={AddTaskFromHome}
+        />
+        <Stack.Screen
+          name="Search"
+          options={{ headerLeft: null, headerShown: false }}
+          component={Search}
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -1,21 +1,26 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
-import { View, StyleSheet, TouchableOpacity, Image, ScrollView, Alert } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Image, ScrollView, Alert, ImageBackground } from 'react-native';
 import { Button, Text, TextInput } from 'react-native-paper';
-import { DatePickerInput } from 'react-native-paper-dates';
 import Swiper from 'react-native-swiper';
-import { SelectList } from 'react-native-dropdown-select-list'
 import DateTimePicker from "@react-native-community/datetimepicker";
 import * as ImagePicker from "expo-image-picker";
 import { firebaseImg } from '../api/firebaseImg';
 import { postData } from '../api/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Slide1 = ({ name, handleChoosePhoto, image, setName,dob, setDob}) => {
+const Slide1 = ({ name, handleChoosePhoto, image, setName,dob, setDob, petFeature, setPetFeature}) => {
   const [selectedDate, setSelectedDate] = useState(dob);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const handleDateChange = (event, selectedDate) => {
     setShowDatePicker(false);
     if (selectedDate) {
+      // Check if the selected date is in the future
+      if (selectedDate > new Date()) {
+        // Date is in the future, do not set the state
+        Alert.alert("Error", "Please enter valid date.");
+        return;
+      }
+  
       setSelectedDate(selectedDate);
       setDob(selectedDate); // Update the parent component's state with the selected date
     }
@@ -39,9 +44,7 @@ const Slide1 = ({ name, handleChoosePhoto, image, setName,dob, setDob}) => {
                 <Image source={require('../../assets/ImgInput.jpg')} style={styles.image} />
               }
             </TouchableOpacity>
-            {!image && (
-              <Button title="Choose Photo" onPress={handleChoosePhoto} />
-            )}
+            
           </View>
         </View>
         <View>
@@ -53,6 +56,16 @@ const Slide1 = ({ name, handleChoosePhoto, image, setName,dob, setDob}) => {
             maxLength={20}
           />
         </View>
+        <View>
+          <Text style={styles.quizText}>What your pet's identifying feature</Text>
+          <TextInput
+            style={styles.textInputStyle}
+            placeholder="Enter pet's identifying feature"
+            value={petFeature}
+            onChangeText={setPetFeature}
+          />
+        </View>
+        
         <View>
                 <Text style={styles.quizText}>What your pet's date of birth</Text>
                 <TouchableOpacity onPress={displayDatePicker}>
@@ -93,16 +106,7 @@ const Slide1 = ({ name, handleChoosePhoto, image, setName,dob, setDob}) => {
   );
 };
 
-const Slide2 = ({ species, setSpecies, gender, setGender, weight, setWeight, handleDone }) => {
-  const speciesData = [
-    { key: '1', value: 'Mobiles' },
-    { key: '2', value: 'Appliances' },
-    { key: '3', value: 'Cameras' },
-    { key: '4', value: 'Computers' },
-    { key: '5', value: 'Vegetables' },
-    { key: '6', value: 'Diary Products' },
-    { key: '7', value: 'Drinks' },
-  ];
+const Slide2 = ({ species, setSpecies, gender, setGender, weight, setWeight, handleDone, height, setHeight }) => {
 
   return (
     <View style={styles.slide}>
@@ -111,11 +115,13 @@ const Slide2 = ({ species, setSpecies, gender, setGender, weight, setWeight, han
           <Text style={{ fontSize: 32 }}>Help us understand you by answering few questions</Text>
         </View>
         <View>
-          <Text style={styles.quizText}>Select your pet species</Text>
-          <SelectList
-            setSelected={(val) => setSpecies(val)}
-            data={speciesData}
-            save="value"
+          <Text style={styles.quizText}>What your pet's species</Text>
+          <TextInput
+            style={styles.textInputStyle}
+            placeholder="Enter pet species"
+            value={species}
+            onChangeText={setSpecies}
+            keyboardType='ascii-capable'
           />
         </View>
         <View>
@@ -141,11 +147,31 @@ const Slide2 = ({ species, setSpecies, gender, setGender, weight, setWeight, han
             style={styles.textInputStyle}
             placeholder="Enter pet weight (numbers only)"
             value={weight}
-            onChangeText={setWeight}
+            onChangeText={(text) => setWeight(parseInt(text))}
             keyboardType="numeric"
             maxLength={2}
           />
         </View>
+        <View>
+          <Text style={styles.quizText}>What your pet's height (in centimeter)</Text>
+          <TextInput
+            style={styles.textInputStyle}
+            render={({ height }) => (
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <TextInput
+                  style={{ flex: 1 }}
+                  value={height}
+                  onChangeText={(text) => setHeight(parseInt(text))}
+                  keyboardType="numeric"
+                  placeholder="Enter pet height (in cm)"
+                  maxLength={3}
+                />
+                <Text style={{ marginRight: 5 }}>cm</Text>
+              </View>
+            )}
+          />
+        </View>
+  
       </ScrollView>
       <TouchableOpacity onPress={handleDone} style={styles.doneButton}>
         <Text style={{ color: 'black', fontSize: 20, fontWeight: 'bold' }}>Done</Text>
@@ -161,12 +187,13 @@ export const Survey = ({ navigation }) => {
   const [image, setImage] = useState(null);
   const [name, setName] = useState("");
   const [petAvatar, setPetAvatar] = useState(null);
-  const [weight, setweight] = useState('');
+  const [weight, setweight] = useState(0);
   const [dob, setDob] = useState("");
   const [showDatePicker, setShowDatePicker] = useState(false);
   const nameInputRef = useRef(null);
   const [userId, setUserId] = useState(null);
-
+  const [height, setHeight] = useState(0);
+  const [petFeature, setPetFeature] = useState('');
   useEffect(() => {
     getStoredUserId();
   }, []);
@@ -187,9 +214,42 @@ export const Survey = ({ navigation }) => {
   };
 
   const handleDone = () => {
+    // Check if name is filled out
     if (!name) {
       Alert.alert("Error", "Please enter your pet name.");
-      nameInputRef.current;
+      return;
+    }
+  
+    // Check if date of birth is filled out
+    if (!dob) {
+      Alert.alert("Error", "Please select your pet's date of birth.");
+      return;
+    }
+  
+    // Check if species is selected
+    if (!species) {
+      Alert.alert("Error", "Please select your pet's species.");
+      return;
+    }
+  
+    // Check if gender is selected
+    if (gender === "") {
+      Alert.alert("Error", "Please select your pet's gender.");
+      return;
+    }
+  
+    // Check if weight is filled out
+    if (!weight) {
+      Alert.alert("Error", "Please enter your pet's weight.");
+      return;
+    }
+    // Check if height is filled out
+    if (!height) {
+      Alert.alert("Error", "Please enter your pet's height.");
+      return;
+    }
+    if (!petFeature) {
+      Alert.alert("Error", "Please enter your pet's feature.");
       return;
     }
   
@@ -199,7 +259,9 @@ export const Survey = ({ navigation }) => {
       "imagePet": petAvatar,
       "birthDate": dob,
       "gender": gender ? 1 : 0,
-      "weight": weight
+      "weight": weight,
+      "height": height,
+      "identifyingFeatures": petFeature
     })
       .then((e) => {
         console.log(e.data);
@@ -218,6 +280,10 @@ export const Survey = ({ navigation }) => {
   console.log(species);
   console.log(gender);
   console.log(weight);
+  console.log(height);
+  console.log(petFeature,1111);
+  console.log(petAvatar,2222);
+  console.log(userId,333);
   const handleChoosePhoto = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -236,6 +302,7 @@ export const Survey = ({ navigation }) => {
   
   return (
     <View style={styles.container}>
+      <ImageBackground source={require('../../assets/bgi.jpg')} style={styles.backgroundImage}>
       <Swiper
         ref={swiperRef}
         showsButtons={true}
@@ -253,17 +320,22 @@ export const Survey = ({ navigation }) => {
           setName={setName}
           setDob={setDob}
           showDatePicker={showDatePicker}
+          petFeature={petFeature}
+          setPetFeature={setPetFeature}
         />
         <Slide2
           species={species}
           setSpecies={setPetspecies}
           gender={gender}
           setGender={setgender}
-          weight={weight}
+          weight={weight.toString()}
           setWeight={setweight}
           handleDone={handleDone}
+          height={height}
+          setHeight={setHeight}
         />
       </Swiper>
+      </ImageBackground>
     </View>
   );
 };
@@ -274,6 +346,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+
   title: {
     fontSize: 32,
     fontWeight: 'bold',
@@ -281,6 +354,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: "10%",
     padding: 5,
+    color: 'white'
   },
   wrapper: {
     position: 'relative',
@@ -289,7 +363,6 @@ const styles = StyleSheet.create({
   slide: {
     flex: 1,
     justifyContent: 'center',
-
     padding: 15,
     flexDirection: 'column',
     gap: 30
@@ -328,6 +401,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
     padding: 10,
+    fontStyle: 'italic'
   },
   textInputStyle: {
     borderTopEndRadius: 10,

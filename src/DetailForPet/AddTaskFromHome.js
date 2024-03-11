@@ -255,6 +255,21 @@ export default function AddTaskFromHome({ navigation }) {
             }}
           />
         )}
+        {!selectedPetImage && (
+          <Image
+            source={{ uri: "selectedPetImage" }}
+            style={{
+              ...styles.image,
+              marginBottom: 40,
+              borderColor: "gray",
+              borderWidth: 1,
+              width: 432,
+              height: 300,
+              marginTop: 80,
+              objectFit: "cover",
+            }}
+          />
+        )}
         <View
           style={{
             ...styles.searchSection,

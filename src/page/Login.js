@@ -1,12 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Alert, StyleSheet, View } from "react-native";
+import { Alert, Keyboard, StyleSheet, View } from "react-native";
 import { Text, TextInput } from "react-native-paper";
 import CustomButton from "../Components/CustomButton";
-import { Link } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
 import { postData } from "../api/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import ProfileScreen from "./Profiles";
 export default function LoginScreen({}) {
   const navigation = useNavigation();
   const [email, setEmail] = useState("");
@@ -39,6 +37,7 @@ export default function LoginScreen({}) {
     loadStoredData();
   }, [email]);
   const handleLogin = () => {
+    Keyboard.dismiss()
     if (!email) {
       Alert.alert("Error", "Please enter your email.");
       emailInputRef.current.focus();
@@ -110,12 +109,12 @@ export default function LoginScreen({}) {
         <View style={{ margin: 10 }} />
         <View>
           <Text style={{ textAlign: "center" }}>
-            ------------------- or continue with -------------------
+            ------------------- Or continue with -------------------
           </Text>
         </View>
         <View style={{ margin: 10 }} />
-        <Text style={{ textAlign: "center" }} onPress={handleProfileNavigation}>
-          Don’t have account? Signup
+        <Text style={{ textAlign: "center" }} >
+          Don’t have account? <Text style={{color:'blue'}} onPress={handleProfileNavigation}>Register</Text>
         </Text>
       </View>
     </View>

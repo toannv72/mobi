@@ -41,6 +41,7 @@ export default function HomeScreen({ navigation }) {
         });
       } else {
         console.log("No data found in AsyncStorage.");
+        navigation.navigate("Login")
       }
     } catch (error) {
       console.error("Error loading data:", error);

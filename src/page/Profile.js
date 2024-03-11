@@ -60,6 +60,7 @@ export default function ProfileSettingScreen({}) {
         console.log("User Information:", response.data);
       } else {
         console.log("No data found in AsyncStorage.");
+        navigation.navigate("Login")
       }
     } catch (error) {
       console.error("Error loading data:", error);
@@ -214,7 +215,7 @@ export default function ProfileSettingScreen({}) {
       <List.Item
         title="Logout"
         left={(props) => <List.Icon {...props} icon="logout" />}
-        onPress={() => navigation.navigate("Login")}
+        onPress={() => handleLogout()}
         titleStyle={{ fontSize: 19, fontWeight: "bold", marginLeft: 0 }}
       />
       <View style={styles.updateAccountContainer}>

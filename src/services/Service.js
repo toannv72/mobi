@@ -41,11 +41,9 @@ export default function Service() {
   useFocusEffect(
     useCallback(() => {
       getStoredUserId();
-        return () => {
-        };
-    }, []),
-
-);
+      return () => {};
+    }, [])
+  );
   const getStoredUserId = async () => {
     try {
       const data = await AsyncStorage.getItem("@myKey");
@@ -71,7 +69,6 @@ export default function Service() {
   useEffect(() => {
     // Gọi hàm getStoredUserId khi component được tạo ra
     getStoredUserId();
-
   }, []);
   const getButtonStyle = (page) => {
     return currentPage === page ? styles.selectedButton : styles.button;
@@ -79,10 +76,13 @@ export default function Service() {
   const getTextStyle = (page) => {
     return currentPage === page ? styles.selectedButtonText : styles.buttonText;
   };
+  const handleSearchbarFocus = () => {
+    navigation.navigate("Search", { itemData: 1 });
+  };
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-       <View  style={styles.header}>
+        <View style={styles.header}>
           <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
             <Avatar.Image
               size={50}
@@ -98,7 +98,7 @@ export default function Service() {
               <Text>{userData.address}</Text>
             </View>
           </View>
-       </View>
+        </View>
         <View style={styles.notification}>
           <Image source={mess} />
           <TouchableOpacity onPress={() => navigation.navigate("Notification")}>
@@ -106,12 +106,21 @@ export default function Service() {
           </TouchableOpacity>
         </View>
       </View>
-      <Searchbar
-        placeholder="Search"
-        onChangeText={setSearchQuery}
-        value={searchQuery}
-        style={styles.searchbar}
-      />
+      <TouchableOpacity
+        style={{
+          marginTop: 30,
+          marginLeft: 10,
+          marginRight: 10,
+          padding: 15,
+          borderWidth: 2,
+          borderColor: "transparent",
+          borderRadius: 9999,
+          backgroundColor: "#BBBFDE99",
+        }}
+        onPress={handleSearchbarFocus}
+      >
+        <Text style={{ fontWeight: 200, fontSize: 20 }}>Search</Text>
+      </TouchableOpacity>
       <SafeAreaView>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           <View style={styles.tab}>
@@ -151,7 +160,7 @@ export default function Service() {
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    
+
     backgroundColor: "#FFFFFF",
     padding: 10,
   },

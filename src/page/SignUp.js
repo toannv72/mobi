@@ -72,6 +72,9 @@ export default function SingUpScreen({ navigation }) {
         })
         .then((e) => {
           console.log(e.data);
+          if (e.data.success==false) {
+            Alert.alert("Error", e.data.messages);
+          }
           if (e.data.success) {
             navigation.navigate("IntroSlider");
           } else {

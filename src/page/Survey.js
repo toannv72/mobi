@@ -162,7 +162,7 @@ export const Survey = ({ navigation }) => {
   const [name, setName] = useState("");
   const [petAvatar, setPetAvatar] = useState(null);
   const [weight, setweight] = useState('');
-  const [dob, setDob] = useState("2000-2-1T20:35:52.184Z");
+  const [dob, setDob] = useState("");
   const [showDatePicker, setShowDatePicker] = useState(false);
   const nameInputRef = useRef(null);
   const [userId, setUserId] = useState(null);
@@ -182,7 +182,7 @@ export const Survey = ({ navigation }) => {
         console.log("No data found in AsyncStorage.");
       }
     } catch (error) {
-      console.error("Error loading data:", error);
+      console.log ("Error loading data:", error);
     }
   };
 

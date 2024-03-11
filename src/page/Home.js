@@ -17,7 +17,6 @@ export default function HomeScreen({ navigation }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [userData, setUserData] = useState({});
   const [pet, setPet] = useState([]);
-
   const navigateToPetProfile = (data) => {
     // Navigate to the pet profile screen
     navigation.navigate("PetDetail", { id: data }); // Make sure to replace 'PetProfileScreen' with the actual name of your pet profile screen.
@@ -28,6 +27,7 @@ export default function HomeScreen({ navigation }) {
 
       if (data !== null) {
         const userData = JSON.parse(data);
+        console.log(2222222222222222,userData);
         const id = userData[0].id;
 
         const endpoint = `/users/getInformation/${id}`;

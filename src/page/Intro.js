@@ -55,7 +55,7 @@ export const IntroSlider = ({ navigation }) => {
 
     const handleSkip = () => {
 
-        navigation.navigate('Homes', { screen: 'Home' })
+        navigation.navigate('Survey', { screen: 'Survey' })
     };
     return (
         <View style={styles.introContainer}>

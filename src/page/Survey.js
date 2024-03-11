@@ -5,7 +5,7 @@ import Swiper from 'react-native-swiper';
 import DateTimePicker from "@react-native-community/datetimepicker";
 import * as ImagePicker from "expo-image-picker";
 import { firebaseImg } from '../api/firebaseImg';
-import { postData } from '../api/api';
+import { getData, postData } from '../api/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Slide1 = ({ name, handleChoosePhoto, image, setName,dob, setDob, petFeature, setPetFeature}) => {
@@ -191,20 +191,26 @@ export const Survey = ({ navigation }) => {
   const [dob, setDob] = useState("");
   const [showDatePicker, setShowDatePicker] = useState(false);
   const nameInputRef = useRef(null);
-  const [userId, setUserId] = useState(null);
+  const [userId, setUserId] = useState('');
   const [height, setHeight] = useState(0);
   const [petFeature, setPetFeature] = useState('');
   useEffect(() => {
     getStoredUserId();
-  }, []);
+    // getData(`/users/getInformation/${userId}`)
+    // .then(()=>{
 
+    // })
+
+
+  }, []);
+console.log(userId);
   const getStoredUserId = async () => {
     try {
       const data = await AsyncStorage.getItem("@myKey");
       if (data !== null) {
         const userData = JSON.parse(data);
-        const id = userData[0].id;
-        setUserId(userData[0].data.data.id)
+        console.log(userData);
+        setUserId(userData[0].id)
       } else {
         console.log("No data found in AsyncStorage.");
       }
@@ -264,9 +270,7 @@ export const Survey = ({ navigation }) => {
       "identifyingFeatures": petFeature
     })
       .then((e) => {
-        console.log(e.data);
-  
-        navigation.navigate('Homes')
+        navigation.navigate('Homes',{screen:'Home'})
   
       })
       .catch((e) => {

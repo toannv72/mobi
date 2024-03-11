@@ -14,7 +14,7 @@ import { postData } from "../api/api";
 import axios from "axios";
 import { Controller, useForm } from "react-hook-form";
 import { ScrollView } from "react-native-gesture-handler";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function SingUpScreen({ navigation }) {
   const { control, handleSubmit, formState: { errors } } = useForm({
   });
@@ -47,11 +47,14 @@ export default function SingUpScreen({ navigation }) {
           phoneNumber: data.phoneNumber,
         })
         .then((e) => {
-          console.log(e.data);
+
+          console.log("ddang kys ", e.data.data);
+
           if (e.data.success == false) {
             Alert.alert("Error", e.data.messages);
           }
           if (e.data.success) {
+            AsyncStorage.setItem("@myKey", JSON.stringify([e.data.data]));
             navigation.navigate("IntroSlider");
           } else {
           }
@@ -71,54 +74,54 @@ export default function SingUpScreen({ navigation }) {
   };
   return (
     <View style={styles.container}>
-     <ScrollView showsHorizontalScrollIndicator={false}>
-      <Text style={{ fontSize: 26 }}> Create your account</Text>
-      <View style={{ margin: 20 }} />
-      <Controller
-        control={control}
-        rules={{
-          required: true,
-        }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            style={styles.input}
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-            label="Full name"
-            ref={fullNameInputRef}
-            mode="outlined"
-            left={<TextInput.Icon icon="account" />}
-            onSubmitEditing={() => emailInputRef.current.focus()}
-          />
-        )}
-        name="fullName"
-      />
-      {errors.fullName && errors.fullName.type === 'required' && <Text style={{ color: 'red' }}>Please enter full name</Text>}
-      <View style={styles.margin} />
-      <Controller
-        control={control}
-        rules={{ required: true, pattern: /^\S+@\S+$/i }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            ref={emailInputRef}
-            style={styles.input}
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-            label="Email"
-            mode="outlined"
-            left={<TextInput.Icon icon="account" />}
-            onSubmitEditing={() => phoneInputRef.current.focus()}
-          />
-        )}
-        name="email"
-      />
-      {errors.email && errors.email.type === 'required' && <Text style={{ color: 'red' }}>Please enter email</Text>}
-      {errors.email && errors.email.type === 'pattern' && <Text style={{ color: 'red' }}>Invalid email</Text>}
+      <ScrollView showsHorizontalScrollIndicator={false}>
+        <Text style={{ fontSize: 26 }}> Create your account</Text>
+        <View style={{ margin: 20 }} />
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              style={styles.input}
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+              label="Full name"
+              ref={fullNameInputRef}
+              mode="outlined"
+              left={<TextInput.Icon icon="account" />}
+              onSubmitEditing={() => emailInputRef.current.focus()}
+            />
+          )}
+          name="fullName"
+        />
+        {errors.fullName && errors.fullName.type === 'required' && <Text style={{ color: 'red' }}>Please enter full name</Text>}
+        <View style={styles.margin} />
+        <Controller
+          control={control}
+          rules={{ required: true, pattern: /^\S+@\S+$/i }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              ref={emailInputRef}
+              style={styles.input}
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+              label="Email"
+              mode="outlined"
+              left={<TextInput.Icon icon="account" />}
+              onSubmitEditing={() => phoneInputRef.current.focus()}
+            />
+          )}
+          name="email"
+        />
+        {errors.email && errors.email.type === 'required' && <Text style={{ color: 'red' }}>Please enter email</Text>}
+        {errors.email && errors.email.type === 'pattern' && <Text style={{ color: 'red' }}>Invalid email</Text>}
 
 
-      {/* <TextInput
+        {/* <TextInput
         ref={emailInputRef}
         label="Email"
         mode="outlined"
@@ -129,33 +132,33 @@ export default function SingUpScreen({ navigation }) {
         onSubmitEditing={() => phoneInputRef.current.focus()}
       /> */}
 
-      <View style={styles.margin} />
-      <Controller
-        control={control}
-        // rules={{ required: true, pattern: /^[0-9]*$/ }}
-        rules={{ required: true,  pattern: /^0[0-9]{9}$/ }}
+        <View style={styles.margin} />
+        <Controller
+          control={control}
+          // rules={{ required: true, pattern: /^[0-9]*$/ }}
+          rules={{ required: true, pattern: /^0[0-9]{9}$/ }}
 
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            ref={phoneInputRef}
-            style={styles.input}
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-            label="Phone number"
-            mode="outlined"
-            keyboardType="number-pad"
-            left={<TextInput.Icon icon="phone" />}
-            onSubmitEditing={() => passwordInputRef.current.focus()}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              ref={phoneInputRef}
+              style={styles.input}
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+              label="Phone number"
+              mode="outlined"
+              keyboardType="number-pad"
+              left={<TextInput.Icon icon="phone" />}
+              onSubmitEditing={() => passwordInputRef.current.focus()}
 
-          />
-        )}
-        name="phoneNumber"
-      />
-      {errors.phoneNumber && errors.phoneNumber.type === 'required' && <Text style={{ color: 'red' }}>Please enter the phone number</Text>}
-      {errors.phoneNumber && errors.phoneNumber.type === 'pattern' && <Text style={{ color: 'red' }}>Invalid phone number</Text>}
+            />
+          )}
+          name="phoneNumber"
+        />
+        {errors.phoneNumber && errors.phoneNumber.type === 'required' && <Text style={{ color: 'red' }}>Please enter the phone number</Text>}
+        {errors.phoneNumber && errors.phoneNumber.type === 'pattern' && <Text style={{ color: 'red' }}>Invalid phone number</Text>}
 
-      {/* <TextInput
+        {/* <TextInput
         ref={phoneInputRef}
         label="Phone number"
         mode="outlined"
@@ -166,32 +169,32 @@ export default function SingUpScreen({ navigation }) {
         onSubmitEditing={() => passwordInputRef.current.focus()}
       /> */}
 
-      <View style={styles.margin} />
-      <Controller
-        control={control}
-        rules={{
-          required: true,
-        }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            ref={passwordInputRef}
-            style={styles.input}
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-            label="Password"
-            mode="outlined"
-            secureTextEntry
-            left={<TextInput.Icon icon="lock" />}
-            onSubmitEditing={() => repeatPasswordInputRef.current.focus()}
+        <View style={styles.margin} />
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              ref={passwordInputRef}
+              style={styles.input}
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+              label="Password"
+              mode="outlined"
+              secureTextEntry
+              left={<TextInput.Icon icon="lock" />}
+              onSubmitEditing={() => repeatPasswordInputRef.current.focus()}
 
-          />
-        )}
-        name="password"
-      />
-      {errors.password && errors.password.type === 'required' && <Text style={{ color: 'red' }}>Please enter a password</Text>}
+            />
+          )}
+          name="password"
+        />
+        {errors.password && errors.password.type === 'required' && <Text style={{ color: 'red' }}>Please enter a password</Text>}
 
-      {/* <TextInput
+        {/* <TextInput
         ref={passwordInputRef}
         label="Password"
         mode="outlined"
@@ -202,32 +205,32 @@ export default function SingUpScreen({ navigation }) {
         left={<TextInput.Icon icon="lock" />}
       /> */}
 
-      <View style={styles.margin} />
-      <Controller
-        control={control}
-        rules={{
-          required: true,
-        }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            ref={repeatPasswordInputRef}
-            style={styles.input}
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-            label="Repeat password"
-            mode="outlined"
-            
-            left={<TextInput.Icon icon="lock" />}
-            onSubmitEditing={handleSubmit(handleSignUp)}
-            secureTextEntry
-          />
-        )}
-        name="repeatPassword"
-      />
-      {errors.repeatPassword && errors.repeatPassword.type === 'required' && <Text style={{ color: 'red' }}>Please enter a password</Text>}
+        <View style={styles.margin} />
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              ref={repeatPasswordInputRef}
+              style={styles.input}
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+              label="Repeat password"
+              mode="outlined"
 
-      {/* <TextInput
+              left={<TextInput.Icon icon="lock" />}
+              onSubmitEditing={handleSubmit(handleSignUp)}
+              secureTextEntry
+            />
+          )}
+          name="repeatPassword"
+        />
+        {errors.repeatPassword && errors.repeatPassword.type === 'required' && <Text style={{ color: 'red' }}>Please enter a password</Text>}
+
+        {/* <TextInput
         ref={repeatPasswordInputRef}
         label="Repeat password"
         mode="outlined"
@@ -238,23 +241,23 @@ export default function SingUpScreen({ navigation }) {
         left={<TextInput.Icon icon="lock" />}
       /> */}
 
-      <View style={styles.margin} />
+        <View style={styles.margin} />
 
-      <CustomButton title="Sign up" height={50} onPress={handleSubmit(handleSignUp)} />
-      <View style={{ margin: 10 }} />
-      <View>
-        <Text style={{ textAlign: "center" }}>
-          ------------------- Or continue with -------------------
+        <CustomButton title="Sign up" height={50} onPress={handleSubmit(handleSignUp)} />
+        <View style={{ margin: 10 }} />
+        <View>
+          <Text style={{ textAlign: "center" }}>
+            ------------------- Or continue with -------------------
+          </Text>
+        </View>
+        <View style={{ margin: 10 }} />
+
+        <Text
+          style={{ textAlign: "center" }}
+
+        >
+          Don’t have account? <Text style={{ color: 'blue' }} onPress={() => navigation.navigate("Login")}>Log in</Text>
         </Text>
-      </View>
-      <View style={{ margin: 10 }} />
-
-      <Text
-        style={{ textAlign: "center" }}
-
-      >
-        Don’t have account? <Text style={{ color: 'blue' }} onPress={() => navigation.navigate("Login")}>Log in</Text>
-      </Text>
       </ScrollView>
     </View>
   );

@@ -43,22 +43,35 @@ export default function ChangePassword({ navigation }) {
     }
 
     try {
-      axios
-        .post("https://petside.azurewebsites.net/api/account/changePassword", {
-          newpassword: repeatPassword,
-          confirmPassword: password,
-          email: email,
-        })
+
+      postData("/users/login", {
+        email: email,
+        password: password,
+      })
         .then((e) => {
-          console.log(e.data);
-          if (e.data.success) {
-            navigation.navigate("Login");
-          } else {
-          }
+          axios
+          .post("https://petside.azurewebsites.net/api/account/changePassword", {
+            newpassword: repeatPassword,
+            confirmPassword: password,
+            email: email,
+          })
+          .then((e) => {
+            console.log(e.data);
+            if (e.data.success) {
+              navigation.navigate('Homes', { screen: 'home' })
+            } else {
+            }
+          })
+          .catch((error) => {
+            console.error("Error fetching data:", error.response);
+          });
         })
         .catch((error) => {
-          console.error("Error fetching data:", error.response);
+          // navigation.navigate('Homes', { screen: 'home' })
+          console.log(error);
+          Alert.alert("Error", "Maatj khaaur cux sai!");
         });
+      
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -132,17 +145,17 @@ export default function ChangePassword({ navigation }) {
         style={{ width: 240, height: 240, alignSelf: "center" }}
       />
       <View style={{ marginTop: 75 }} />
-      <TextInput
+      {/* <TextInput
         label="Email"
         mode="outlined"
         value={email}
         editable={false}
         left={<TextInput.Icon icon="email" />}
       />
-      <View style={styles.margin} />
+      <View style={styles.margin} /> */}
       <TextInput
         ref={passwordInputRef}
-        label="Password"
+        label="old Password"
         mode="outlined"
         onChangeText={(text) => setPassword(text)}
         value={password}
@@ -151,6 +164,17 @@ export default function ChangePassword({ navigation }) {
         left={<TextInput.Icon icon="lock" />}
       />
 
+      <View style={styles.margin} />
+      <TextInput
+        ref={passwordInputRef}
+        label="New Password"
+        mode="outlined"
+        onChangeText={(text) => setPassword(text)}
+        value={password}
+        secureTextEntry
+        onSubmitEditing={() => repeatPasswordInputRef.current.focus()}
+        left={<TextInput.Icon icon="lock" />}
+      />
       <View style={styles.margin} />
 
       <TextInput

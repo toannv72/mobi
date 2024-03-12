@@ -376,7 +376,7 @@ export default function ChangePetProfile({ navigation }) {
               }}
               placeholder="Weight"
               onChangeText={(text) => setWeight(text)}
-              value={weight.toString()}
+              value={weight?.toString()}
               mode="outlined"
               // keyboardType="number-pad"
               left={
@@ -407,7 +407,7 @@ export default function ChangePetProfile({ navigation }) {
               }}
               placeholder="Height"
               onChangeText={(text) => setHeight(text)}
-              value={height.toString()}
+              value={height?.toString()}
               mode="outlined"
               keyboardType="number-pad"
               left={

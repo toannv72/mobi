@@ -10,7 +10,7 @@ import { getData } from "../api/api";
 export default function AddTaskFromHome({ navigation }) {
   const [time, setTime] = useState(new Date());
   const [dob, setDob] = useState("");
-  const [type, setType] = useState("Gromming");
+  const [type, setType] = useState("Choose a type task");
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState("date");
   const [modeTime, setModeTime] = useState("time");
@@ -131,7 +131,7 @@ export default function AddTaskFromHome({ navigation }) {
     setDob("");
   };
   const handleSaveChanges = () => {
-    if (!type || !time || !dob || !detail) {
+    if (!type || !time || !dob || !detail || type === "Choose a type task") {
       // Nếu một trong các trường đầu vào rỗng, hiển thị thông báo cảnh báo
       Alert.alert("Alert", "Please fill all the fields.");
       return; // Dừng hàm ở đây nếu có trường rỗng
@@ -264,6 +264,7 @@ export default function AddTaskFromHome({ navigation }) {
         <RNPickerSelect
           onValueChange={(value) => setType(value)}
           items={[
+            { label: "Choose a type task", value: "Choose a type task" },
             { label: "Gromming", value: "Gromming" },
             { label: "Vaccination", value: "Vaccination" },
             { label: "Hotel", value: "Hotel" },

@@ -86,7 +86,10 @@ const OverviewScreen = ({ pet }) => {
               console.log("pet:", pet);
               console.log("petId111:", pet.petId); // Log petId
               setSelectedPetId(pet.petId); // Set the selectedPetId state
-              navigation.navigate("AddTask", { petId: pet.petId });
+              navigation.navigate("AddTask", {
+                petId: pet.petId,
+                imagePet: pet.imagePet,
+              });
             }}
           >
             <Text style={styles.addButtonText}>+</Text>

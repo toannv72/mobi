@@ -24,6 +24,7 @@ import { Offering } from "./src/page/booking/offering";
 import AddTask from "./src/DetailForPet/AddTask";
 import AddTaskFromHome from "./src/DetailForPet/AddTaskFromHome";
 import Search from "./src/services/Search";
+import ChangePassword from "./src/page/ChangePassword";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -121,6 +122,11 @@ const App = () => {
           name="Search"
           options={{ headerLeft: null, headerShown: false }}
           component={Search}
+        />
+        <Stack.Screen
+          name="ChangePassword"
+          options={{ headerLeft: null, headerShown: false }}
+          component={ChangePassword}
         />
       </Stack.Navigator>
     </NavigationContainer>

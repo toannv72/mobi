@@ -60,7 +60,6 @@ export default function ProfileSettingScreen({}) {
         console.log("User Information:", response.data);
       } else {
         console.log("No data found in AsyncStorage.");
-        navigation.navigate("Login")
       }
     } catch (error) {
       console.error("Error loading data:", error);
@@ -125,7 +124,7 @@ export default function ProfileSettingScreen({}) {
     setShow(false);
   };
   const log = (item) => {
-    if (item.name === "Password" || item.name === "Help Center") {
+    if (item.name === "Help Center") {
       setMaintenanceModalVisible(true);
     } else if (item.name === "Account Setting") {
       navigation.navigate("ChangeProfile", { item });
@@ -133,6 +132,8 @@ export default function ProfileSettingScreen({}) {
       handleLogout();
     } else if (item.name === "Payment Method") {
       setModalVisible(!modalVisible);
+    } else if (item.name === "Password") {
+      navigation.navigate("ChangePassword");
     }
   };
 
@@ -215,7 +216,7 @@ export default function ProfileSettingScreen({}) {
       <List.Item
         title="Logout"
         left={(props) => <List.Icon {...props} icon="logout" />}
-        onPress={() => handleLogout()}
+        onPress={() => navigation.navigate("Login")}
         titleStyle={{ fontSize: 19, fontWeight: "bold", marginLeft: 0 }}
       />
       <View style={styles.updateAccountContainer}>

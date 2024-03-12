@@ -157,13 +157,8 @@ export const Booking = () => {
   };
 
   const handleTimeCardPress = (index, time) => {
-    const selectedDate = moment(date).format("YYYY-MM-DD");
-    const currentDate = moment().format("YYYY-MM-DD");
-
-    if (moment(selectedDate).isSame(currentDate, "day")) {
-      setSelectedTimeIndex(index);
-      setSelectedTime(time);
-    }
+    setSelectedTimeIndex(index);
+    setSelectedTime(time);
   };
 
   const renderNextTimes = () => {
@@ -349,7 +344,7 @@ export const Booking = () => {
           >
             <Text style={style.nextV2}>Booking</Text>
           </TouchableOpacity>
-          <View style={{ height: 200 }}></View>
+          <View style={{ height: 100 }}></View>
         </ScrollView>
       </View>
     </View>

@@ -102,7 +102,6 @@ export default function AddPet({ navigation }) {
     setDetail(""), setDob("");
   };
   const handleSaveChanges = () => {
-
     console.log({
       weight: Number(weight),
       species: species,
@@ -229,30 +228,26 @@ export default function AddPet({ navigation }) {
             height: "100%",
           }}
         />
-      </View>
-
-      <View style={styles.backIconContainer}>
-        <View
-          style={{ flexDirection: "row", alignItems: "center", marginTop: 10 }}
-        >
-          <IconButton
-            style={styles.backIcon}
-            icon="arrow-left"
-            size={35}
-            onPress={() => navigation.navigate("Home")}
-          />
-          <Text
+        <View style={styles.backIconContainer}>
+          <View
             style={{
-              fontSize: 20,
-              color: "black",
-              marginLeft: 5,
-              fontWeight: "700",
+              flexDirection: "row",
+              alignItems: "center",
+              marginTop: 10,
+              backgroundColor: "white",
+              borderRadius: 9999,
             }}
           >
-            Back
-          </Text>
+            <IconButton
+              style={styles.backIcon}
+              icon="arrow-left"
+              size={35}
+              onPress={() => navigation.navigate("Home")}
+            />
+          </View>
         </View>
       </View>
+
       <View style={styles.cameraIconContainer}>
         <IconButton
           style={{ ...styles.cameraIcon, marginBottom: 550 }}
@@ -567,13 +562,14 @@ const styles = StyleSheet.create({
   },
   backIconContainer: {
     position: "absolute",
-    top: 50,
-    left: 5,
+    top: 20,
+    left: 20,
     zIndex: 1,
   },
   backIcon: {
-    padding: 10,
-    color: "#8C8EA3",
+    paddingVertical: 10,
+    color: "black",
+    backgroundColor: "white",
   },
   cameraIconContainer: {
     position: "absolute",

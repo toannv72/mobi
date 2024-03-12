@@ -65,7 +65,7 @@ export default function Search({}) {
         <View style={{ width: "84%", marginTop: "10%" }}>
           <TextInput
             ref={searchInputRef}
-            placeholder="Tìm Kiếm"
+            placeholder="Search"
             style={{
               padding: 10,
               fontSize: 20,

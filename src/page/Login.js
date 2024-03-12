@@ -37,7 +37,7 @@ export default function LoginScreen({}) {
     loadStoredData();
   }, [email]);
   const handleLogin = () => {
-    Keyboard.dismiss()
+    Keyboard.dismiss();
     if (!email) {
       Alert.alert("Error", "Please enter your email.");
       emailInputRef.current.focus();
@@ -55,8 +55,7 @@ export default function LoginScreen({}) {
       password: password,
     })
       .then((e) => {
-
-        console.log("login",e);
+        console.log("login", e);
         console.log("data", JSON.stringify([e]));
         AsyncStorage.setItem("@myKey", JSON.stringify([e]));
         console.log("Data saved successfully!");
@@ -73,7 +72,7 @@ export default function LoginScreen({}) {
     <View style={styles.container}>
       {/* <ProfileScreen /> */}
       <View style={styles.body}>
-        <Text style={{ fontSize: 26, marginTop: 30 }}> Well come back </Text>
+        <Text style={{ fontSize: 26, marginTop: 30 }}> Welcome back </Text>
         <View style={{ margin: 20 }} />
 
         <TextInput
@@ -106,7 +105,7 @@ export default function LoginScreen({}) {
         <View>
           <View style={{ margin: 10 }} />
 
-          <Text style={{ textAlign: "right" }}>For got your password ?</Text>
+          <Text style={{ textAlign: "right" }}>Forgot your password ?</Text>
         </View>
         <View style={{ margin: 10 }} />
         <View>
@@ -115,8 +114,11 @@ export default function LoginScreen({}) {
           </Text>
         </View>
         <View style={{ margin: 10 }} />
-        <Text style={{ textAlign: "center" }} >
-          Don’t have account? <Text style={{color:'blue'}} onPress={handleProfileNavigation}>Register</Text>
+        <Text style={{ textAlign: "center" }}>
+          Don’t have account?{" "}
+          <Text style={{ color: "blue" }} onPress={handleProfileNavigation}>
+            Register
+          </Text>
         </Text>
       </View>
     </View>

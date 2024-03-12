@@ -100,7 +100,6 @@ export default function Service() {
           </View>
         </View>
         <View style={styles.notification}>
-          <Image source={mess} />
           <TouchableOpacity onPress={() => navigation.navigate("Notification")}>
             <Image source={ring} style={{ marginLeft: 10 }} />
           </TouchableOpacity>
@@ -108,7 +107,7 @@ export default function Service() {
       </View>
       <TouchableOpacity
         style={{
-          marginTop: 30,
+          marginTop: 10,
           marginLeft: 10,
           marginRight: 10,
           padding: 15,
@@ -179,7 +178,6 @@ const styles = StyleSheet.create({
     marginTop: 6,
   },
   notification: {
-    marginLeft: "15%",
     flexDirection: "row",
     alignItems: "center",
   },

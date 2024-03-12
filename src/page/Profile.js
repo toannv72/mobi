@@ -60,13 +60,13 @@ export default function ProfileSettingScreen({}) {
         console.log("User Information:", response.data);
       } else {
         console.log("No data found in AsyncStorage.");
-        navigation.navigate("Login")
+        navigation.navigate("Login");
       }
     } catch (error) {
       console.error("Error loading data:", error);
     }
   };
-
+  console.log("2222", userData.upgraded);
   useEffect(() => {
     // Gọi hàm getStoredUserId khi component được tạo ra
     getStoredUserId();
@@ -219,15 +219,17 @@ export default function ProfileSettingScreen({}) {
         titleStyle={{ fontSize: 19, fontWeight: "bold", marginLeft: 0 }}
       />
       <View style={styles.updateAccountContainer}>
-        <List.Item
-          title={
-            <Text style={styles.updateAccountText} onPress={hadShow}>
-              Update Your Account
-            </Text>
-          }
-          titleStyle={{ alignSelf: "center" }}
-          style={styles.updateAccount}
-        />
+        {userData.upgraded === false && (
+          <List.Item
+            title={
+              <Text style={styles.updateAccountText} onPress={hadShow}>
+                Update Your Account
+              </Text>
+            }
+            titleStyle={{ alignSelf: "center" }}
+            style={styles.updateAccount}
+          />
+        )}
       </View>
       <Model shows={show} handClose={handClose} />
       <Modal

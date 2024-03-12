@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Image, Text, Platform, Alert } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Image,
+  Text,
+  Platform,
+  Alert,
+  Dimensions,
+} from "react-native";
 import { TextInput, IconButton, Modal, Button } from "react-native-paper";
 import * as ImagePicker from "expo-image-picker";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -159,7 +167,7 @@ export default function ChangeProfile({ navigation }) {
     };
     loadStoredData();
   }, []);
-
+  const screenWidth = Dimensions.get("window").width;
   return (
     <View style={styles.container}>
       <View
@@ -214,7 +222,7 @@ export default function ChangeProfile({ navigation }) {
         <IconButton
           style={{ ...styles.cameraIcon, marginBottom: 500 }}
           icon="camera"
-          size={35}
+          size={30}
           onPress={handleChoosePhoto}
         />
       </View>
@@ -222,7 +230,7 @@ export default function ChangeProfile({ navigation }) {
       <View
         style={{
           ...styles.searchSection,
-          // backgroundColor: "#E9E7E7",
+          width: screenWidth - 20 - 20, // subtract the desired margin
           borderRadius: 40,
           marginTop: -10,
         }}
@@ -252,7 +260,7 @@ export default function ChangeProfile({ navigation }) {
       <View
         style={{
           ...styles.searchSection,
-          // backgroundColor: "#E9E7E7",
+          width: screenWidth - 20 - 20, // subtract the desired margin
           borderRadius: 40,
           marginBottom: 5,
         }}
@@ -284,10 +292,10 @@ export default function ChangeProfile({ navigation }) {
         <View
           style={{
             ...styles.searchSection,
-            fontSize: 18,
-            marginTop: 6,
-            marginRight: 80,
-            width: 189,
+            marginTop: -10,
+            width: (screenWidth - 30) / 2 - 10,
+            marginTop: 7,
+            paddingRight: 10,
           }}
         >
           <TextInput
@@ -319,16 +327,16 @@ export default function ChangeProfile({ navigation }) {
               ...styles.searchSection,
               // backgroundColor: "#E9E7E7",
               marginTop: -10,
-              width: 180,
+              width: (screenWidth - 30) / 2,
               marginTop: 7,
-              marginLeft: -70,
+              paddingLeft: 9,
             }}
           >
             <TouchableOpacity
               onPress={showDatepicker}
               style={{
                 width: 180,
-                height: 73,
+                height: 75,
               }}
             >
               <TextInput
@@ -344,7 +352,7 @@ export default function ChangeProfile({ navigation }) {
                 editable={false}
                 left={
                   <TextInput.Icon
-                    icon="account-circle"
+                    icon="calendar"
                     size={35}
                     style={{
                       marginTop: 22,
@@ -370,9 +378,9 @@ export default function ChangeProfile({ navigation }) {
       <View
         style={{
           ...styles.searchSection,
-          // backgroundColor: "#E9E7E7",
+          width: screenWidth - 20 - 20, // subtract the desired margin
           borderRadius: 40,
-          marginBottom: 5,
+          marginTop: 0,
         }}
       >
         <TextInput

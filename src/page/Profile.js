@@ -125,7 +125,7 @@ export default function ProfileSettingScreen({}) {
     setShow(false);
   };
   const log = (item) => {
-    if (item.name === "Password" || item.name === "Help Center") {
+    if (item.name === "Help Center") {
       setMaintenanceModalVisible(true);
     } else if (item.name === "Account Setting") {
       navigation.navigate("ChangeProfile", { item });
@@ -133,6 +133,8 @@ export default function ProfileSettingScreen({}) {
       handleLogout();
     } else if (item.name === "Payment Method") {
       setModalVisible(!modalVisible);
+    } else if (item.name === "Password") {
+      navigation.navigate("ChangePassword");
     }
   };
 

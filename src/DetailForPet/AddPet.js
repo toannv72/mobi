@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Image, Text, Platform, Alert } from "react-native";
 import { TextInput, IconButton, Modal, Button } from "react-native-paper";
 import * as ImagePicker from "expo-image-picker";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { postData } from "../api/api";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { firebaseImg } from "../api/firebaseImg";
 import RNPickerSelect from "react-native-picker-select";
+import { Dimensions } from "react-native";
 export default function AddPet({ navigation }) {
   const [name, setName] = useState("");
   const [species, setSpecies] = useState("");
@@ -59,14 +60,24 @@ export default function AddPet({ navigation }) {
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === "ios");
-    setDate(currentDate);
 
-    // Format date in the desired format
-    const formattedDate = `${currentDate.getFullYear()}-${
-      currentDate.getMonth() + 1
-    }-${currentDate.getDate()}`;
+    // Kiểm tra xem ngày được chọn có lớn hơn ngày hiện tại không
+    if (currentDate > new Date()) {
+      // Nếu ngày được chọn lớn hơn ngày hiện tại, hiển thị thông báo cho người dùng
+      Alert.alert(
+        "Invalid Date",
+        "The selected date cannot be in the future. Please choose a different date."
+      );
+    } else {
+      setDate(currentDate);
 
-    setDob(formattedDate);
+      // Format date in the desired format
+      const formattedDate = `${currentDate.getFullYear()}-${
+        currentDate.getMonth() + 1
+      }-${currentDate.getDate()}`;
+
+      setDob(formattedDate);
+    }
   };
 
   const showMode = (currentMode) => {
@@ -91,6 +102,7 @@ export default function AddPet({ navigation }) {
       setAvatarSource(response);
     }
   };
+  const screenWidth = Dimensions.get("window").width;
   const handleResetAll = () => {
     // Xóa tất cả các trường nhập liệu
     setName("");
@@ -252,153 +264,157 @@ export default function AddPet({ navigation }) {
         <IconButton
           style={{ ...styles.cameraIcon, marginBottom: 550 }}
           icon="camera"
-          size={35}
+          size={32}
           onPress={handleChoosePhoto}
         />
       </View>
-
-      <View
+      <ScrollView
+        showsVerticalScrollIndicator={false}
         style={{
-          ...styles.searchSection,
-          // backgroundColor: "#E9E7E7",
-          borderRadius: 40,
-          marginTop: -10,
+          paddingHorizontal: 0,
+          marginHorizontal: 0,
+          // paddingBottom: 1,
         }}
       >
-        <TextInput
-          style={{
-            ...styles.input,
-            // backgroundColor: "#E9E7E7",
-            borderRadius: 40,
-            fontSize: 18,
-          }}
-          placeholder="Name"
-          onChangeText={(text) => setName(text)}
-          mode="outlined"
-          left={
-            <TextInput.Icon
-              icon="dog"
-              size={35}
-              style={{
-                marginTop: 22,
-              }}
-            />
-          }
-          value={name}
-        />
-      </View>
-      <View
-        style={{
-          ...styles.searchSection,
-          // backgroundColor: "#E9E7E7",
-          borderRadius: 40,
-          marginBottom: 5,
-        }}
-      >
-        <TextInput
-          style={{
-            ...styles.input,
-            // backgroundColor: "#E9E7E7",
-            borderRadius: 40,
-            fontSize: 18,
-          }}
-          placeholder="Species"
-          onChangeText={(text) => setSpecies(text)}
-          mode="outlined"
-          left={
-            <TextInput.Icon
-              icon="dog-side"
-              size={35}
-              style={{
-                marginTop: 22,
-              }}
-            />
-          }
-          value={species}
-        />
-      </View>
-
-      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+        <View style={{ height: 10 }} />
         <View
           style={{
             ...styles.searchSection,
-            fontSize: 18,
-            marginTop: 6,
-            // marginRight: 80,
-            // marginLeft: 160,
-            width: 180,
+            width: screenWidth - 20 - 20, // subtract the desired margin
+            borderRadius: 40,
+            marginTop: -10,
           }}
         >
           <TextInput
             style={{
               ...styles.input,
               // backgroundColor: "#E9E7E7",
+              borderRadius: 40,
               fontSize: 18,
             }}
-            placeholder="Weight"
-            onChangeText={(text) => setWeight(text)}
-            value={weight}
+            placeholder="Name"
+            onChangeText={(text) => setName(text)}
             mode="outlined"
-            keyboardType="number-pad"
             left={
               <TextInput.Icon
-                icon="weight-pound"
+                icon="dog"
                 size={35}
                 style={{
                   marginTop: 22,
                 }}
               />
             }
+            value={name}
           />
         </View>
         <View
           style={{
             ...styles.searchSection,
-            fontSize: 18,
-            marginTop: 6,
-
-            marginLeft: 20,
-            width: 180,
+            borderRadius: 40,
+            marginBottom: 5,
+            width: screenWidth - 20 - 20, // subtract the desired margin
           }}
         >
           <TextInput
             style={{
               ...styles.input,
-              // backgroundColor: "#E9E7E7",
+              borderRadius: 40,
               fontSize: 18,
             }}
-            placeholder="Height"
-            onChangeText={(text) => setHeight(text)}
-            value={height}
+            placeholder="Species"
+            onChangeText={(text) => setSpecies(text)}
             mode="outlined"
-            keyboardType="number-pad"
             left={
               <TextInput.Icon
-                icon="weight"
+                icon="dog-side"
                 size={35}
                 style={{
                   marginTop: 22,
                 }}
               />
             }
+            value={species}
           />
         </View>
-      </View>
-      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+
+        <View style={{ flexDirection: "row", justifyContent: "space-between", width: screenWidth - 20 - 20,}}>
+          <View
+            style={{
+              ...styles.searchSection,
+              marginTop: -10,
+              width: "50%",
+              marginTop: 7,
+              paddingRight: 9,
+            }}
+          >
+            <TextInput
+              style={{
+                ...styles.input,
+                // backgroundColor: "#E9E7E7",
+                fontSize: 18,
+              }}
+              placeholder="Weight"
+              onChangeText={(text) => setWeight(text)}
+              value={weight}
+              mode="outlined"
+              keyboardType="number-pad"
+              left={
+                <TextInput.Icon
+                  icon="weight-pound"
+                  size={35}
+                  style={{
+                    marginTop: 22,
+                  }}
+                />
+              }
+            />
+          </View>
+          <View
+            style={{
+              ...styles.searchSection,
+              marginTop: -10,
+              width: "50%",
+              marginTop: 7,
+            }}
+          >
+            <TextInput
+              style={{
+                ...styles.input,
+                // backgroundColor: "#E9E7E7",
+                fontSize: 18,
+              }}
+              placeholder="Height"
+              onChangeText={(text) => setHeight(text)}
+              value={height}
+              mode="outlined"
+              keyboardType="number-pad"
+              left={
+                <TextInput.Icon
+                  icon="weight"
+                  size={35}
+                  style={{
+                    marginTop: 22,
+                  }}
+                />
+              }
+            />
+          </View>
+        </View>
+
         <View
           style={{
             ...styles.searchSection,
             // backgroundColor: "#E9E7E7",
             marginTop: -10,
-            width: 180,
+            width: screenWidth - 20 - 20, // subtract the desired margin
             marginTop: 7,
-            marginRight: -50,
+            paddingRight: 9,
           }}
         >
           <TouchableOpacity
             onPress={showDatepicker}
             style={{
-              width: 180,
+              width: screenWidth - 20 - 20,
               height: 73,
             }}
           >
@@ -440,10 +456,10 @@ export default function AddPet({ navigation }) {
           style={{
             ...styles.searchSection,
             // backgroundColor: "#E9E7E7",
-            marginTop: 6,
-            width: 180,
-            height: 73,
-            marginLeft: 70,
+
+            width: screenWidth - 20 - 20, // subtract the desired margin
+            marginTop: 7,
+            paddingRight: 10,
             borderWidth: 0.8, // Add border width
           }}
         >
@@ -456,8 +472,7 @@ export default function AddPet({ navigation }) {
             style={{
               inputAndroid: {
                 fontSize: 18,
-
-                width: 180,
+                width: 370,
                 height: 73,
               },
             }}
@@ -465,72 +480,75 @@ export default function AddPet({ navigation }) {
             placeholder={{}}
           />
         </View>
-      </View>
-      <View
-        style={{
-          ...styles.searchSection,
-          // backgroundColor: "#E9E7E7",
-          borderRadius: 40,
-          marginBottom: 5,
-        }}
-      >
-        <TextInput
+        <View
           style={{
-            ...styles.input,
-            // backgroundColor: "#E9E7E7",
+            ...styles.searchSection,
+            width: screenWidth - 20 - 20, // subtract the desired margin
             borderRadius: 40,
-            fontSize: 18,
+            marginBottom: 5,
           }}
-          placeholder="Identifying Features"
-          onChangeText={(text) => setDetail(text)}
-          mode="outlined"
-          left={
-            <TextInput.Icon
-              icon="dog-service"
-              size={35}
-              style={{
-                marginTop: 22,
-              }}
-            />
-          }
-          value={detail}
-        />
-      </View>
-      {/* Nút Reset All */}
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={{
-            ...styles.button,
-            backgroundColor: "#ffffff",
-          }}
-          onPress={handleResetAll}
         >
-          <Text
+          <TextInput
             style={{
-              ...styles.buttonText,
-              fontSize: 16,
-              fontWeight: 400,
-              color: "#24252B",
+              ...styles.input,
+              // backgroundColor: "#E9E7E7",
+              borderRadius: 40,
+              fontSize: 18,
             }}
+            placeholder="Identifying Features"
+            onChangeText={(text) => setDetail(text)}
+            mode="outlined"
+            left={
+              <TextInput.Icon
+                icon="dog-service"
+                size={35}
+                style={{
+                  marginTop: 22,
+                }}
+              />
+            }
+            value={detail}
+          />
+        </View>
+        {/* Nút Reset All */}
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={{
+              ...styles.button,
+              backgroundColor: "#ffffff",
+            }}
+            onPress={handleResetAll}
           >
-            Reset All
-          </Text>
-        </TouchableOpacity>
+            <Text
+              style={{
+                ...styles.buttonText,
+                fontSize: 16,
+                fontWeight: 400,
+                color: "#24252B",
+              }}
+            >
+              Reset All
+            </Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity
-          style={{
-            ...styles.button,
-            backgroundColor: "#484B61",
-            borderColor: "#484B61",
-          }}
-          onPress={handleSaveChanges}
-        >
-          <Text style={{ ...styles.buttonText, fontSize: 16, fontWeight: 400 }}>
-            Create
-          </Text>
-        </TouchableOpacity>
-      </View>
-      <MaintenanceModal />
+          <TouchableOpacity
+            style={{
+              ...styles.button,
+              backgroundColor: "#484B61",
+              borderColor: "#484B61",
+            }}
+            onPress={handleSaveChanges}
+          >
+            <Text
+              style={{ ...styles.buttonText, fontSize: 16, fontWeight: 400 }}
+            >
+              Create
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <MaintenanceModal />
+      </ScrollView>
+      <View style={{ height: 15 }} />
     </View>
   );
 }

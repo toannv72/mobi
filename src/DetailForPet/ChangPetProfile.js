@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Image, Text, Platform, Alert } from "react-native";
 import { TextInput, IconButton, Modal, Button } from "react-native-paper";
 import * as ImagePicker from "expo-image-picker";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { putData } from "../api/api";
+import { deleteData, putData } from "../api/api";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { firebaseImg } from "../api/firebaseImg";
 import RNPickerSelect from "react-native-picker-select";
 import { useRoute } from "@react-navigation/native";
+import { Dimensions } from "react-native";
 export default function ChangePetProfile({ navigation }) {
   const route = useRoute();
   const { petId, petData } = route.params;
@@ -26,6 +27,7 @@ export default function ChangePetProfile({ navigation }) {
   const [storedData, setStoredData] = useState([]);
   const [maintenanceModalVisible, setMaintenanceModalVisible] = useState(false);
   console.log(111111111, petData);
+  const screenWidth = Dimensions.get("window").width;
   const MaintenanceModal = () => (
     <Modal
       visible={maintenanceModalVisible}
@@ -59,14 +61,24 @@ export default function ChangePetProfile({ navigation }) {
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === "ios");
-    setDate(currentDate);
 
-    // Format date in the desired format
-    const formattedDate = `${currentDate.getFullYear()}-${
-      currentDate.getMonth() + 1
-    }-${currentDate.getDate()}`;
+    // Kiểm tra xem ngày được chọn có lớn hơn ngày hiện tại không
+    if (currentDate > new Date()) {
+      // Nếu ngày được chọn lớn hơn ngày hiện tại, hiển thị thông báo cho người dùng
+      Alert.alert(
+        "Invalid Date",
+        "The selected date cannot be in the future. Please choose a different date."
+      );
+    } else {
+      setDate(currentDate);
 
-    setDob(formattedDate);
+      // Format date in the desired format
+      const formattedDate = `${currentDate.getFullYear()}-${
+        currentDate.getMonth() + 1
+      }-${currentDate.getDate()}`;
+
+      setDob(formattedDate);
+    }
   };
 
   const showMode = (currentMode) => {
@@ -91,16 +103,55 @@ export default function ChangePetProfile({ navigation }) {
       setAvatarSource(response);
     }
   };
-  const handleResetAll = () => {
-    // Xóa tất cả các trường nhập liệu
-    setName("");
-    setSpecies("");
-    setWeight("");
-    setAvatarSource("");
-    setGender("");
-    setHeight("");
-    setDetail(""), setDob("");
+  const handleDeletePet = () => {
+    // Hiển thị thông báo xác nhận
+    Alert.alert(
+      "Confirmation",
+      "Are you sure you want to delete this pet?",
+      [
+        {
+          text: "Yes",
+          onPress: () => {
+            // Log petId và URL
+            console.log("Deleting pet with ID:", petId);
+            console.log("URL:", `/api/pets/pet/${petId}`);
+
+            // Gọi API DELETE ở đây
+            deleteData(`/pets/pet`, petId)
+              .then((response) => {
+                console.log("Delete pet response:", response);
+                // Xử lý dữ liệu trả về sau khi xóa pet
+                // Ví dụ: Cập nhật lại danh sách pets trong AsyncStorage
+                // Hiển thị thông báo xác nhận xóa
+                Alert.alert(
+                  "Success",
+                  "This pet has been removed from your collection.",
+                  [
+                    {
+                      text: "OK",
+                      onPress: () => {
+                        // Navigate user về Home
+                        navigation.navigate("Home");
+                      },
+                    },
+                  ],
+                  { cancelable: false }
+                );
+              })
+              .catch((error) => {
+                console.error("Error deleting pet:", error);
+              });
+          },
+        },
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+      ],
+      { cancelable: false }
+    );
   };
+
   // Nhận petId từ route params
   const handleSaveChanges = () => {
     if (
@@ -235,148 +286,156 @@ export default function ChangePetProfile({ navigation }) {
         <IconButton
           style={{ ...styles.cameraIcon, marginBottom: 550 }}
           icon="camera"
-          size={35}
+          size={30}
           onPress={handleChoosePhoto}
         />
       </View>
-
-      <View
+      <ScrollView
+        showsVerticalScrollIndicator={false}
         style={{
-          ...styles.searchSection,
-          borderRadius: 40,
-          marginTop: -10,
+          paddingHorizontal: 0,
+          marginHorizontal: 0,
+          // paddingBottom: 1,
         }}
       >
-        <TextInput
-          style={{
-            ...styles.input,
-            borderRadius: 40,
-            fontSize: 18,
-          }}
-          placeholder="Name"
-          onChangeText={(text) => setName(text)}
-          mode="outlined"
-          left={
-            <TextInput.Icon
-              icon="dog"
-              size={35}
-              style={{
-                marginTop: 22,
-              }}
-            />
-          }
-          value={name}
-        />
-      </View>
-      <View
-        style={{
-          ...styles.searchSection,
-          // backgroundColor: "#E9E7E7",
-          borderRadius: 40,
-          marginBottom: 5,
-        }}
-      >
-        <TextInput
-          style={{
-            ...styles.input,
-            // backgroundColor: "#E9E7E7",
-            borderRadius: 40,
-            fontSize: 18,
-          }}
-          placeholder="Species"
-          onChangeText={(text) => setSpecies(text)}
-          mode="outlined"
-          left={
-            <TextInput.Icon
-              icon="dog-side"
-              size={35}
-              style={{
-                marginTop: 22,
-              }}
-            />
-          }
-          value={species}
-        />
-      </View>
-
-      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+        <View style={{ height: 10 }} />
         <View
           style={{
             ...styles.searchSection,
-            fontSize: 18,
-            marginTop: 6,
-            width: 180,
+            width: screenWidth - 20 - 20, // subtract the desired margin
+            borderRadius: 40,
+            marginTop: -10,
           }}
         >
           <TextInput
             style={{
               ...styles.input,
+              borderRadius: 40,
               fontSize: 18,
             }}
-            placeholder="Weight"
-            onChangeText={(text) => setWeight(text)}
-            value={weight?.toString()}
+            placeholder="Name"
+            onChangeText={(text) => setName(text)}
             mode="outlined"
-            // keyboardType="number-pad"
             left={
               <TextInput.Icon
-                icon="weight-pound"
+                icon="dog"
                 size={35}
                 style={{
                   marginTop: 22,
                 }}
               />
             }
+            value={name}
           />
         </View>
         <View
           style={{
             ...styles.searchSection,
-            fontSize: 18,
-            marginTop: 6,
-
-            marginLeft: 20,
-            width: 180,
+            borderRadius: 40,
+            marginBottom: 5,
+            width: screenWidth - 20 - 20, // subtract the desired margin
           }}
         >
           <TextInput
             style={{
               ...styles.input,
               // backgroundColor: "#E9E7E7",
+              borderRadius: 40,
               fontSize: 18,
             }}
-            placeholder="Height"
-            onChangeText={(text) => setHeight(text)}
-            value={height?.toString()}
+            placeholder="Species"
+            onChangeText={(text) => setSpecies(text)}
             mode="outlined"
-            keyboardType="number-pad"
             left={
               <TextInput.Icon
-                icon="weight"
+                icon="dog-side"
                 size={35}
                 style={{
                   marginTop: 22,
                 }}
               />
             }
+            value={species}
           />
         </View>
-      </View>
-      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <View
+            style={{
+              ...styles.searchSection,
+              marginTop: -10,
+              width: (screenWidth - 30) / 2,
+              marginTop: 7,
+              paddingRight: 9,
+            }}
+          >
+            <TextInput
+              style={{
+                ...styles.input,
+                fontSize: 18,
+              }}
+              placeholder="Weight"
+              onChangeText={(text) => setWeight(text)}
+              value={weight.toString()}
+              mode="outlined"
+              // keyboardType="number-pad"
+              left={
+                <TextInput.Icon
+                  icon="weight-pound"
+                  size={35}
+                  style={{
+                    marginTop: 22,
+                  }}
+                />
+              }
+            />
+          </View>
+          <View
+            style={{
+              ...styles.searchSection,
+              marginTop: -10,
+              width: (screenWidth - 30) / 2,
+              marginTop: 7,
+              paddingRight: 10,
+            }}
+          >
+            <TextInput
+              style={{
+                ...styles.input,
+                // backgroundColor: "#E9E7E7",
+                fontSize: 18,
+              }}
+              placeholder="Height"
+              onChangeText={(text) => setHeight(text)}
+              value={height.toString()}
+              mode="outlined"
+              keyboardType="number-pad"
+              left={
+                <TextInput.Icon
+                  icon="weight"
+                  size={35}
+                  style={{
+                    marginTop: 22,
+                  }}
+                />
+              }
+            />
+          </View>
+        </View>
+
         <View
           style={{
             ...styles.searchSection,
-            // backgroundColor: "#E9E7E7",
             marginTop: -10,
-            width: 180,
+            width: screenWidth - 20 - 20, // subtract the desired margin
             marginTop: 7,
-            marginRight: -50,
+            paddingRight: 9,
           }}
         >
           <TouchableOpacity
             onPress={showDatepicker}
             style={{
-              width: 180,
+              width: screenWidth - 20 - 20, // subtract the desired margin
               height: 73,
             }}
           >
@@ -418,9 +477,9 @@ export default function ChangePetProfile({ navigation }) {
           style={{
             ...styles.searchSection,
             // backgroundColor: "#E9E7E7",
-            marginTop: 6,
-            width: 180,
-            marginLeft: 70,
+            width: screenWidth - 20 - 20, // subtract the desired margin
+            marginTop: 7,
+            paddingRight: 10,
             borderWidth: 0.8, // Add border width
           }}
         >
@@ -432,7 +491,7 @@ export default function ChangePetProfile({ navigation }) {
             ]}
             style={{
               inputAndroid: {
-                width: 180,
+                width: 370,
                 height: 73,
               },
               borderRadius: 8,
@@ -441,72 +500,77 @@ export default function ChangePetProfile({ navigation }) {
             placeholder={{}}
           />
         </View>
-      </View>
-      <View
-        style={{
-          ...styles.searchSection,
 
-          borderRadius: 40,
-          marginBottom: 5,
-        }}
-      >
-        <TextInput
+        <View
           style={{
-            ...styles.input,
-
+            ...styles.searchSection,
+            width: screenWidth - 20 - 20, // subtract the desired margin
             borderRadius: 40,
-            fontSize: 18,
+            marginBottom: 5,
           }}
-          placeholder="Identifying Features"
-          onChangeText={(text) => setDetail(text)}
-          mode="outlined"
-          left={
-            <TextInput.Icon
-              icon="dog-service"
-              size={35}
-              style={{
-                marginTop: 22,
-              }}
-            />
-          }
-          value={detail}
-        />
-      </View>
-      {/* Nút Reset All */}
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={{
-            ...styles.button,
-            backgroundColor: "#ffffff",
-          }}
-          onPress={handleResetAll}
         >
-          <Text
+          <TextInput
             style={{
-              ...styles.buttonText,
-              fontSize: 16,
-              fontWeight: 400,
-              color: "#24252B",
-            }}
-          >
-            Reset All
-          </Text>
-        </TouchableOpacity>
+              ...styles.input,
 
-        <TouchableOpacity
-          style={{
-            ...styles.button,
-            backgroundColor: "#484B61",
-            borderColor: "#484B61",
-          }}
-          onPress={handleSaveChanges}
-        >
-          <Text style={{ ...styles.buttonText, fontSize: 16, fontWeight: 400 }}>
-            Save Changes
-          </Text>
-        </TouchableOpacity>
-      </View>
-      <MaintenanceModal />
+              borderRadius: 40,
+              fontSize: 18,
+            }}
+            placeholder="Identifying Features"
+            onChangeText={(text) => setDetail(text)}
+            mode="outlined"
+            left={
+              <TextInput.Icon
+                icon="dog-service"
+                size={35}
+                style={{
+                  marginTop: 22,
+                }}
+              />
+            }
+            value={detail}
+          />
+        </View>
+        {/* Nút Reset All */}
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={{
+              ...styles.button,
+              backgroundColor: "red",
+              borderColor: "white",
+            }}
+            onPress={handleDeletePet}
+          >
+            <Text
+              style={{
+                ...styles.buttonText,
+                fontSize: 16,
+                fontWeight: 400,
+                color: "white",
+              }}
+            >
+              Delete
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={{
+              ...styles.button,
+              backgroundColor: "#484B61",
+              borderColor: "#484B61",
+            }}
+            onPress={handleSaveChanges}
+          >
+            <Text
+              style={{ ...styles.buttonText, fontSize: 16, fontWeight: 400 }}
+            >
+              Save Changes
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <MaintenanceModal />
+        <View style={{ height: 15 }} />
+      </ScrollView>
     </View>
   );
 }

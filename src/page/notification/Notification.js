@@ -7,17 +7,21 @@ import {
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
 import { Card } from "@rneui/base";
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { Button } from "react-native-paper";
 import { NotiItem } from "./NotiItem";
 import { NotiCreating } from "./NotiCreating";
+import { getData } from "../../api/api";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect } from "@react-navigation/native";
+import moment from "moment";
 
 const typeIcon = {
-  appointment: <FontAwesome name="stethoscope" size={24} color="black" />,
-  vaccination: <Fontisto name="injection-syringe" size={23} color="black" />,
-  hotel: <FontAwesome name="building" size={20} color="black" />,
-  grooming: <Fontisto name="scissors" size={20} color="black" />,
+  Appointment: <FontAwesome name="stethoscope" size={24} color="black" />,
+  Vaccination: <Fontisto name="injection-syringe" size={23} color="black" />,
+  Hotel: <FontAwesome name="building" size={20} color="black" />,
+  Gromming: <Fontisto name="scissors" size={20} color="black" />,
 };
 
 const list = [
@@ -73,213 +77,58 @@ function capitalizeFirstLetter(str) {
 
 export const Notification = ({ navigation }) => {
   const [notiCreating, setNotiCreating] = useState(false);
+  const [data, setData] = useState([]);
+  const [date, setDate] = useState(new Date());
+  const [bookDate, setBookDate] = useState(
+    moment(new Date()).format("yyy-mmm-dd")
+  );
+  const currentDate = moment().toISOString();
 
-  function handleNotiCreating() {
-    notiCreating ? setNotiCreating(false) : navigation.goBack();
-  }
+  const getStoredUserId = async () => {
+    try {
+      const data = await AsyncStorage.getItem("@myKey");
+
+ 
+      if (data !== null) {
+        const userData = JSON.parse(data);
+        const id = userData[0].id;
+    
+        getData(`Notification/getAllAtDay/${currentDate}?UserId=${id}`)
+          .then((e) => {
+            console.log('====================================');
+            console.log(2222, currentDate);
+            console.log('====================================');
+            setData(e.data)
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+
+      } else {
+        console.log("No data found in AsyncStorage.");
+      }
+    } catch (error) {
+      console.error("Error loading data:", error);
+    }
+  };
+ 
+  useFocusEffect(
+    useCallback(() => {
+      getStoredUserId();
+      return () => {};
+    }, [])
+  );
 
   return (
     <View style={style.main}>
       <View style={style.titleAndDate}>
         <View style={style.titleAndRollback}>
-          <Button style={style.rollbackBtn} onPress={handleNotiCreating}>
+          {/* <Button style={style.rollbackBtn} onPress={handleNotiCreating}>
             <AntDesign name="left" size={22} color="#8C8EA3" />
-          </Button>
+          </Button> */}
           <Text style={style.title}>Notification</Text>
         </View>
-        <View style={style.selectedDate}>
-          <Card
-            containerStyle={{
-              ...style.selectedDateContent,
-              ...style.cartShadow,
-            }}
-          >
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-              <View
-                style={{
-                  flexDirection: "row",
-                }}
-              >
-                <Card
-                  containerStyle={{
-                    borderRadius: 15,
-                    borderColor: "#8C8EA3",
-                    shadowRadius: 4,
-                    padding: 10,
-                    height: 80,
-                    width: 80,
-                  }}
-                >
-                  <View
-                    style={{
-                      flexDirection: "column",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <Card.Title style={{ fontSize: 20, color: "#000" }}>
-                      Wed
-                    </Card.Title>
-                    <Card.Title style={{ fontSize: 20, color: "#000" }}>
-                      24
-                    </Card.Title>
-                  </View>
-                </Card>
-                <Card
-                  containerStyle={{
-                    borderRadius: 15,
-                    borderColor: "#8C8EA3",
-                    shadowRadius: 4,
-                    padding: 10,
-                    height: 80,
-                    width: 80,
-                  }}
-                >
-                  <View
-                    style={{
-                      flexDirection: "column",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <Card.Title style={{ fontSize: 20, color: "#000" }}>
-                      Thu
-                    </Card.Title>
-                    <Card.Title style={{ fontSize: 20, color: "#000" }}>
-                      25
-                    </Card.Title>
-                  </View>
-                </Card>
-                <Card
-                  containerStyle={{
-                    borderRadius: 15,
-                    borderColor: "#8C8EA3",
-                    shadowRadius: 4,
-                    padding: 10,
-                    height: 80,
-                    width: 80,
-                  }}
-                >
-                  <View
-                    style={{
-                      flexDirection: "column",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <Card.Title style={{ fontSize: 20, color: "#000" }}>
-                      Fri
-                    </Card.Title>
-                    <Card.Title style={{ fontSize: 20, color: "#000" }}>
-                      26
-                    </Card.Title>
-                  </View>
-                </Card>
-                <Card
-                  containerStyle={{
-                    borderRadius: 15,
-                    borderColor: "#8C8EA3",
-                    shadowRadius: 4,
-                    padding: 10,
-                    height: 80,
-                    width: 80,
-                  }}
-                >
-                  <View
-                    style={{
-                      flexDirection: "column",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <Card.Title style={{ fontSize: 20, color: "#000" }}>
-                      Sat
-                    </Card.Title>
-                    <Card.Title style={{ fontSize: 20, color: "#000" }}>
-                      27
-                    </Card.Title>
-                  </View>
-                </Card>
-                <Card
-                  containerStyle={{
-                    borderRadius: 15,
-                    borderColor: "#8C8EA3",
-                    shadowRadius: 4,
-                    padding: 10,
-                    height: 80,
-                    width: 80,
-                  }}
-                >
-                  <View
-                    style={{
-                      flexDirection: "column",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <Card.Title style={{ fontSize: 20, color: "#000" }}>
-                      Sun
-                    </Card.Title>
-                    <Card.Title style={{ fontSize: 20, color: "#000" }}>
-                      28
-                    </Card.Title>
-                  </View>
-                </Card>
-                <Card
-                  containerStyle={{
-                    borderRadius: 15,
-                    borderColor: "#8C8EA3",
-                    shadowRadius: 4,
-                    padding: 10,
-                    height: 80,
-                    width: 80,
-                  }}
-                >
-                  <View
-                    style={{
-                      flexDirection: "column",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <Card.Title style={{ fontSize: 20, color: "#000" }}>
-                      Mon
-                    </Card.Title>
-                    <Card.Title style={{ fontSize: 20, color: "#000" }}>
-                      29
-                    </Card.Title>
-                  </View>
-                </Card>
-                <Card
-                  containerStyle={{
-                    borderRadius: 15,
-                    borderColor: "#8C8EA3",
-                    shadowRadius: 4,
-                    padding: 10,
-                    height: 80,
-                    width: 80,
-                  }}
-                >
-                  <View
-                    style={{
-                      flexDirection: "column",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <Card.Title style={{ fontSize: 20, color: "#000" }}>
-                      Sun
-                    </Card.Title>
-                    <Card.Title style={{ fontSize: 20, color: "#000" }}>
-                      30
-                    </Card.Title>
-                  </View>
-                </Card>
-              </View>
-              
-            </ScrollView>
-          </Card>
-        </View>
+
       </View>
       {!notiCreating ? (
         <Card containerStyle={{ ...style.list, ...style.cartShadow }}>
@@ -307,26 +156,26 @@ export const Notification = ({ navigation }) => {
           </View>
           <View>
             <ScrollView style={style.listContent}>
-              {list.map((item, index) => (
+              {data.map((item, index) => (
                 <NotiItem key={index} index={index}>
                   <View style={style.itemContent}>
                     <View style={style.taskType}>
-                      {typeIcon[item.type]}
+                      {typeIcon[item.nameMedicine]}
                       <Text style={style.typeTitle}>
-                        Booked {capitalizeFirstLetter(item.type)}
+                        Booked {capitalizeFirstLetter(item.nameMedicine)}
                       </Text>
                     </View>
                     <View style={style.taskDateAndTime}>
                       <View style={style.BellIconAndTime}>
                         <FontAwesome name="bell-o" size={24} color="black" />
-                        <Text>{timeFormat.format(item.date)}</Text>
+                        {/* <Text>{timeFormat.format(item.timeRemind)}</Text> */}
                       </View>
-                      <Text>{dateFormat.format(item.date)}</Text>
+                      {/* <Text>{dateFormat.format(item.dateRemind)}</Text> */}
                     </View>
                   </View>
                 </NotiItem>
               ))}
-              <View style={{height:100}}></View>
+              <View style={{ height: 100 }}></View>
             </ScrollView>
           </View>
         </Card>
@@ -342,7 +191,7 @@ const style = StyleSheet.create({
     width: "100%",
     height: "100%",
     display: "flex",
-    justifyContent: "center",
+    // justifyContent: "center",
     alignItems: "center",
     gap: 20,
     paddingHorizontal: "5%",
@@ -365,10 +214,15 @@ const style = StyleSheet.create({
     position: "absolute",
     left: -10,
     display: "flex",
-    height: "100%",
+    width: 50,
+    height: 50,
     justifyContent: "center",
     alignItems: "center",
     zIndex: 1,
+    backgroundColor: "#FFFFFF",
+    flexDirection: "row",
+    alignItems: "center",
+    borderRadius: 9999,
   },
 
   title: {

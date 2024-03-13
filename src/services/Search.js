@@ -13,7 +13,7 @@ import { Link, useFocusEffect } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
 import { getData, postData } from "../api/api";
 import { ScrollView } from "react-native-gesture-handler";
-import { Entypo } from "@expo/vector-icons";
+
 export default function Search({}) {
   const navigation = useNavigation();
   const [search, setSearch] = useState("");
@@ -107,7 +107,7 @@ export default function Search({}) {
               textAlign: "center",
             }}
           >
-            Không Tìm Thấy Sản Phẩm
+            Không Tìm Thấy dịch vụ
           </Text>
         </View>
       ) : (

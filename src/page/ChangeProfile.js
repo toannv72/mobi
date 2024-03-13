@@ -6,6 +6,7 @@ import {
   Text,
   Platform,
   Alert,
+  ScrollView,
   Dimensions,
 } from "react-native";
 import { TextInput, IconButton, Modal, Button } from "react-native-paper";
@@ -206,237 +207,241 @@ export default function ChangeProfile({ navigation }) {
             size={35}
             onPress={() => navigation.navigate("Profile")}
           />
-        
+
         </View>
       </View>
-      <View style={styles.cameraIconContainer}>
-        <IconButton
-          style={{ ...styles.cameraIcon, marginBottom: 500 }}
-          icon="camera"
-          size={30}
-          onPress={handleChoosePhoto}
-        />
-      </View>
+      <ScrollView>
 
-      <View
-        style={{
-          ...styles.searchSection,
-          width: screenWidth - 20 - 20, // subtract the desired margin
-          borderRadius: 40,
-          marginTop: -10,
-        }}
-      >
-        <TextInput
-          style={{
-            ...styles.input,
-            // backgroundColor: "#E9E7E7",
-            borderRadius: 40,
-            fontSize: 18,
-          }}
-          label="Name"
-          onChangeText={(text) => setName(text)}
-          mode="outlined"
-          left={
-            <TextInput.Icon
-              icon="account-circle"
-              size={35}
-              style={{
-                marginTop: 22,
-              }}
-            />
-          }
-          value={name}
-        />
-      </View>
-      <View
-        style={{
-          ...styles.searchSection,
-          width: screenWidth - 20 - 20, // subtract the desired margin
-          borderRadius: 40,
-          marginBottom: 5,
-        }}
-      >
-        <TextInput
-          style={{
-            ...styles.input,
-            // backgroundColor: "#E9E7E7",
-            borderRadius: 40,
-            fontSize: 18,
-          }}
-          label="Mail"
-          onChangeText={(text) => setMail(text)}
-          editable={false}
-          mode="outlined"
-          left={
-            <TextInput.Icon
-              icon="gmail"
-              size={35}
-              style={{
-                marginTop: 22,
-              }}
-            />
-          }
-          value={mail}
-        />
-      </View>
-
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          width: screenWidth - 20 - 20,
-        }}
-      >
+        <View style={styles.cameraIconContainer}>
+          <IconButton
+            style={{ ...styles.cameraIcon, marginBottom: 500 }}
+            icon="camera"
+            size={30}
+            onPress={handleChoosePhoto}
+          />
+        </View>
+        <Text style={{ fontSize: 20, paddingBottom: 5 }}> Name</Text>
         <View
           style={{
             ...styles.searchSection,
-            marginTop: -10,
-            width: "50%",
-            marginTop: 7,
-            paddingRight: 9,
+            width: screenWidth - 20 - 20, // subtract the desired margin
+            borderRadius: 40,
           }}
         >
+
           <TextInput
             style={{
               ...styles.input,
               // backgroundColor: "#E9E7E7",
+              borderRadius: 40,
               fontSize: 18,
             }}
-            label="Phone"
-            onChangeText={(text) => setPhone(text)}
-            value={phone}
+
+            onChangeText={(text) => setName(text)}
             mode="outlined"
-            keyboardType="number-pad"
             left={
               <TextInput.Icon
-                icon="phone"
+                icon="account-circle"
                 size={35}
                 style={{
                   marginTop: 22,
                 }}
               />
             }
+            value={name}
+          />
+        </View>
+        <View
+          style={{
+            ...styles.searchSection,
+            width: screenWidth - 20 - 20, // subtract the desired margin
+            borderRadius: 40,
+            marginBottom: 5,
+          }}
+        >
+          <TextInput
+            style={{
+              ...styles.input,
+              // backgroundColor: "#E9E7E7",
+              borderRadius: 40,
+              fontSize: 18,
+            }}
+            label="Mail"
+            onChangeText={(text) => setMail(text)}
+            editable={false}
+            mode="outlined"
+            left={
+              <TextInput.Icon
+                icon="gmail"
+                size={35}
+                style={{
+                  marginTop: 22,
+                }}
+              />
+            }
+            value={mail}
           />
         </View>
 
-        <View>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            width: screenWidth - 20 - 20,
+          }}
+        >
           <View
             style={{
               ...styles.searchSection,
-              // backgroundColor: "#E9E7E7",
               marginTop: -10,
               width: "50%",
               marginTop: 7,
+              paddingRight: 9,
             }}
           >
-            <TouchableOpacity
-              onPress={showDatepicker}
+            <TextInput
               style={{
-                width: 180,
-                height: 75,
+                ...styles.input,
+                // backgroundColor: "#E9E7E7",
+                fontSize: 18,
+              }}
+              label="Phone"
+              onChangeText={(text) => setPhone(text)}
+              value={phone}
+              mode="outlined"
+              keyboardType="number-pad"
+              left={
+                <TextInput.Icon
+                  icon="phone"
+                  size={35}
+                  style={{
+                    marginTop: 22,
+                  }}
+                />
+              }
+            />
+          </View>
+
+          <View>
+            <View
+              style={{
+                ...styles.searchSection,
+                // backgroundColor: "#E9E7E7",
+                marginTop: -10,
+                width: "50%",
+                marginTop: 7,
               }}
             >
-              <TextInput
+              <TouchableOpacity
+                onPress={showDatepicker}
                 style={{
-                  ...styles.input,
-                  // backgroundColor: "#E9E7E7",
-                  borderRadius: 20,
-                  fontSize: 18,
+                  width: 180,
+                  height: 75,
                 }}
-                mode="outlined"
-                value={dob}
-                // onTouchStart={showDatepicker} // Show the date picker when the user touches this
-                editable={false}
-                left={
-                  <TextInput.Icon
-                    icon="calendar"
-                    size={35}
-                    style={{
-                      marginTop: 22,
-                    }}
-                  />
-                }
+              >
+                <TextInput
+                  style={{
+                    ...styles.input,
+                    // backgroundColor: "#E9E7E7",
+                    borderRadius: 20,
+                    fontSize: 18,
+                  }}
+                  mode="outlined"
+                  value={dob}
+                  // onTouchStart={showDatepicker} // Show the date picker when the user touches this
+                  editable={false}
+                  left={
+                    <TextInput.Icon
+                      icon="calendar"
+                      size={35}
+                      style={{
+                        marginTop: 22,
+                      }}
+                    />
+                  }
+                />
+              </TouchableOpacity>
+            </View>
+            {show && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={date}
+                mode={mode}
+                is24Hour={true}
+                display="default"
+                onChange={onChange}
               />
-            </TouchableOpacity>
+            )}
           </View>
-          {show && (
-            <DateTimePicker
-              testID="dateTimePicker"
-              value={date}
-              mode={mode}
-              is24Hour={true}
-              display="default"
-              onChange={onChange}
-            />
-          )}
         </View>
-      </View>
 
-      <View
-        style={{
-          ...styles.searchSection,
-          width: screenWidth - 20 - 20, // subtract the desired margin
-          borderRadius: 40,
-          marginTop: 0,
-        }}
-      >
-        <TextInput
+        <View
           style={{
-            ...styles.input,
-            // backgroundColor: "#E9E7E7",
+            ...styles.searchSection,
+            width: screenWidth - 20 - 20, // subtract the desired margin
             borderRadius: 40,
-            fontSize: 18,
+            marginTop: 0,
           }}
-          label="Address"
-          onChangeText={(text) => setLocation(text)}
-          mode="outlined"
-          left={
-            <TextInput.Icon
-              icon="map-legend"
-              size={35}
-              style={{
-                marginTop: 22,
-              }}
-            />
-          }
-          value={location}
-        />
-      </View>
-      {/* Nút Reset All */}
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={{
-            ...styles.button,
-            backgroundColor: "#ffffff",
-          }}
-          onPress={handleResetAll}
         >
-          <Text
+          <TextInput
             style={{
-              ...styles.buttonText,
-              fontSize: 16,
-              fontWeight: 400,
-              color: "#24252B",
+              ...styles.input,
+              // backgroundColor: "#E9E7E7",
+              borderRadius: 40,
+              fontSize: 18,
             }}
+            label="Address"
+            onChangeText={(text) => setLocation(text)}
+            mode="outlined"
+            left={
+              <TextInput.Icon
+                icon="map-legend"
+                size={35}
+                style={{
+                  marginTop: 22,
+                }}
+              />
+            }
+            value={location}
+          />
+        </View>
+        {/* Nút Reset All */}
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={{
+              ...styles.button,
+              backgroundColor: "#ffffff",
+            }}
+            onPress={handleResetAll}
           >
-            Reset All
-          </Text>
-        </TouchableOpacity>
+            <Text
+              style={{
+                ...styles.buttonText,
+                fontSize: 16,
+                fontWeight: 400,
+                color: "#24252B",
+              }}
+            >
+              Reset All
+            </Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity
-          style={{
-            ...styles.button,
-            backgroundColor: "#484B61",
-            borderColor: "#484B61",
-          }}
-          onPress={handleSaveChanges}
-        >
-          <Text style={{ ...styles.buttonText, fontSize: 16, fontWeight: 400 }}>
-            Save Changes
-          </Text>
-        </TouchableOpacity>
-      </View>
-      <MaintenanceModal />
+          <TouchableOpacity
+            style={{
+              ...styles.button,
+              backgroundColor: "#484B61",
+              borderColor: "#484B61",
+            }}
+            onPress={handleSaveChanges}
+          >
+            <Text style={{ ...styles.buttonText, fontSize: 16, fontWeight: 400 }}>
+              Save Changes
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <MaintenanceModal />
+
+      </ScrollView>
     </View>
   );
 }

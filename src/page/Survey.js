@@ -8,9 +8,10 @@ import { firebaseImg } from '../api/firebaseImg';
 import { getData, postData } from '../api/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Slide1 = ({ name, handleChoosePhoto, image, setName,dob, setDob, petFeature, setPetFeature}) => {
+const Slide1 = ({ name, handleChoosePhoto, image, setName,dob, setDob, petFeature, setPetFeature, nameInputRef, petFeatureRef}) => {
   const [selectedDate, setSelectedDate] = useState(dob);
   const [showDatePicker, setShowDatePicker] = useState(false);
+
   const handleDateChange = (event, selectedDate) => {
     setShowDatePicker(false);
     if (selectedDate) {
@@ -37,7 +38,9 @@ const Slide1 = ({ name, handleChoosePhoto, image, setName,dob, setDob, petFeatur
         <View>
           <Text style={styles.quizText}>Give some photo of your pet</Text>
           <View style={styles.container}>
-            <TouchableOpacity onPress={handleChoosePhoto}>
+            <TouchableOpacity 
+            onPress={handleChoosePhoto}
+            >
               {image ?
                 <Image source={{ uri: image }} style={styles.image} />
                 :
@@ -54,6 +57,8 @@ const Slide1 = ({ name, handleChoosePhoto, image, setName,dob, setDob, petFeatur
             value={name}
             onChangeText={setName}
             maxLength={20}
+            ref={nameInputRef}
+            onSubmitEditing={() => petFeatureRef.current.focus()}
           />
         </View>
         <View>
@@ -63,6 +68,7 @@ const Slide1 = ({ name, handleChoosePhoto, image, setName,dob, setDob, petFeatur
             placeholder="Enter pet's identifying feature"
             value={petFeature}
             onChangeText={setPetFeature}
+            ref={petFeatureRef}
           />
         </View>
         
@@ -106,8 +112,8 @@ const Slide1 = ({ name, handleChoosePhoto, image, setName,dob, setDob, petFeatur
   );
 };
 
-const Slide2 = ({ species, setSpecies, gender, setGender, weight, setWeight, handleDone, height, setHeight }) => {
-
+const Slide2 = ({ species, setSpecies, gender, setGender, weight, setWeight, handleDone, height, setHeight, speciesRef, heightInputRef, weightInputRef }) => {
+  
   return (
     <View style={styles.slide}>
       <ScrollView contentContainerStyle={{ marginTop: 50 }}>
@@ -122,6 +128,7 @@ const Slide2 = ({ species, setSpecies, gender, setGender, weight, setWeight, han
             value={species}
             onChangeText={setSpecies}
             keyboardType='ascii-capable'
+            ref={speciesRef}
           />
         </View>
         <View>
@@ -129,13 +136,20 @@ const Slide2 = ({ species, setSpecies, gender, setGender, weight, setWeight, han
           <View style={{ flexDirection: 'row', gap: 50, alignItems: 'center', marginLeft: 50 }}>
             <Button
               style={gender === true ? styles.optionhightlight : styles.option}
-              onPress={() => setGender(true)}
+              onPress={() => {
+                setGender(true); // Set the gender
+                weightInputRef.current.focus(); // Focus on the next input field
+              }}
             >
               <Text style={{ color: gender === true ? '#F6F6F6' : 'black' }}>Male</Text>
             </Button>
             <Button
               style={gender === false ? styles.optionhightlight : styles.option}
-              onPress={() => setGender(false)}
+              onPress={() => {
+                setGender(false); // Set the gender
+                weightInputRef.current.focus(); // Focus on the next input field
+              }}
+              
             >
               <Text style={{ color: gender === false ? '#F6F6F6' : 'black' }}>Female</Text>
             </Button>
@@ -150,6 +164,8 @@ const Slide2 = ({ species, setSpecies, gender, setGender, weight, setWeight, han
             onChangeText={(text) => setWeight(parseInt(text))}
             keyboardType="numeric"
             maxLength={2}
+            ref = {weightInputRef}
+            onSubmitEditing={() => heightInputRef.current.focus()}
           />
         </View>
         <View>
@@ -165,6 +181,7 @@ const Slide2 = ({ species, setSpecies, gender, setGender, weight, setWeight, han
                   keyboardType="numeric"
                   placeholder="Enter pet height (in cm)"
                   maxLength={3}
+                  ref={heightInputRef}
                 />
                 <Text style={{ marginRight: 5 }}>cm</Text>
               </View>
@@ -183,6 +200,11 @@ const Slide2 = ({ species, setSpecies, gender, setGender, weight, setWeight, han
 export const Survey = ({ navigation }) => {
   const swiperRef = useRef(null);
   const [species, setPetspecies] = useState("");
+  const speciesRef = useRef(null);
+  const nameInputRef = useRef(null);
+  const petFeatureRef = useRef(null);
+  const weightInputRef = useRef(null);
+  const heightInputRef = useRef(null);
   const [gender, setgender] = useState("");
   const [image, setImage] = useState(null);
   const [name, setName] = useState("");
@@ -190,18 +212,11 @@ export const Survey = ({ navigation }) => {
   const [weight, setweight] = useState(0);
   const [dob, setDob] = useState("");
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const nameInputRef = useRef(null);
   const [userId, setUserId] = useState('');
   const [height, setHeight] = useState(0);
   const [petFeature, setPetFeature] = useState('');
   useEffect(() => {
     getStoredUserId();
-    // getData(`/users/getInformation/${userId}`)
-    // .then(()=>{
-
-    // })
-
-
   }, []);
 console.log(userId);
   const getStoredUserId = async () => {
@@ -258,6 +273,10 @@ console.log(userId);
       Alert.alert("Error", "Please enter your pet's feature.");
       return;
     }
+    if (!petAvatar) {
+      Alert.alert("Error", "Please upload a picture of your pet");
+      return;
+    }
   
     postData(`pets/CreatePet/${userId}`, {
       "name": name,
@@ -288,6 +307,13 @@ console.log(userId);
   console.log(petFeature,1111);
   console.log(petAvatar,2222);
   console.log(userId,333);
+  const handleSlideChange = (index) => {
+    // Check if the user has moved to the slide containing the input fields
+    if (index === 1) {
+      // Focus on the input field
+      speciesRef.current.focus();
+    }
+  };
   const handleChoosePhoto = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -296,6 +322,7 @@ console.log(userId);
       quality: 1,
     });
     setImage(result.assets[0].uri);
+    nameInputRef.current.focus();
     if (!result.canceled) {
       // Upload image to Firebase Storage
       // gọi thằng firebaseImg để đẩy ảnh lên xong rồi lấy đường dẫn của ảnh đó 
@@ -309,6 +336,7 @@ console.log(userId);
       <ImageBackground source={require('../../assets/bgi.jpg')} style={styles.backgroundImage}>
       <Swiper
         ref={swiperRef}
+        onIndexChanged={handleSlideChange}
         showsButtons={true}
         showsPagination={true}
         loop={false}
@@ -326,6 +354,8 @@ console.log(userId);
           showDatePicker={showDatePicker}
           petFeature={petFeature}
           setPetFeature={setPetFeature}
+          nameInputRef={nameInputRef}
+          petFeatureRef={petFeatureRef}
         />
         <Slide2
           species={species}
@@ -337,6 +367,9 @@ console.log(userId);
           handleDone={handleDone}
           height={height}
           setHeight={setHeight}
+          speciesRef={speciesRef}
+          weightInputRef={weightInputRef}
+          heightInputRef={heightInputRef}
         />
       </Swiper>
       </ImageBackground>

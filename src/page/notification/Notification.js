@@ -33,7 +33,27 @@ export const Notification = ({ navigation }) => {
   const [data, setData] = useState([]);
   const [date, setDate] = useState(new Date());
   const currentDate = moment().toISOString();
+  const [selectedDateIndex, setSelectedDateIndex] = useState(4); // Index of selected date
+  const [dates, setDates] = useState([]);
 
+  useEffect(() => {
+    const today = new Date();
+    // Calculate dates for 4 days before and 4 days after the selected date
+    const datesArray = [];
+    for (let i = -4; i <= 4; i++) {
+      const date = new Date(today);
+      date.setDate(today.getDate() + i);
+      datesArray.push(date);
+    }
+    setDates(datesArray);
+  }, [selectedDateIndex]);
+
+  const handleDateSelection = (index) => {
+    console.log('====================================');
+    console.log(123);
+    console.log('====================================');
+    setSelectedDateIndex(index);
+  };
   const getStoredUserId = async () => {
     try {
       const data = await AsyncStorage.getItem("@myKey");
@@ -91,10 +111,40 @@ export const Notification = ({ navigation }) => {
           </Button> */}
           <Text style={style.title}>Notification</Text>
         </View>
-        <Card containerStyle={{ ...style.list, ...style.cartShadow }}>
-
-        
-        </Card>
+        <View style={style.selectedDate}>
+          <Card
+            containerStyle={{
+              ...style.selectedDateContent,
+              ...style.cartShadow,
+            }}
+          >
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+            >
+              <View style={style.daysContainer}>
+                {dates.map((date, index) => (
+                  <Card
+                    key={index}
+                    containerStyle={index === selectedDateIndex ? style.selectedDayCard : style.dayCard}
+                    onPress={() => handleDateSelection(index)}
+                  >
+                    <View style={style.dayContent}>
+                      {/* <Card.Title style={style.dayOfMonth}>{date.getDate()}</Card.Title> */}
+                      <Card.Title style={{ fontSize: 20, color: "#000" }}>
+                      {date.toLocaleDateString('en', { weekday: 'short' }).split(',')[0]}
+                      </Card.Title>
+                      <Card.Title style={{ fontSize: 20, color: "#000" }}>
+                      {date.getDate()}
+                      </Card.Title>
+                      {/* <Card.Title style={style.dayOfWeek}>{date.toLocaleDateString('en', { day: '2-digit', })}</Card.Title> */}
+                    </View>
+                  </Card>
+                ))}
+              </View>
+            </ScrollView>
+          </Card>
+        </View>
       </View>
       {!notiCreating ? (
         <Card containerStyle={{ ...style.list, ...style.cartShadow }}>
@@ -289,5 +339,44 @@ const style = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-end",
+  },
+  daysContainer: {
+    flexDirection: 'row',
+  },
+  dayCard: {
+    borderRadius: 15,
+    borderColor: '#8C8EA3',
+    shadowRadius: 4,
+    padding: 10,
+    height: 80,
+    width: 80,
+    marginHorizontal: 5,
+  },
+  selectedDayCard: {
+    borderRadius: 15,
+    borderColor: '#8C8EA3',
+    shadowRadius: 4,
+    padding: 10,
+    height: 80,
+    width: 80,
+    marginHorizontal: 5,
+    backgroundColor: '#F0F0F0', // Highlight selected day
+  },
+  dayContent: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 0,
+    // width: 40,
+    // height: 80,
+  },
+  dayOfWeek: {
+    fontSize: 20,
+    color: '#000',
+    padding: 0
+  },
+  dayOfMonth: {
+    fontSize: 20,
+    color: '#000',
   },
 });

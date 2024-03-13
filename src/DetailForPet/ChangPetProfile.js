@@ -154,19 +154,52 @@ export default function ChangePetProfile({ navigation }) {
 
   // Nhận petId từ route params
   const handleSaveChanges = () => {
-    if (
-      !name ||
-      gender === undefined ||
-      !avatarSource ||
-      !species ||
-      !dob ||
-      !weight ||
-      !height ||
-      !detail
-    ) {
-      // Nếu một trong các trường đầu vào rỗng, hiển thị thông báo cảnh báo
-      Alert.alert("Alert", "Please fill all the fields.");
-      return; // Dừng hàm ở đây nếu có trường rỗng
+    if (!name) {
+      Alert.alert("Error", "Please enter your pet's name.");
+      // nameInputRef.current.focus(); // Thêm dòng này nếu bạn có tham chiếu đến trường nhập liệu tên
+      return;
+    }
+
+    if (gender === undefined) {
+      Alert.alert("Error", "Please select your pet's gender.");
+      // genderInputRef.current.focus(); // Thêm dòng này nếu bạn có tham chiếu đến trường nhập liệu giới tính
+      return;
+    }
+
+    if (!avatarSource) {
+      Alert.alert("Error", "Please add your pet's photo.");
+      // photoInputRef.current.focus(); // Thêm dòng này nếu bạn có tham chiếu đến trường nhập liệu ảnh
+      return;
+    }
+
+    if (!species) {
+      Alert.alert("Error", "Please enter your pet's species.");
+      // speciesInputRef.current.focus(); // Thêm dòng này nếu bạn có tham chiếu đến trường nhập liệu loài
+      return;
+    }
+
+    if (!dob) {
+      Alert.alert("Error", "Please enter your pet's date of birth.");
+      // dobInputRef.current.focus(); // Thêm dòng này nếu bạn có tham chiếu đến trường nhập liệu ngày sinh
+      return;
+    }
+
+    if (!weight) {
+      Alert.alert("Error", "Please enter your pet's weight.");
+      // weightInputRef.current.focus(); // Thêm dòng này nếu bạn có tham chiếu đến trường nhập liệu cân nặng
+      return;
+    }
+
+    if (!height) {
+      Alert.alert("Error", "Please enter your pet's height.");
+      // heightInputRef.current.focus(); // Thêm dòng này nếu bạn có tham chiếu đến trường nhập liệu chiều cao
+      return;
+    }
+
+    if (!detail) {
+      Alert.alert("Error", "Please enter identifying features of your pet.");
+      // detailInputRef.current.focus(); // Thêm dòng này nếu bạn có tham chiếu đến trường nhập liệu đặc điểm nhận dạng
+      return;
     }
     if (!storedData || storedData.length === 0) {
       console.error("No user data found in storedData.");
@@ -313,7 +346,7 @@ export default function ChangePetProfile({ navigation }) {
               borderRadius: 40,
               fontSize: 18,
             }}
-            placeholder="Name"
+            label="Name"
             onChangeText={(text) => setName(text)}
             mode="outlined"
             left={
@@ -343,7 +376,7 @@ export default function ChangePetProfile({ navigation }) {
               borderRadius: 40,
               fontSize: 18,
             }}
-            placeholder="Species"
+            label="Species"
             onChangeText={(text) => setSpecies(text)}
             mode="outlined"
             left={
@@ -374,7 +407,7 @@ export default function ChangePetProfile({ navigation }) {
                 ...styles.input,
                 fontSize: 18,
               }}
-              placeholder="Weight"
+              label="Weight"
               onChangeText={(text) => setWeight(text)}
               value={weight?.toString()}
               mode="outlined"
@@ -405,7 +438,7 @@ export default function ChangePetProfile({ navigation }) {
                 // backgroundColor: "#E9E7E7",
                 fontSize: 18,
               }}
-              placeholder="Height"
+              label="Height"
               onChangeText={(text) => setHeight(text)}
               value={height?.toString()}
               mode="outlined"
@@ -516,7 +549,7 @@ export default function ChangePetProfile({ navigation }) {
               borderRadius: 40,
               fontSize: 18,
             }}
-            placeholder="Identifying Features"
+            label="Identifying Features"
             onChangeText={(text) => setDetail(text)}
             mode="outlined"
             left={

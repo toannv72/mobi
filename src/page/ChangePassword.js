@@ -15,6 +15,7 @@ import { getData, postData } from "../api/api";
 import axios from "axios";
 import { Image } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ScrollView } from "react-native-gesture-handler";
 
 export default function ChangePassword({ navigation }) {
   const [password, setPassword] = useState("");
@@ -43,35 +44,36 @@ export default function ChangePassword({ navigation }) {
     }
 
     try {
-
       postData("/users/login", {
         email: email,
         password: password,
       })
         .then((e) => {
           axios
-          .post("https://petside.azurewebsites.net/api/account/changePassword", {
-            newpassword: repeatPassword,
-            confirmPassword: password,
-            email: email,
-          })
-          .then((e) => {
-            console.log(e.data);
-            if (e.data.success) {
-              navigation.navigate('Homes', { screen: 'home' })
-            } else {
-            }
-          })
-          .catch((error) => {
-            console.error("Error fetching data:", error.response);
-          });
+            .post(
+              "https://petside.azurewebsites.net/api/account/changePassword",
+              {
+                newpassword: repeatPassword,
+                confirmPassword: password,
+                email: email,
+              }
+            )
+            .then((e) => {
+              console.log(e.data);
+              if (e.data.success) {
+                navigation.navigate("Homes", { screen: "home" });
+              } else {
+              }
+            })
+            .catch((error) => {
+              console.error("Error fetching data:", error.response);
+            });
         })
         .catch((error) => {
           // navigation.navigate('Homes', { screen: 'home' })
           console.log(error);
           Alert.alert("Error", "Maatj khaaur cux sai!");
         });
-      
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -108,44 +110,45 @@ export default function ChangePassword({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.backIconContainer}>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            position: "absolute",
-            bottom: 10,
-            left: 1,
-          }}
-        >
-          <IconButton
-            style={styles.backIcon}
-            icon="arrow-left"
-            size={35}
-            onPress={() => navigation.goBack()}
-          />
+      <ScrollView>
+        <View style={styles.backIconContainer}>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              position: "absolute",
+              bottom: 10,
+              left: 1,
+            }}
+          >
+            <IconButton
+              style={styles.backIcon}
+              icon="arrow-left"
+              size={35}
+              onPress={() => navigation.goBack()}
+            />
+          </View>
+          <Text
+            style={{
+              // textAlign: "center",
+              flex: 1,
+              marginLeft: 70,
+              marginBottom: 25,
+              fontSize: 25,
+              fontWeight: 700,
+            }}
+          >
+            Change Password
+          </Text>
         </View>
-        <Text
-          style={{
-            // textAlign: "center",
-            flex: 1,
-            marginLeft: 70,
-            marginBottom: 25,
-            fontSize: 25,
-            fontWeight: 700,
-          }}
-        >
-          Change Password
-        </Text>
-      </View>
-      <View style={{ margin: 20 }} />
-      <View style={styles.margin} />
-      <Image
-        source={require("../../assets/Group231.png")}
-        style={{ width: 240, height: 240, alignSelf: "center" }}
-      />
-      <View style={{ marginTop: 75 }} />
-      {/* <TextInput
+        <View style={{ margin: 20 }} />
+        <View style={styles.margin} />
+        <Image
+          source={require("../../assets/Group231.png")}
+          style={{ width: 240, height: 240, alignSelf: "center" }}
+        />
+        <View style={{ marginTop: 75 }} />
+        {/* <TextInput
         label="Email"
         mode="outlined"
         value={email}
@@ -153,51 +156,52 @@ export default function ChangePassword({ navigation }) {
         left={<TextInput.Icon icon="email" />}
       />
       <View style={styles.margin} /> */}
-      <TextInput
-        ref={passwordInputRef}
-        label="old Password"
-        mode="outlined"
-        onChangeText={(text) => setPassword(text)}
-        value={password}
-        secureTextEntry
-        onSubmitEditing={() => repeatPasswordInputRef.current.focus()}
-        left={<TextInput.Icon icon="lock" />}
-      />
+        <TextInput
+          ref={passwordInputRef}
+          label="Your Password"
+          mode="outlined"
+          onChangeText={(text) => setPassword(text)}
+          value={password}
+          secureTextEntry
+          onSubmitEditing={() => repeatPasswordInputRef.current.focus()}
+          left={<TextInput.Icon icon="lock" />}
+        />
 
-      <View style={styles.margin} />
-      <TextInput
-        ref={passwordInputRef}
-        label="New Password"
-        mode="outlined"
-        onChangeText={(text) => setPassword(text)}
-        value={password}
-        secureTextEntry
-        onSubmitEditing={() => repeatPasswordInputRef.current.focus()}
-        left={<TextInput.Icon icon="lock" />}
-      />
-      <View style={styles.margin} />
+        <View style={styles.margin} />
+        <TextInput
+          ref={passwordInputRef}
+          label="New Password"
+          mode="outlined"
+          onChangeText={(text) => setPassword(text)}
+          value={password}
+          secureTextEntry
+          onSubmitEditing={() => repeatPasswordInputRef.current.focus()}
+          left={<TextInput.Icon icon="lock" />}
+        />
+        <View style={styles.margin} />
 
-      <TextInput
-        ref={repeatPasswordInputRef}
-        label="Repeat password"
-        mode="outlined"
-        onChangeText={(text) => setRepeatPassword(text)}
-        value={repeatPassword}
-        secureTextEntry
-        onSubmitEditing={handleSignUp}
-        left={<TextInput.Icon icon="lock" />}
-      />
+        <TextInput
+          ref={repeatPasswordInputRef}
+          label="Conform New Password"
+          mode="outlined"
+          onChangeText={(text) => setRepeatPassword(text)}
+          value={repeatPassword}
+          secureTextEntry
+          onSubmitEditing={handleSignUp}
+          left={<TextInput.Icon icon="lock" />}
+        />
 
-      <View style={styles.margin} />
+        <View style={styles.margin} />
 
-      <CustomButton
-        title="Confirm New Password"
-        height={50}
-        onPress={handleSignUp}
-      />
-      <View style={{ margin: 10 }} />
+        <CustomButton
+          title="Confirm New Password"
+          height={50}
+          onPress={handleSignUp}
+        />
+        <View style={{ margin: 10 }} />
 
-      <View style={{ margin: 10 }} />
+        {/* <View style={{ margin: 10 }} /> */}
+      </ScrollView>
     </View>
   );
 }
@@ -214,8 +218,8 @@ const styles = StyleSheet.create({
   },
   backIconContainer: {
     position: "absolute",
-    top: 50,
-    left: 5,
+    top: 0,
+    left: -20,
     zIndex: 1,
   },
   backIcon: {

@@ -206,16 +206,7 @@ export default function ChangeProfile({ navigation }) {
             size={35}
             onPress={() => navigation.navigate("Profile")}
           />
-          <Text
-            style={{
-              fontSize: 20,
-              color: "black",
-              marginLeft: 5,
-              fontWeight: "700",
-            }}
-          >
-            Back
-          </Text>
+        
         </View>
       </View>
       <View style={styles.cameraIconContainer}>
@@ -242,7 +233,7 @@ export default function ChangeProfile({ navigation }) {
             borderRadius: 40,
             fontSize: 18,
           }}
-          placeholder="Name"
+          label="Name"
           onChangeText={(text) => setName(text)}
           mode="outlined"
           left={
@@ -272,8 +263,9 @@ export default function ChangeProfile({ navigation }) {
             borderRadius: 40,
             fontSize: 18,
           }}
-          placeholder="Mail"
+          label="Mail"
           onChangeText={(text) => setMail(text)}
+          editable={false}
           mode="outlined"
           left={
             <TextInput.Icon
@@ -288,14 +280,20 @@ export default function ChangeProfile({ navigation }) {
         />
       </View>
 
-      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          width: screenWidth - 20 - 20,
+        }}
+      >
         <View
           style={{
             ...styles.searchSection,
             marginTop: -10,
-            width: (screenWidth - 30) / 2 - 10,
+            width: "50%",
             marginTop: 7,
-            paddingRight: 10,
+            paddingRight: 9,
           }}
         >
           <TextInput
@@ -304,7 +302,7 @@ export default function ChangeProfile({ navigation }) {
               // backgroundColor: "#E9E7E7",
               fontSize: 18,
             }}
-            placeholder="Phone"
+            label="Phone"
             onChangeText={(text) => setPhone(text)}
             value={phone}
             mode="outlined"
@@ -327,9 +325,8 @@ export default function ChangeProfile({ navigation }) {
               ...styles.searchSection,
               // backgroundColor: "#E9E7E7",
               marginTop: -10,
-              width: (screenWidth - 30) / 2,
+              width: "50%",
               marginTop: 7,
-              paddingLeft: 9,
             }}
           >
             <TouchableOpacity
@@ -390,7 +387,7 @@ export default function ChangeProfile({ navigation }) {
             borderRadius: 40,
             fontSize: 18,
           }}
-          placeholder="Address"
+          label="Address"
           onChangeText={(text) => setLocation(text)}
           mode="outlined"
           left={
@@ -476,8 +473,9 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   backIcon: {
-    padding: 10,
-    color: "#8C8EA3",
+    paddingVertical: 10,
+    color: "black",
+    backgroundColor: "white",
   },
   cameraIconContainer: {
     position: "absolute",

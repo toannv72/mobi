@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Image, Text, Platform, Alert } from "react-native";
 import { TextInput, IconButton, Modal, Button } from "react-native-paper";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import {
+  ScrollView,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from "react-native-gesture-handler";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import axios from "axios";
 import RNPickerSelect from "react-native-picker-select";
 import { getData } from "../api/api";
+import { Dimensions } from "react-native";
 export default function AddTaskFromHome({ navigation }) {
   const [time, setTime] = useState(new Date());
   const [dob, setDob] = useState("");
@@ -60,7 +65,8 @@ export default function AddTaskFromHome({ navigation }) {
   useEffect(() => {
     getPetsItems();
   }, []);
-
+  const screenWidth = Dimensions.get("window").width;
+  const screenHeight = Dimensions.get("window").height;
   const MaintenanceModal = () => (
     <Modal
       visible={maintenanceModalVisible}
@@ -141,10 +147,28 @@ export default function AddTaskFromHome({ navigation }) {
     setDob("");
   };
   const handleSaveChanges = () => {
-    if (!type || !time || !dob || !detail || type === "Choose a type task") {
-      // Nếu một trong các trường đầu vào rỗng, hiển thị thông báo cảnh báo
-      Alert.alert("Alert", "Please fill all the fields.");
-      return; // Dừng hàm ở đây nếu có trường rỗng
+    if (!type || type === "Choose a type task") {
+      Alert.alert("Error", "Please choose a type task.");
+      // typeInputRef.current.focus(); // Thêm dòng này nếu bạn có tham chiếu đến trường nhập liệu loại công việc
+      return;
+    }
+
+    if (!time) {
+      Alert.alert("Error", "Please enter the time.");
+      // timeInputRef.current.focus(); // Thêm dòng này nếu bạn có tham chiếu đến trường nhập liệu thời gian
+      return;
+    }
+
+    if (!dob) {
+      Alert.alert("Error", "Please enter the date of birth.");
+      // dobInputRef.current.focus(); // Thêm dòng này nếu bạn có tham chiếu đến trường nhập liệu ngày sinh
+      return;
+    }
+
+    if (!detail) {
+      Alert.alert("Error", "Please enter the detail.");
+      // detailInputRef.current.focus(); // Thêm dòng này nếu bạn có tham chiếu đến trường nhập liệu chi tiết
+      return;
     }
     if (!storedData || storedData.length === 0) {
       console.error("No user data found in storedData.");
@@ -263,231 +287,253 @@ export default function AddTaskFromHome({ navigation }) {
           }}
         />
       )}
-      <View
+      <ScrollView
+        showsVerticalScrollIndicator={false}
         style={{
-          ...styles.searchSection,
-          marginTop: -15,
-          width: 380,
-          borderWidth: 0.8, // Add border width
+          paddingHorizontal: 0,
+          marginHorizontal: 0,
+          // paddingBottom: 1,
         }}
       >
-        <RNPickerSelect
-          onValueChange={(value) => setType(value)}
-          items={[
-            { label: "Choose a type task", value: "Choose a type task" },
-            { label: "Gromming", value: "Gromming" },
-            { label: "Vaccination", value: "Vaccination" },
-            { label: "Hotel", value: "Hotel" },
-          ]}
-          style={{
-            inputAndroid: {
-              fontSize: 18,
-              width: 380,
-              height: 73,
-            },
-          }}
-          value={type}
-          placeholder={{}}
-        />
-      </View>
-
-      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+        <View style={{ height: 1 }} />
         <View
           style={{
             ...styles.searchSection,
-            marginTop: -10,
-            width: 180,
-            marginTop: 7,
-            marginRight: -50,
+            marginTop: 2,
+            width: screenWidth - 20 - 20, // subtract the desired margin
+            borderWidth: 0.8, // Add border width
           }}
         >
-          <TouchableOpacity
-            onPress={showDatepicker}
+          <RNPickerSelect
+            onValueChange={(value) => setType(value)}
+            items={[
+              { label: "Choose a type task", value: "Choose a type task" },
+              { label: "Gromming", value: "Gromming" },
+              { label: "Vaccination", value: "Vaccination" },
+              { label: "Hotel", value: "Hotel" },
+            ]}
             style={{
-              width: 180,
-              height: 73,
+              inputAndroid: {
+                fontSize: 18,
+                width: screenWidth - 40, // subtract the desired margin
+                height: screenHeight * 0.1, // 10% of screen height
+              },
+            }}
+            value={type}
+            placeholder={{}}
+          />
+        </View>
+
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            width: screenWidth - 20 - 20,
+          }}
+        >
+          <View
+            style={{
+              ...styles.searchSection,
+              width: "50%",
+              marginTop: 4,
+              paddingRight: 9,
             }}
           >
-            <TextInput
-              style={{
-                ...styles.input,
-                fontSize: 18,
-              }}
-              mode="outlined"
-              placeholder="Date Reminder"
-              value={dob}
-              editable={false}
-              left={
-                <TextInput.Icon
-                  icon="calendar"
-                  size={35}
+            <TouchableWithoutFeedback onPress={showDatepicker}>
+              <View>
+                <TextInput
                   style={{
-                    marginTop: 22,
+                    ...styles.input,
+                    fontSize: 18,
                   }}
+                  mode="outlined"
+                  placeholder="Date Reminder"
+                  value={dob}
+                  editable={false}
+                  left={
+                    <TextInput.Icon
+                      icon="calendar"
+                      size={35}
+                      style={{
+                        marginTop: 22,
+                      }}
+                    />
+                  }
                 />
-              }
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
+          {show && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={date}
+              mode={mode}
+              is24Hour={true}
+              display="default"
+              onChange={(event, selectedDate) => {
+                console.log("date remind", selectedDate);
+                onChange(event, selectedDate);
+              }}
             />
-          </TouchableOpacity>
-        </View>
-        {show && (
-          <DateTimePicker
-            testID="dateTimePicker"
-            value={date}
-            mode={mode}
-            is24Hour={true}
-            display="default"
-            onChange={(event, selectedDate) => {
-              console.log("date remind", selectedDate); // Đặt log ở đây
-              onChange(event, selectedDate);
+          )}
+
+          <View
+            style={{
+              ...styles.searchSection,
+              // marginTop: -10,
+              width: "50%",
+              marginTop: 4,
+              paddingLeft: 5,
             }}
-          />
-        )}
+          >
+            <TouchableOpacity
+              onPress={showTimepicker}
+              style={
+                {
+                  // width: 180,
+                  // height: 73,
+                }
+              }
+            >
+              <TextInput
+                style={{
+                  ...styles.input,
+                  fontSize: 18,
+                }}
+                mode="outlined"
+                placeholder="Time Reminder"
+                value={timeString}
+                editable={false}
+                left={
+                  <TextInput.Icon
+                    icon="clock"
+                    size={35}
+                    style={{
+                      marginTop: 22,
+                    }}
+                  />
+                }
+              />
+            </TouchableOpacity>
+          </View>
+          {showTime && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={time}
+              mode={modeTime}
+              is24Hour={true}
+              display="default"
+              onChange={(event, selectedTime) => {
+                console.log("time remind", selectedTime); // Đặt log ở đây
+                onChangeTime(event, selectedTime);
+              }}
+            />
+          )}
+        </View>
 
         <View
           style={{
             ...styles.searchSection,
-            marginTop: -10,
-            width: 180,
-            marginTop: 7,
-            marginLeft: 70,
-          }}
-        >
-          <TouchableOpacity
-            onPress={showTimepicker}
-            style={{
-              width: 180,
-              height: 73,
-            }}
-          >
-            <TextInput
-              style={{
-                ...styles.input,
-                fontSize: 18,
-              }}
-              mode="outlined"
-              placeholder="Time Reminder"
-              value={timeString}
-              editable={false}
-              left={
-                <TextInput.Icon
-                  icon="clock"
-                  size={35}
-                  style={{
-                    marginTop: 22,
-                  }}
-                />
-              }
-            />
-          </TouchableOpacity>
-        </View>
-        {showTime && (
-          <DateTimePicker
-            testID="dateTimePicker"
-            value={time}
-            mode={modeTime}
-            is24Hour={true}
-            display="default"
-            onChange={(event, selectedTime) => {
-              console.log("time remind", selectedTime); // Đặt log ở đây
-              onChangeTime(event, selectedTime);
-            }}
-          />
-        )}
-      </View>
-
-      <View
-        style={{
-          ...styles.searchSection,
-          borderRadius: 40,
-          marginBottom: 5,
-        }}
-      >
-        <TextInput
-          style={{
-            ...styles.input,
             borderRadius: 40,
-            fontSize: 18,
+            marginBottom: 5,
+            width: screenWidth - 20 - 20, // subtract the desired margin
           }}
-          placeholder="Task Detail"
-          onChangeText={(text) => {
-            console.log("detail123", text); // Đặt log ở đây
-            setDetail(text);
-          }}
-          mode="outlined"
-          left={
-            <TextInput.Icon
-              icon="dog"
-              size={35}
-              style={{
-                marginTop: 22,
-              }}
-            />
-          }
-          value={detail}
-        />
-      </View>
-      <View
-        style={{
-          ...styles.searchSection,
-          marginTop: 6,
-          width: 380,
-          borderWidth: 0.8, // Add border width
-        }}
-      >
-        <RNPickerSelect
-          onValueChange={(value) => {
-            setSelectedPet(value);
-            // Tìm hình ảnh tương ứng với pet được chọn
-            const selectedPetData = petList.find((pet) => pet.value === value);
-            setSelectedPetImage(selectedPetData ? selectedPetData.image : null);
-          }}
-          items={petList}
-          style={{
-            inputAndroid: {
-              fontSize: 18,
-              width: 380,
-              height: 73,
-            },
-          }}
-          value={selectedPet}
-          placeholder={{}}
-        />
-      </View>
-      {/* Nút Reset All */}
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={{
-            ...styles.button,
-            backgroundColor: "#ffffff",
-          }}
-          onPress={handleResetAll}
         >
-          <Text
+          <TextInput
             style={{
-              ...styles.buttonText,
-              fontSize: 16,
-              fontWeight: 400,
-              color: "#24252B",
+              ...styles.input,
+              borderRadius: 40,
+              fontSize: 18,
             }}
-          >
-            Reset All
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
+            label="Task Detail"
+            onChangeText={(text) => {
+              console.log("detail123", text); // Đặt log ở đây
+              setDetail(text);
+            }}
+            mode="outlined"
+            left={
+              <TextInput.Icon
+                icon="dog"
+                size={35}
+                style={{
+                  marginTop: 22,
+                }}
+              />
+            }
+            value={detail}
+          />
+        </View>
+        <View
           style={{
-            ...styles.button,
-            backgroundColor: "#484B61",
-            borderColor: "#484B61",
+            ...styles.searchSection,
+            marginTop: 6,
+
+            marginBottom: 5,
+            width: screenWidth - 20 - 20, // subtract the desired margin
+            borderWidth: 0.8, // Add border width
           }}
-          onPress={handleSaveChanges}
         >
-          <Text style={{ ...styles.buttonText, fontSize: 16, fontWeight: 400 }}>
-            Create
-          </Text>
-        </TouchableOpacity>
-      </View>
-      <MaintenanceModal />
+          <RNPickerSelect
+            onValueChange={(value) => {
+              setSelectedPet(value);
+              // Tìm hình ảnh tương ứng với pet được chọn
+              const selectedPetData = petList.find(
+                (pet) => pet.value === value
+              );
+              setSelectedPetImage(
+                selectedPetData ? selectedPetData.image : null
+              );
+            }}
+            items={petList}
+            style={{
+              inputAndroid: {
+                fontSize: 18,
+                width: screenWidth - 40, // subtract the desired margin
+                height: screenHeight * 0.1, // 10% of screen height
+              },
+            }}
+            value={selectedPet}
+            placeholder={{}}
+          />
+        </View>
+        {/* Nút Reset All */}
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={{
+              ...styles.button,
+              backgroundColor: "#ffffff",
+            }}
+            onPress={handleResetAll}
+          >
+            <Text
+              style={{
+                ...styles.buttonText,
+                fontSize: 16,
+                fontWeight: 400,
+                color: "#24252B",
+              }}
+            >
+              Reset All
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={{
+              ...styles.button,
+              backgroundColor: "#484B61",
+              borderColor: "#484B61",
+            }}
+            onPress={handleSaveChanges}
+          >
+            <Text
+              style={{ ...styles.buttonText, fontSize: 16, fontWeight: 400 }}
+            >
+              Create
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <MaintenanceModal />
+      </ScrollView>
     </View>
   );
 }

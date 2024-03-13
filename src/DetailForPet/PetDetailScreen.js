@@ -88,6 +88,7 @@ export default function PetDetailScreen({ navigation }) {
                   marginLeft: 360,
                   width: 30,
                   height: 30,
+                  position: "absolute",
                 }}
               />
             </TouchableOpacity>

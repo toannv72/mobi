@@ -130,7 +130,7 @@ const OverviewScreen = ({ pet }) => {
           </TouchableOpacity>
         </View>
         {data.map((item, index) => (
-          <View style={styles.taskContainer} index={index}>
+          <View style={styles.taskContainer} key={index}>
             <View style={styles.taskRow}>
               {typeIcon[item.nameMedicine]}
               <Text

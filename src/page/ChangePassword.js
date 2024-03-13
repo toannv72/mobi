@@ -20,33 +20,42 @@ import { ScrollView } from "react-native-gesture-handler";
 export default function ChangePassword({ navigation }) {
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
+  const [oldPassword, setOldPassword] = useState("");
   const [userData, setUserData] = useState({});
   const [email, setEmail] = useState("");
+  const oldPasswordRef = useRef(null);
   const passwordInputRef = useRef(null);
   const repeatPasswordInputRef = useRef(null);
   const handleSignUp = () => {
-    if (!password) {
-      Alert.alert("Error", "Please enter your password.");
-      passwordInputRef.current.focus();
+    if (!oldPassword) {
+      Alert.alert("Failed", "Please enter your old password.");
+      oldPasswordRef.current.focus();
       return;
     }
 
     if (!repeatPassword) {
-      Alert.alert("Error", "Please repeat your password.");
+      Alert.alert("Failed", "Please repeat your password.");
       repeatPasswordInputRef.current.focus();
       return;
     }
 
     if (password !== repeatPassword) {
-      Alert.alert("Error", "Passwords do not match. Please try again.");
+      Alert.alert("Failed", "Passwords do not match. Please try again.");
       repeatPasswordInputRef.current.focus();
+      return;
+    }
+    if (oldPassword === repeatPassword) {
+      Alert.alert(
+        "Failed",
+        "Current Password and New Password cannot be the same!"
+      );
       return;
     }
 
     try {
       postData("/users/login", {
         email: email,
-        password: password,
+        password: oldPassword,
       })
         .then((e) => {
           axios
@@ -61,6 +70,7 @@ export default function ChangePassword({ navigation }) {
             .then((e) => {
               console.log(e.data);
               if (e.data.success) {
+                Alert.alert("Success", "Change Password Success!"); // Thêm thông báo ở đây
                 navigation.navigate("Homes", { screen: "home" });
               } else {
               }
@@ -72,7 +82,7 @@ export default function ChangePassword({ navigation }) {
         .catch((error) => {
           // navigation.navigate('Homes', { screen: 'home' })
           console.log(error);
-          Alert.alert("Error", "Maatj khaaur cux sai!");
+          Alert.alert("Error", "Your Old Password Input Invalid");
         });
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -110,7 +120,7 @@ export default function ChangePassword({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.backIconContainer}>
           <View
             style={{
@@ -157,13 +167,13 @@ export default function ChangePassword({ navigation }) {
       />
       <View style={styles.margin} /> */}
         <TextInput
-          ref={passwordInputRef}
+          ref={oldPasswordRef}
           label="Your Password"
           mode="outlined"
-          onChangeText={(text) => setPassword(text)}
-          value={password}
+          onChangeText={(text) => setOldPassword(text)}
+          value={oldPassword}
           secureTextEntry
-          onSubmitEditing={() => repeatPasswordInputRef.current.focus()}
+          onSubmitEditing={() => oldPasswordRef.current.focus()}
           left={<TextInput.Icon icon="lock" />}
         />
 

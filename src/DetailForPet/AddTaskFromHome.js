@@ -272,21 +272,30 @@ export default function AddTaskFromHome({ navigation }) {
           Add Task
         </Text>
       </View>
-      {selectedPetImage && (
-        <Image
-          source={{ uri: selectedPetImage }}
-          style={{
-            ...styles.image,
-            marginBottom: 40,
-            borderColor: "gray",
-            borderWidth: 1,
-            width: 432,
-            height: 300,
-            marginTop: 80,
-            objectFit: "cover",
-          }}
-        />
-      )}
+      <View
+        style={{
+          ...styles.image,
+          marginBottom: 40,
+          borderColor: "gray",
+          borderWidth: 1,
+          width: 432,
+          height: 300,
+          marginTop: 80,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        {selectedPetImage && (
+          <Image
+            source={{ uri: selectedPetImage }}
+            style={{
+              width: "100%",
+              height: "100%",
+            }}
+          />
+        )}
+      </View>
+
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={{
@@ -296,6 +305,7 @@ export default function AddTaskFromHome({ navigation }) {
         }}
       >
         <View style={{ height: 1 }} />
+        <Text style={{ fontSize: 20, paddingBottom: 5 }}>Task Name</Text>
         <View
           style={{
             ...styles.searchSection,
@@ -331,28 +341,86 @@ export default function AddTaskFromHome({ navigation }) {
             width: screenWidth - 20 - 20,
           }}
         >
-          <View
-            style={{
-              ...styles.searchSection,
-              width: "50%",
-              marginTop: 4,
-              paddingRight: 9,
-            }}
-          >
-            <TouchableWithoutFeedback onPress={showDatepicker}>
-              <View>
+          <View style={{ width: "50%" }}>
+            <Text style={{ fontSize: 20, paddingBottom: 5 }}>Date Remind</Text>
+            <View
+              style={{
+                ...styles.searchSection,
+
+                marginTop: 4,
+                paddingRight: 9,
+              }}
+            >
+              <TouchableWithoutFeedback onPress={showDatepicker}>
+                <View>
+                  <TextInput
+                    style={{
+                      ...styles.input,
+                      fontSize: 18,
+                    }}
+                    mode="outlined"
+                    placeholder="Date Reminder"
+                    value={dob}
+                    editable={false}
+                    left={
+                      <TextInput.Icon
+                        icon="calendar"
+                        size={35}
+                        style={{
+                          marginTop: 22,
+                        }}
+                      />
+                    }
+                  />
+                </View>
+              </TouchableWithoutFeedback>
+            </View>
+            {show && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={date}
+                mode={mode}
+                is24Hour={true}
+                display="default"
+                onChange={(event, selectedDate) => {
+                  console.log("date remind", selectedDate);
+                  onChange(event, selectedDate);
+                }}
+              />
+            )}
+          </View>
+          <View style={{ width: "50%" }}>
+            <Text style={{ fontSize: 20, paddingBottom: 5 }}>Time Remind</Text>
+            <View
+              style={{
+                ...styles.searchSection,
+                // marginTop: -10,
+
+                marginTop: 4,
+                paddingLeft: 5,
+              }}
+            >
+              <TouchableOpacity
+                onPress={showTimepicker}
+                style={
+                  {
+                    // width: 180,
+                    // height: 73,
+                  }
+                }
+              >
                 <TextInput
                   style={{
                     ...styles.input,
                     fontSize: 18,
                   }}
                   mode="outlined"
-                  placeholder="Date Reminder"
-                  value={dob}
+                  placeholder="Time Reminder"
+                  value={timeString}
                   editable={false}
                   left={
                     <TextInput.Icon
-                      icon="calendar"
+                      icon="clock"
                       size={35}
                       style={{
                         marginTop: 22,
@@ -360,77 +428,24 @@ export default function AddTaskFromHome({ navigation }) {
                     />
                   }
                 />
-              </View>
-            </TouchableWithoutFeedback>
-          </View>
-          {show && (
-            <DateTimePicker
-              testID="dateTimePicker"
-              value={date}
-              mode={mode}
-              is24Hour={true}
-              display="default"
-              onChange={(event, selectedDate) => {
-                console.log("date remind", selectedDate);
-                onChange(event, selectedDate);
-              }}
-            />
-          )}
-
-          <View
-            style={{
-              ...styles.searchSection,
-              // marginTop: -10,
-              width: "50%",
-              marginTop: 4,
-              paddingLeft: 5,
-            }}
-          >
-            <TouchableOpacity
-              onPress={showTimepicker}
-              style={
-                {
-                  // width: 180,
-                  // height: 73,
-                }
-              }
-            >
-              <TextInput
-                style={{
-                  ...styles.input,
-                  fontSize: 18,
+              </TouchableOpacity>
+            </View>
+            {showTime && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={time}
+                mode={modeTime}
+                is24Hour={true}
+                display="default"
+                onChange={(event, selectedTime) => {
+                  console.log("time remind", selectedTime); // Đặt log ở đây
+                  onChangeTime(event, selectedTime);
                 }}
-                mode="outlined"
-                placeholder="Time Reminder"
-                value={timeString}
-                editable={false}
-                left={
-                  <TextInput.Icon
-                    icon="clock"
-                    size={35}
-                    style={{
-                      marginTop: 22,
-                    }}
-                  />
-                }
               />
-            </TouchableOpacity>
+            )}
           </View>
-          {showTime && (
-            <DateTimePicker
-              testID="dateTimePicker"
-              value={time}
-              mode={modeTime}
-              is24Hour={true}
-              display="default"
-              onChange={(event, selectedTime) => {
-                console.log("time remind", selectedTime); // Đặt log ở đây
-                onChangeTime(event, selectedTime);
-              }}
-            />
-          )}
         </View>
-
+        <Text style={{ fontSize: 20, paddingBottom: 5 }}>Task Detail</Text>
         <View
           style={{
             ...styles.searchSection,
@@ -463,6 +478,7 @@ export default function AddTaskFromHome({ navigation }) {
             value={detail}
           />
         </View>
+        <Text style={{ fontSize: 20, paddingBottom: 5 }}>Choose Your Pet</Text>
         <View
           style={{
             ...styles.searchSection,

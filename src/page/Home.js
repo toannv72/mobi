@@ -27,7 +27,7 @@ export default function HomeScreen({ navigation }) {
 
       if (data !== null) {
         const userData = JSON.parse(data);
-        console.log(2222222222222222,userData);
+        console.log(2222222222222222, userData);
         const id = userData[0].id;
 
         const endpoint = `/users/getInformation/${id}`;
@@ -41,7 +41,7 @@ export default function HomeScreen({ navigation }) {
         });
       } else {
         console.log("No data found in AsyncStorage.");
-        navigation.navigate("Login")
+        navigation.navigate("Login");
       }
     } catch (error) {
       console.error("Error loading data:", error);
@@ -91,7 +91,6 @@ export default function HomeScreen({ navigation }) {
             </View>
           </View>
           <View style={styles.notification}>
-            <Image source={mess} />
             <TouchableOpacity
               onPress={() => navigation.navigate("Notification")}
             >
@@ -99,11 +98,6 @@ export default function HomeScreen({ navigation }) {
             </TouchableOpacity>
           </View>
         </View>
-        <Searchbar
-          placeholder="Search"
-          onChangeText={setSearchQuery}
-          value={searchQuery}
-        />
         <View
           style={{
             flexDirection: "row",

@@ -27,7 +27,9 @@ import { getData, postData } from "../../api/api";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 export const Booking = () => {
-  const [bookDate, setBookDate] = useState();
+  const [bookDate, setBookDate] = useState(
+    moment(new Date()).format("ddd MMM DD YYYY")
+  );
   const navigation = useNavigation();
   const [selectedTimeIndex, setSelectedTimeIndex] = useState(0);
   const [selectedTime, setSelectedTime] = useState(0);
@@ -90,14 +92,25 @@ export const Booking = () => {
   const onChange = ({ type }, selectedDate) => {
     if (type === "set") {
       const currentDate = selectedDate;
-      setDate(currentDate);
-      if (Platform.OS === "android") {
+      const tmp = new Date();
+      const checkDate = new Date(tmp);
+      checkDate.setDate(tmp.getDate() - 1);
+      if (currentDate <= checkDate) {
+        Alert.alert("Warning", "Please select a future date");
         toggleDatepicker();
-        setBookDate(currentDate.toDateString());
+      } else {
+        setDate(currentDate);
+        if (Platform.OS === "android") {
+          toggleDatepicker();
+          setBookDate(currentDate.toDateString());
+        }
+        toggleDatepicker();
       }
+    } else if (type === "dismissed") {
       toggleDatepicker();
     }
   };
+
   const route = useRoute();
   const { offersId, fee } = route.params;
   useEffect(() => {
@@ -111,13 +124,17 @@ export const Booking = () => {
   }, []);
 
   const getNextTimes = () => {
+    const currentTime = moment().format("h:mm A");
+    const currentDate = moment().format("YYYY-MM-DD");
+    const selectedDate = moment(date).format("YYYY-MM-DD");
+
     const times = [
       "9:00 AM",
       "9:30 AM",
       "10:00 AM",
       "10:30 AM",
       "11:00 AM",
-      "11:00 AM",
+      "11:30 AM",
       "1:00 PM",
       "1:30 PM",
       "2:00 PM",
@@ -128,7 +145,15 @@ export const Booking = () => {
       "4:30 PM",
       "5:00 PM",
     ];
-    return times.map((time) => ({ time }));
+
+    if (moment(selectedDate).isSame(currentDate, "day")) {
+      const nextTimes = times.filter((time) =>
+        moment(time, "h:mm A").isAfter(moment(currentTime, "h:mm A"))
+      );
+      return nextTimes.map((time) => ({ time }));
+    } else {
+      return times.map((time) => ({ time }));
+    }
   };
 
   const handleTimeCardPress = (index, time) => {
@@ -319,7 +344,7 @@ export const Booking = () => {
           >
             <Text style={style.nextV2}>Booking</Text>
           </TouchableOpacity>
-          <View style={{ height: 200 }}></View>
+          <View style={{ height: 100 }}></View>
         </ScrollView>
       </View>
     </View>

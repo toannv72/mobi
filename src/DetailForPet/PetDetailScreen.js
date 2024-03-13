@@ -179,6 +179,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
     padding: 16,
+    marginTop: "5%",
   },
   header: {
     alignItems: "center",
@@ -204,16 +205,13 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginTop: 10,
   },
-  leftInfo: {
-    marginRight: 20,
-  },
-  rightInfo: {
-    marginLeft: -10,
-  },
+  leftInfo: { justifyContent: "center" },
+  rightInfo: {},
   petName: {
     fontSize: 32,
     color: "#000000",
     fontWeight: "500",
+    textAlign: "center",
   },
   petDetailsContainer: {
     flexDirection: "row",
@@ -277,7 +275,7 @@ const styles = StyleSheet.create({
   },
   backIcon: {
     position: "absolute",
-    top: 5,
+    top: 10,
     left: 0,
     zIndex: 1,
   },

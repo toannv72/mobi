@@ -39,12 +39,12 @@ export default function PetDetailScreen({ navigation }) {
     switch (selectedTab) {
       case "Overview":
         return <OverviewScreen pet={pet} />;
-      case "Appointment":
-        return <AppointmentScreen pet={pet} />;
-      case "MedicalRecord":
-        return <MedicalRecordScreen pet={pet} />;
-      default:
-        return null;
+      // case "Appointment":
+      //   return <AppointmentScreen pet={pet} />;
+      // case "MedicalRecord":
+      //   return <MedicalRecordScreen pet={pet} />;
+      // default:
+      //   return null;
     }
   };
 
@@ -58,118 +58,66 @@ export default function PetDetailScreen({ navigation }) {
           onPress={() => navigation.navigate("Home")}
         />
         <Text style={styles.title}>Your Pet</Text>
-        <View
-          style={{
-            borderColor: "#8C8EA3",
-            borderWidth: 1,
-            borderRadius: 10,
-            width: 401,
-            height: 350,
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <View style={styles.imageContainer}>
-            <Image
-              style={{
-                ...styles.petImage,
-                borderTopLeftRadius: 10,
-                borderTopRightRadius: 10,
-              }}
-              source={{
-                uri: pet.imagePet,
-              }}
-            />
-            <TouchableOpacity onPress={navigateToEditPetProfile}>
+        <ScrollView>
+          <View
+            style={{
+              borderColor: "#8C8EA3",
+              borderWidth: 1,
+              borderRadius: 10,
+              width: 400,
+              height: 350,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <View style={styles.imageContainer}>
               <Image
-                source={require("../../assets/edit.png")}
                 style={{
-                  marginTop: -280,
-                  marginLeft: 360,
-                  width: 30,
-                  height: 30,
-                  position: "absolute",
+                  ...styles.petImage,
+                  borderTopLeftRadius: 10,
+                  borderTopRightRadius: 10,
+                }}
+                source={{
+                  uri: pet.imagePet,
                 }}
               />
-            </TouchableOpacity>
-          </View>
-          <View style={styles.petInfoContainer}>
-            <View style={styles.leftInfo}>
-              <Text style={{ ...styles.petName, marginTop: -43 }}>
-                {pet.name}
-              </Text>
-              <View style={styles.petDetailsContainer}>
-                <Text style={{ ...styles.petDetailsText, marginBottom: 6 }}>
-                  {pet.species}
+              <TouchableOpacity onPress={navigateToEditPetProfile}>
+                <Image
+                  source={require("../../assets/edit.png")}
+                  style={{
+                    marginTop: -280,
+                    marginLeft: 360,
+                    width: 30,
+                    height: 30,
+                    position: "absolute",
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.petInfoContainer}>
+              <View style={styles.leftInfo}>
+                <Text style={{ ...styles.petName, marginTop: -43 }}>
+                  {pet.name}
                 </Text>
+                <View style={styles.petDetailsContainer}>
+                  <Text style={{ ...styles.petDetailsText, marginBottom: 6 }}>
+                    {pet.species}
+                  </Text>
+                </View>
+                <View style={{ ...styles.dot }} />
               </View>
-              <View style={{ ...styles.dot }} />
             </View>
           </View>
-        </View>
-      </View>
 
-      <View style={styles.tabsContainer}>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          <TouchableOpacity
-            style={[
-              styles.tabButton,
-              selectedTab === "Overview" && styles.selectedTab,
-            ]}
-            onPress={() => setSelectedTab("Overview")}
-          >
-            <Text
-              style={[
-                styles.tabButtonText,
-                { color: selectedTab === "Overview" ? "#FFFFFF" : "#484B61" },
-              ]}
-            >
+          <View style={styles.tabsContainer}>
+            <Text style={[styles.tabButtonText, { color: "black" }]}>
               Overview
             </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[
-              styles.tabButton,
-              selectedTab === "Appointment" && styles.selectedTab,
-            ]}
-            onPress={() => setSelectedTab("Appointment")}
-          >
-            <Text
-              style={[
-                styles.tabButtonText,
-                {
-                  color: selectedTab === "Appointment" ? "#FFFFFF" : "#484B61",
-                },
-              ]}
-            >
-              Appointment
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[
-              styles.tabButton,
-              selectedTab === "MedicalRecord" && styles.selectedTab,
-            ]}
-            onPress={() => setSelectedTab("MedicalRecord")}
-          >
-            <Text
-              style={[
-                styles.tabButtonText,
-                {
-                  color:
-                    selectedTab === "MedicalRecord" ? "#FFFFFF" : "#484B61",
-                },
-              ]}
-            >
-              Medical Record
-            </Text>
-          </TouchableOpacity>
+          </View>
+          {renderContent()}
+          <View style={{ height: 10 }}></View>
         </ScrollView>
       </View>
-
-      {renderContent()}
     </View>
   );
 }
@@ -179,8 +127,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "flex-start",
-    padding: 16,
-    marginTop: "5%",
+    marginTop: "10%",
   },
   header: {
     alignItems: "center",
@@ -253,6 +200,7 @@ const styles = StyleSheet.create({
   },
   tabButtonText: {
     fontWeight: "400",
+    fontSize: 40,
   },
   selectedTab: {
     backgroundColor: "#484B61",

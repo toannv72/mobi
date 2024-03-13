@@ -24,41 +24,6 @@ const typeIcon = {
   Gromming: <Fontisto name="scissors" size={20} color="black" />,
 };
 
-const list = [
-  {
-    type: "appointment",
-    date: new Date(2023, 10, 26, 13, 0, 0, 0),
-  },
-  {
-    type: "vaccination",
-    date: new Date(2023, 10, 26, 13, 0, 0, 0),
-  },
-  {
-    type: "hotel",
-    date: new Date(2023, 10, 26, 13, 0, 0, 0),
-  },
-  {
-    type: "grooming",
-    date: new Date(2023, 10, 26, 13, 0, 0, 0),
-  },
-  {
-    type: "appointment",
-    date: new Date(2023, 10, 26, 13, 0, 0, 0),
-  },
-  {
-    type: "vaccination",
-    date: new Date(2023, 10, 26, 13, 0, 0, 0),
-  },
-  {
-    type: "hotel",
-    date: new Date(2023, 10, 26, 13, 0, 0, 0),
-  },
-  {
-    type: "grooming",
-    date: new Date(2023, 10, 26, 13, 0, 0, 0),
-  },
-];
-
 function capitalizeFirstLetter(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
@@ -67,25 +32,19 @@ export const Notification = ({ navigation }) => {
   const [notiCreating, setNotiCreating] = useState(false);
   const [data, setData] = useState([]);
   const [date, setDate] = useState(new Date());
-  const [bookDate, setBookDate] = useState(
-    moment(new Date()).format("yyy-mmm-dd")
-  );
   const currentDate = moment().toISOString();
 
   const getStoredUserId = async () => {
     try {
       const data = await AsyncStorage.getItem("@myKey");
 
- 
+
       if (data !== null) {
         const userData = JSON.parse(data);
         const id = userData[0].id;
-    
+
         getData(`Notification/getAllAtDay/${currentDate}?UserId=${id}`)
           .then((e) => {
-            console.log('====================================');
-            console.log(2222, currentDate);
-            console.log('====================================');
             setData(e.data)
           })
           .catch((e) => {
@@ -99,11 +58,11 @@ export const Notification = ({ navigation }) => {
       console.error("Error loading data:", error);
     }
   };
- 
+
   useFocusEffect(
     useCallback(() => {
       getStoredUserId();
-      return () => {};
+      return () => { };
     }, [])
   );
   function convertSecondsToTime(seconds) {
@@ -116,13 +75,13 @@ export const Notification = ({ navigation }) => {
     const remainingSeconds = duration.seconds();
 
     // Trả về thời gian dưới dạng một đối tượng
-    return hours+":"+minutes
-  
-}
-function convertDate(oldDate, oldFormat, newFormat) {
-  // Sử dụng Moment.js để chuyển đổi ngày từ định dạng cũ sang định dạng mới
-  return moment(oldDate, "YYYY-MM-DDTHH:mm:ss").format("DD/MM/YYYY");
-}
+    return hours + ":" + minutes
+
+  }
+  function convertDate(oldDate, oldFormat, newFormat) {
+    // Sử dụng Moment.js để chuyển đổi ngày từ định dạng cũ sang định dạng mới
+    return moment(oldDate, "YYYY-MM-DDTHH:mm:ss").format("DD/MM/YYYY");
+  }
   return (
     <View style={style.main}>
       <View style={style.titleAndDate}>
@@ -132,7 +91,10 @@ function convertDate(oldDate, oldFormat, newFormat) {
           </Button> */}
           <Text style={style.title}>Notification</Text>
         </View>
+        <Card containerStyle={{ ...style.list, ...style.cartShadow }}>
 
+        
+        </Card>
       </View>
       {!notiCreating ? (
         <Card containerStyle={{ ...style.list, ...style.cartShadow }}>

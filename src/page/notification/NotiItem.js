@@ -18,7 +18,6 @@ export const NotiItem = ({ index, children }) => {
 const style = StyleSheet.create({
     viewBackground: {
         height: 80,
-        width: "99%",
         paddingTop: 0,
         marginVertical: 8.5,
         position: 'relative',

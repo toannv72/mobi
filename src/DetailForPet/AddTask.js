@@ -88,6 +88,7 @@ export default function AddTask({ route, navigation }) {
     </Modal>
   );
   const screenWidth = Dimensions.get("window").width;
+  const screenHeight = Dimensions.get("window").height;
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === "ios");
@@ -139,10 +140,28 @@ export default function AddTask({ route, navigation }) {
     setDob("");
   };
   const handleSaveChanges = () => {
-    if (!type || !time || !dob || !detail || type === "Choose a type task") {
-      // Nếu một trong các trường đầu vào rỗng, hiển thị thông báo cảnh báo
-      Alert.alert("Alert", "Please fill all the fields.");
-      return; // Dừng hàm ở đây nếu có trường rỗng
+    if (!type || type === "Choose a type task") {
+      Alert.alert("Error", "Please choose a type task.");
+      // typeInputRef.current.focus(); // Thêm dòng này nếu bạn có tham chiếu đến trường nhập liệu loại công việc
+      return;
+    }
+
+    if (!time) {
+      Alert.alert("Error", "Please enter the time.");
+      // timeInputRef.current.focus(); // Thêm dòng này nếu bạn có tham chiếu đến trường nhập liệu thời gian
+      return;
+    }
+
+    if (!dob) {
+      Alert.alert("Error", "Please enter the date of birth.");
+      // dobInputRef.current.focus(); // Thêm dòng này nếu bạn có tham chiếu đến trường nhập liệu ngày sinh
+      return;
+    }
+
+    if (!detail) {
+      Alert.alert("Error", "Please enter the detail.");
+      // detailInputRef.current.focus(); // Thêm dòng này nếu bạn có tham chiếu đến trường nhập liệu chi tiết
+      return;
     }
     if (!storedData || storedData.length === 0) {
       console.error("No user data found in storedData.");
@@ -286,13 +305,13 @@ export default function AddTask({ route, navigation }) {
               { label: "Choose a type task", value: "Choose a type task" },
               { label: "Gromming", value: "Gromming" },
               { label: "Vaccination", value: "Vaccination" },
-              { label: "Hotel", value: "Hotel" },
+              { label: "Appointment", value: "Appointment" },
             ]}
             style={{
               inputAndroid: {
                 fontSize: 18,
-                width: 380,
-                height: 73,
+                width: screenWidth - 40, // subtract the desired margin
+                height: screenHeight * 0.1, // 10% of screen height
               },
             }}
             value={type}
@@ -300,13 +319,19 @@ export default function AddTask({ route, navigation }) {
           />
         </View>
 
-        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            width: screenWidth - 20 - 20,
+          }}
+        >
           <View
             style={{
               ...styles.searchSection,
-              marginTop: -10,
-              width: (screenWidth - 30) / 2,
-              marginTop: 7,
+              // marginTop: -10,
+              width: "50%",
+              marginTop: 4,
               paddingRight: 9,
             }}
           >
@@ -355,10 +380,10 @@ export default function AddTask({ route, navigation }) {
           <View
             style={{
               ...styles.searchSection,
-              marginTop: -10,
-              width: (screenWidth - 30) / 2,
-              marginTop: 7,
-              paddingRight: 18,
+              // marginTop: -10,
+              width: "50%",
+              marginTop: 4,
+              paddingLeft: 5,
             }}
           >
             <TouchableOpacity
@@ -450,8 +475,8 @@ export default function AddTask({ route, navigation }) {
             style={{
               inputAndroid: {
                 fontSize: 18,
-                width: 380,
-                height: 73,
+                width: screenWidth - 40, // subtract the desired margin
+                height: screenHeight * 0.1, // 10% of screen height
               },
             }}
             value={selectedPet}

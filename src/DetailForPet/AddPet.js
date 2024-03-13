@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Image, Text, Platform, Alert } from "react-native";
 import { TextInput, IconButton, Modal, Button } from "react-native-paper";
 import * as ImagePicker from "expo-image-picker";
-import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
+import {
+  ScrollView,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from "react-native-gesture-handler";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { postData } from "../api/api";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -103,6 +107,7 @@ export default function AddPet({ navigation }) {
     }
   };
   const screenWidth = Dimensions.get("window").width;
+  const screenHeight = Dimensions.get("window").height;
   const handleResetAll = () => {
     // Xóa tất cả các trường nhập liệu
     setName("");
@@ -124,20 +129,54 @@ export default function AddPet({ navigation }) {
       gender: genderValue,
       identifyingFeatures: detail,
     });
-    if (
-      !name ||
-      gender === undefined ||
-      !avatarSource ||
-      !species ||
-      !dob ||
-      !weight ||
-      !height ||
-      !detail
-    ) {
-      // Nếu một trong các trường đầu vào rỗng, hiển thị thông báo cảnh báo
-      Alert.alert("Alert", "Please fill all the fields.");
-      return; // Dừng hàm ở đây nếu có trường rỗng
+    if (!name) {
+      Alert.alert("Error", "Please enter your pet's name.");
+      // nameInputRef.current.focus(); // Thêm dòng này nếu bạn có tham chiếu đến trường nhập liệu tên
+      return;
     }
+
+    if (gender === undefined) {
+      Alert.alert("Error", "Please select your pet's gender.");
+      // genderInputRef.current.focus(); // Thêm dòng này nếu bạn có tham chiếu đến trường nhập liệu giới tính
+      return;
+    }
+
+    if (!avatarSource) {
+      Alert.alert("Error", "Please add your pet's photo.");
+      // photoInputRef.current.focus(); // Thêm dòng này nếu bạn có tham chiếu đến trường nhập liệu ảnh
+      return;
+    }
+
+    if (!species) {
+      Alert.alert("Error", "Please enter your pet's species.");
+      // speciesInputRef.current.focus(); // Thêm dòng này nếu bạn có tham chiếu đến trường nhập liệu loài
+      return;
+    }
+
+    if (!dob) {
+      Alert.alert("Error", "Please enter your pet's date of birth.");
+      // dobInputRef.current.focus(); // Thêm dòng này nếu bạn có tham chiếu đến trường nhập liệu ngày sinh
+      return;
+    }
+
+    if (!weight) {
+      Alert.alert("Error", "Please enter your pet's weight.");
+      // weightInputRef.current.focus(); // Thêm dòng này nếu bạn có tham chiếu đến trường nhập liệu cân nặng
+      return;
+    }
+
+    if (!height) {
+      Alert.alert("Error", "Please enter your pet's height.");
+      // heightInputRef.current.focus(); // Thêm dòng này nếu bạn có tham chiếu đến trường nhập liệu chiều cao
+      return;
+    }
+
+    if (!detail) {
+      Alert.alert("Error", "Please enter identifying features of your pet.");
+      // detailInputRef.current.focus(); // Thêm dòng này nếu bạn có tham chiếu đến trường nhập liệu đặc điểm nhận dạng
+      return;
+    }
+
     if (!storedData || storedData.length === 0) {
       console.error("No user data found in storedData.");
       return;
@@ -292,7 +331,8 @@ export default function AddPet({ navigation }) {
               borderRadius: 40,
               fontSize: 18,
             }}
-            placeholder="Name"
+            label="Name"
+            // placeholder="Name"
             onChangeText={(text) => setName(text)}
             mode="outlined"
             left={
@@ -321,7 +361,8 @@ export default function AddPet({ navigation }) {
               borderRadius: 40,
               fontSize: 18,
             }}
-            placeholder="Species"
+            label="Species  "
+            // placeholder="Species"
             onChangeText={(text) => setSpecies(text)}
             mode="outlined"
             left={
@@ -337,7 +378,13 @@ export default function AddPet({ navigation }) {
           />
         </View>
 
-        <View style={{ flexDirection: "row", justifyContent: "space-between", width: screenWidth - 20 - 20,}}>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            width: screenWidth - 20 - 20,
+          }}
+        >
           <View
             style={{
               ...styles.searchSection,
@@ -353,7 +400,7 @@ export default function AddPet({ navigation }) {
                 // backgroundColor: "#E9E7E7",
                 fontSize: 18,
               }}
-              placeholder="Weight"
+              label="Weight"
               onChangeText={(text) => setWeight(text)}
               value={weight}
               mode="outlined"
@@ -383,7 +430,7 @@ export default function AddPet({ navigation }) {
                 // backgroundColor: "#E9E7E7",
                 fontSize: 18,
               }}
-              placeholder="Height"
+              label="Height"
               onChangeText={(text) => setHeight(text)}
               value={height}
               mode="outlined"
@@ -411,7 +458,7 @@ export default function AddPet({ navigation }) {
             paddingRight: 9,
           }}
         >
-          <TouchableOpacity
+          <TouchableWithoutFeedback
             onPress={showDatepicker}
             style={{
               width: screenWidth - 20 - 20,
@@ -439,7 +486,7 @@ export default function AddPet({ navigation }) {
                 />
               }
             />
-          </TouchableOpacity>
+          </TouchableWithoutFeedback>
         </View>
         {show && (
           <DateTimePicker
@@ -472,8 +519,9 @@ export default function AddPet({ navigation }) {
             style={{
               inputAndroid: {
                 fontSize: 18,
-                width: 370,
-                height: 73,
+                width: screenWidth - 40, // subtract the desired margin
+                height: screenHeight * 0.1, // 10% of screen height
+                position: "flex-end",
               },
             }}
             value={gender}
@@ -495,7 +543,7 @@ export default function AddPet({ navigation }) {
               borderRadius: 40,
               fontSize: 18,
             }}
-            placeholder="Identifying Features"
+            label="Identifying Features"
             onChangeText={(text) => setDetail(text)}
             mode="outlined"
             left={

@@ -1,24 +1,38 @@
 import moment from "moment";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { IconButton } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
+import { getData } from "../api/api";
 const OverviewScreen = ({ pet }) => {
   const { birthDate, species, identifyingFeatures, weight, height, gender } =
     pet;
   const genderStr = gender ? "Female" : "Male";
   const navigation = useNavigation();
   const [selectedPetId, setSelectedPetId] = useState(null);
+  const [data, setData] = useState([]);
+  const date = moment(new Date()).format("YYYY-MMM-DD");
   const getB = (pet) => {
     const birthday = moment(pet);
-
-    // Ngày hiện tại
     const today = moment();
     const ageYears = today.diff(birthday, "years");
     const ageMonths = today.diff(birthday, "months");
     const age = `${ageYears}Month ${ageMonths % 12}`;
     return ageYears;
+  };
+  useEffect(() => {
+    // getData(`/Notification/getAllAtDay/${date}?PetId=${pet.petId}`)
+    getData(`/Notification/getAllAtDay/${date}?PetId=${pet.petId}`)
+      .then((res) => setData(res.data))
+      .catch((err) => console.log(err));
+  });
+  const convertSecondsToAMPM = (totalSeconds) => {
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const period = hours >= 12 ? "PM" : "AM";
+    const hour12Format = hours % 12 || 12; // Đảm bảo rằng 12 giờ trở thành 12 AM/PM thay vì 0 AM/PM
+    return `${hour12Format}:${minutes.toString().padStart(2, "0")} ${period}`;
   };
   return (
     <ScrollView
@@ -57,29 +71,27 @@ const OverviewScreen = ({ pet }) => {
         </View>
         {/* diff view*/}
         <View style={styles.taskHeader}>
-          <IconButton
-            icon="check-circle-outline"
-            size={26}
-            style={{
-              ...styles.icon,
-              marginLeft: -15,
-              marginTop: 1,
-              borderRadius: 5, // Điều này sẽ làm cho icon trở thành hình vuông
-            }}
-          />
+          <View style={{ flexDirection: "row" }}>
+            <IconButton
+              icon="check-circle-outline"
+              size={26}
+              style={{
+                alignSelf: "center",
+                borderRadius: 5, // Điều này sẽ làm cho icon trở thành hình vuông
+              }}
+            />
 
-          <Text
-            style={{
-              ...styles.title,
-              fontSize: 18,
-              marginLeft: -233,
-              fontWeight: 600,
-              marginBottom: 2,
-              marginLeft: -200,
-            }}
-          >
-            Today's Task
-          </Text>
+            <Text
+              style={{
+                fontSize: 18,
+                fontWeight: 600,
+                marginBottom: 2,
+                alignSelf: "center",
+              }}
+            >
+              Todays Task
+            </Text>
+          </View>
           <TouchableOpacity
             style={styles.addButton}
             onPress={() => {
@@ -95,85 +107,43 @@ const OverviewScreen = ({ pet }) => {
             <Text style={styles.addButtonText}>+</Text>
           </TouchableOpacity>
         </View>
-
-        <View style={styles.taskContainer}>
-          <View style={styles.taskRow}>
-            <Text
-              style={{
-                ...styles.taskTitle,
-                marginLeft: -10,
-                fontWeight: 400,
-                fontSize: 16,
-                marginBottom: 10,
-              }}
-            >
-              Daily Vitamins
-            </Text>
-            <View style={styles.timeContainer}>
-              <IconButton
-                icon="clock-outline"
-                size={25}
-                style={{ ...styles.clockIcon, marginRight: -5 }}
-              />
-              <Text
-                style={{ ...styles.taskTime, fontWeight: 400, fontSize: 16 }}
-              >
-                8:00 PM
-              </Text>
-            </View>
-          </View>
-          <Text
-            style={{ ...styles.taskDescription, fontWeight: 400, fontSize: 13 }}
-          >
-            Give Dongo His Vitamins
-          </Text>
-        </View>
-
-        <View style={styles.taskContainer}>
-          <View style={styles.taskRow}>
-            <Text
-              style={{
-                ...styles.task2Title,
-                fontSize: 16,
-                fontWeight: 400,
-                marginLeft: -2,
-              }}
-            >
-              Learning “Turn Around”
-            </Text>
-            <TouchableOpacity
-              style={{ ...styles.editButton, marginRight: -270 }}
-            >
+        {data.map((item) => (
+          <View style={styles.taskContainer} key={item.index}>
+            <View style={styles.taskRow}>
               <Text
                 style={{
-                  ...styles.editButtonText,
-                  fontSize: 12,
-                  fontWeight: 400,
-                  color: "#8C8EA3",
-                  textDecorationLine: "underline",
-                  textDecorationColor: "#8C8EA3",
-                  marginRight: 270,
+                  fontSize: 24,
                 }}
               >
-                Edit Reminder
+                {item.nameMedicine}
               </Text>
-            </TouchableOpacity>
-          </View>
-          <View>
+              <View style={styles.timeContainer}>
+                <IconButton
+                  icon="clock-outline"
+                  size={30}
+                  style={{
+                    ...styles.clockIcon,
+                    marginRight: -5,
+                    marginTop: -5,
+                  }}
+                />
+                <Text style={{ fontWeight: 400, fontSize: 24 }}>
+                  {convertSecondsToAMPM(item.timeRemind)}
+                </Text>
+              </View>
+            </View>
             <Text
               style={{
-                marginBottom: -50,
-                color: "#8C8EA3",
                 fontWeight: 400,
-                fontSize: 12,
-                marginLeft: -2,
+                fontSize: 24,
               }}
+              numberOfLines={2}
+              ellipsizeMode="tail"
             >
-              5 Repeats During A Day
+              {item.content}
             </Text>
-            <View style={styles.divider} />
           </View>
-        </View>
+        ))}
       </View>
     </ScrollView>
   );
@@ -211,9 +181,6 @@ const styles = StyleSheet.create({
   taskHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
-    padding: 10,
-    marginTop: -20,
   },
 
   addButton: {
@@ -222,6 +189,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#3A3F65",
+    alignSelf: "center",
     borderRadius: 10,
     marginBottom: 0,
     shadowColor: "#000",
@@ -243,27 +211,21 @@ const styles = StyleSheet.create({
   taskContainer: {
     borderRadius: 10,
     padding: 15,
-    marginBottom: 12,
+    marginBottom: 10,
+    borderWidth: 1,
   },
   taskRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
-    marginTop: -45,
   },
   timeContainer: {
     flexDirection: "row",
-    alignItems: "center",
   },
   clockIcon: {
     marginRight: 5,
   },
   taskTime: {
     fontSize: 14,
-  },
-  taskDescription: {
-    marginTop: -17,
-    marginLeft: -10,
   },
   divider: {
     borderBottomColor: "#8C8EA3",

@@ -5,6 +5,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { IconButton } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { getData } from "../api/api";
+import { FontAwesome, Fontisto } from "@expo/vector-icons";
 const OverviewScreen = ({ pet }) => {
   const { birthDate, species, identifyingFeatures, weight, height, gender } =
     pet;
@@ -12,7 +13,9 @@ const OverviewScreen = ({ pet }) => {
   const navigation = useNavigation();
   const [selectedPetId, setSelectedPetId] = useState(null);
   const [data, setData] = useState([]);
-  const date = moment(new Date()).format("YYYY-MMM-DD");
+  const [date, setDate] = useState(moment(new Date()).format("YYYY-MMM-DD")); // lấy ngày hiện tại nếu ai thêm phần chọn ngày thì setDate lại
+  const today = moment(data.dateRemind).format("ddd MMM DD YYYY");
+
   const getB = (pet) => {
     const birthday = moment(pet);
     const today = moment();
@@ -21,8 +24,27 @@ const OverviewScreen = ({ pet }) => {
     const age = `${ageYears}Month ${ageMonths % 12}`;
     return ageYears;
   };
+  const typeIcon = {
+    Appointment: <FontAwesome name="stethoscope" size={22} color="black" />,
+    Vaccination: <Fontisto name="injection-syringe" size={22} color="black" />,
+    Hotel: (
+      <FontAwesome
+        name="building"
+        size={24}
+        color="black"
+        style={{ marginRight: -50 }}
+      />
+    ),
+    Gromming: (
+      <Fontisto
+        name="scissors"
+        size={22}
+        color="black"
+        style={{ marginRight: -10 }}
+      />
+    ),
+  };
   useEffect(() => {
-    // getData(`/Notification/getAllAtDay/${date}?PetId=${pet.petId}`)
     getData(`/Notification/getAllAtDay/${date}?PetId=${pet.petId}`)
       .then((res) => setData(res.data))
       .catch((err) => console.log(err));
@@ -107,12 +129,14 @@ const OverviewScreen = ({ pet }) => {
             <Text style={styles.addButtonText}>+</Text>
           </TouchableOpacity>
         </View>
-        {data.map((item) => (
-          <View style={styles.taskContainer} key={item.index}>
+        {data.map((item, index) => (
+          <View style={styles.taskContainer} index={index}>
             <View style={styles.taskRow}>
+              {typeIcon[item.nameMedicine]}
               <Text
                 style={{
-                  fontSize: 24,
+                  fontSize: 20,
+                  marginLeft: -80,
                 }}
               >
                 {item.nameMedicine}
@@ -124,10 +148,10 @@ const OverviewScreen = ({ pet }) => {
                   style={{
                     ...styles.clockIcon,
                     marginRight: -5,
-                    marginTop: -5,
+                    marginTop: -10,
                   }}
                 />
-                <Text style={{ fontWeight: 400, fontSize: 24 }}>
+                <Text style={{ fontWeight: 400, fontSize: 24, marginTop: -5 }}>
                   {convertSecondsToAMPM(item.timeRemind)}
                 </Text>
               </View>
@@ -135,12 +159,10 @@ const OverviewScreen = ({ pet }) => {
             <Text
               style={{
                 fontWeight: 400,
-                fontSize: 24,
+                fontSize: 14,
               }}
-              numberOfLines={2}
-              ellipsizeMode="tail"
             >
-              {item.content}
+              {today}
             </Text>
           </View>
         ))}
@@ -212,7 +234,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 15,
     marginBottom: 10,
-    borderWidth: 1,
+    borderBottomWidth: 1,
   },
   taskRow: {
     flexDirection: "row",

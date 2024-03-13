@@ -291,6 +291,7 @@ export default function AddTask({ route, navigation }) {
         }}
       >
         <View style={{ height: 1 }} />
+        <Text style={{ fontSize: 20, paddingBottom: 5 }}>Task Name</Text>
         <View
           style={{
             ...styles.searchSection,
@@ -326,109 +327,114 @@ export default function AddTask({ route, navigation }) {
             width: screenWidth - 20 - 20,
           }}
         >
-          <View
-            style={{
-              ...styles.searchSection,
-              // marginTop: -10,
-              width: "50%",
-              marginTop: 4,
-              paddingRight: 9,
-            }}
-          >
-            <TouchableOpacity
-              onPress={showDatepicker}
+          <View style={{ width: "50%" }}>
+            <Text style={{ fontSize: 20, paddingBottom: 5 }}>Date Remind</Text>
+            <View
               style={{
-                width: 180,
-                height: 73,
-              }}
-            >
-              <TextInput
-                style={{
-                  ...styles.input,
-                  fontSize: 18,
-                }}
-                mode="outlined"
-                placeholder="Date Reminder"
-                value={dob}
-                editable={false}
-                left={
-                  <TextInput.Icon
-                    icon="calendar"
-                    size={35}
-                    style={{
-                      marginTop: 22,
-                    }}
-                  />
-                }
-              />
-            </TouchableOpacity>
-          </View>
-          {show && (
-            <DateTimePicker
-              testID="dateTimePicker"
-              value={date}
-              mode={mode}
-              is24Hour={true}
-              display="default"
-              onChange={(event, selectedDate) => {
-                console.log("date remind", selectedDate); // Đặt log ở đây
-                onChange(event, selectedDate);
-              }}
-            />
-          )}
+                ...styles.searchSection,
+                // marginTop: -10,
 
-          <View
-            style={{
-              ...styles.searchSection,
-              // marginTop: -10,
-              width: "50%",
-              marginTop: 4,
-              paddingLeft: 5,
-            }}
-          >
-            <TouchableOpacity
-              onPress={showTimepicker}
-              style={{
-                width: 180,
-                height: 73,
+                marginTop: 4,
+                paddingRight: 9,
               }}
             >
-              <TextInput
+              <TouchableOpacity
+                onPress={showDatepicker}
                 style={{
-                  ...styles.input,
-                  fontSize: 18,
+                  width: 180,
+                  height: 73,
                 }}
-                mode="outlined"
-                placeholder="Time Reminder"
-                value={timeString}
-                editable={false}
-                left={
-                  <TextInput.Icon
-                    icon="clock"
-                    size={35}
-                    style={{
-                      marginTop: 22,
-                    }}
-                  />
-                }
+              >
+                <TextInput
+                  style={{
+                    ...styles.input,
+                    fontSize: 18,
+                  }}
+                  mode="outlined"
+                  placeholder="Date Reminder"
+                  value={dob}
+                  editable={false}
+                  left={
+                    <TextInput.Icon
+                      icon="calendar"
+                      size={35}
+                      style={{
+                        marginTop: 22,
+                      }}
+                    />
+                  }
+                />
+              </TouchableOpacity>
+            </View>
+            {show && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={date}
+                mode={mode}
+                is24Hour={true}
+                display="default"
+                onChange={(event, selectedDate) => {
+                  console.log("date remind", selectedDate); // Đặt log ở đây
+                  onChange(event, selectedDate);
+                }}
               />
-            </TouchableOpacity>
+            )}
           </View>
-          {showTime && (
-            <DateTimePicker
-              testID="dateTimePicker"
-              value={time}
-              mode={modeTime}
-              is24Hour={true}
-              display="default"
-              onChange={(event, selectedTime) => {
-                console.log("time remind", selectedTime); // Đặt log ở đây
-                onChangeTime(event, selectedTime);
+          <View style={{ width: "50%" }}>
+            <Text style={{ fontSize: 20, paddingBottom: 5 }}>Time Remind</Text>
+            <View
+              style={{
+                ...styles.searchSection,
+                // marginTop: -10,
+
+                marginTop: 4,
+                paddingLeft: 5,
               }}
-            />
-          )}
+            >
+              <TouchableOpacity
+                onPress={showTimepicker}
+                style={{
+                  width: 180,
+                  height: 73,
+                }}
+              >
+                <TextInput
+                  style={{
+                    ...styles.input,
+                    fontSize: 18,
+                  }}
+                  mode="outlined"
+                  placeholder="Time Reminder"
+                  value={timeString}
+                  editable={false}
+                  left={
+                    <TextInput.Icon
+                      icon="clock"
+                      size={35}
+                      style={{
+                        marginTop: 22,
+                      }}
+                    />
+                  }
+                />
+              </TouchableOpacity>
+            </View>
+            {showTime && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={time}
+                mode={modeTime}
+                is24Hour={true}
+                display="default"
+                onChange={(event, selectedTime) => {
+                  console.log("time remind", selectedTime); // Đặt log ở đây
+                  onChangeTime(event, selectedTime);
+                }}
+              />
+            )}
+          </View>
         </View>
-
+        <Text style={{ fontSize: 20, paddingBottom: 5 }}>Task Detail</Text>
         <View
           style={{
             ...styles.searchSection,
@@ -461,7 +467,7 @@ export default function AddTask({ route, navigation }) {
             value={detail}
           />
         </View>
-        <View
+        {/* <View
           style={{
             ...styles.searchSection,
             marginTop: 6,
@@ -482,7 +488,7 @@ export default function AddTask({ route, navigation }) {
             value={selectedPet}
             placeholder={{}}
           />
-        </View>
+        </View> */}
         {/* Nút Reset All */}
         <View style={styles.buttonContainer}>
           <TouchableOpacity

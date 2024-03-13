@@ -316,6 +316,7 @@ export default function AddPet({ navigation }) {
         }}
       >
         <View style={{ height: 10 }} />
+        <Text style={{ fontSize: 20, paddingBottom: 15 }}>Name</Text>
         <View
           style={{
             ...styles.searchSection,
@@ -331,7 +332,7 @@ export default function AddPet({ navigation }) {
               borderRadius: 40,
               fontSize: 18,
             }}
-            label="Name"
+            placeholder="Name"
             // placeholder="Name"
             onChangeText={(text) => setName(text)}
             mode="outlined"
@@ -347,6 +348,7 @@ export default function AddPet({ navigation }) {
             value={name}
           />
         </View>
+        <Text style={{ fontSize: 20, paddingBottom: 5 }}>Species</Text>
         <View
           style={{
             ...styles.searchSection,
@@ -361,7 +363,7 @@ export default function AddPet({ navigation }) {
               borderRadius: 40,
               fontSize: 18,
             }}
-            label="Species  "
+            placeholder="Species  "
             // placeholder="Species"
             onChangeText={(text) => setSpecies(text)}
             mode="outlined"
@@ -385,69 +387,74 @@ export default function AddPet({ navigation }) {
             width: screenWidth - 20 - 20,
           }}
         >
-          <View
-            style={{
-              ...styles.searchSection,
-              marginTop: -10,
-              width: "50%",
-              marginTop: 7,
-              paddingRight: 9,
-            }}
-          >
-            <TextInput
+          <View style={{ width: "50%" }}>
+            <Text style={{ fontSize: 20, paddingBottom: 5 }}>Weight</Text>
+            <View
               style={{
-                ...styles.input,
-                // backgroundColor: "#E9E7E7",
-                fontSize: 18,
+                ...styles.searchSection,
+                borderRadius: 40,
+                marginBottom: 5,
+
+                paddingRight: 9,
               }}
-              label="Weight"
-              onChangeText={(text) => setWeight(text)}
-              value={weight}
-              mode="outlined"
-              keyboardType="number-pad"
-              left={
-                <TextInput.Icon
-                  icon="weight-pound"
-                  size={35}
-                  style={{
-                    marginTop: 22,
-                  }}
-                />
-              }
-            />
+            >
+              <TextInput
+                style={{
+                  ...styles.input,
+                  // backgroundColor: "#E9E7E7",
+                  fontSize: 18,
+                }}
+                placeholder="Weight"
+                onChangeText={(text) => setWeight(text)}
+                value={weight}
+                mode="outlined"
+                keyboardType="number-pad"
+                left={
+                  <TextInput.Icon
+                    icon="weight-pound"
+                    size={35}
+                    style={{
+                      marginTop: 22,
+                    }}
+                  />
+                }
+              />
+            </View>
           </View>
-          <View
-            style={{
-              ...styles.searchSection,
-              marginTop: -10,
-              width: "50%",
-              marginTop: 7,
-            }}
-          >
-            <TextInput
+          <View style={{ width: "50%" }}>
+            <Text style={{ fontSize: 20, paddingBottom: 5 }}>Height</Text>
+            <View
               style={{
-                ...styles.input,
-                // backgroundColor: "#E9E7E7",
-                fontSize: 18,
+                ...styles.searchSection,
+                borderRadius: 40,
+                marginBottom: 5,
               }}
-              label="Height"
-              onChangeText={(text) => setHeight(text)}
-              value={height}
-              mode="outlined"
-              keyboardType="number-pad"
-              left={
-                <TextInput.Icon
-                  icon="weight"
-                  size={35}
-                  style={{
-                    marginTop: 22,
-                  }}
-                />
-              }
-            />
+            >
+              <TextInput
+                style={{
+                  ...styles.input,
+                  // backgroundColor: "#E9E7E7",
+                  fontSize: 18,
+                }}
+                placeholder="Height"
+                onChangeText={(text) => setHeight(text)}
+                value={height}
+                mode="outlined"
+                keyboardType="number-pad"
+                left={
+                  <TextInput.Icon
+                    icon="weight"
+                    size={35}
+                    style={{
+                      marginTop: 22,
+                    }}
+                  />
+                }
+              />
+            </View>
           </View>
         </View>
-
+        <Text style={{ fontSize: 20, paddingBottom: 5 }}>Birth Date</Text>
         <View
           style={{
             ...styles.searchSection,
@@ -498,7 +505,7 @@ export default function AddPet({ navigation }) {
             onChange={onChange}
           />
         )}
-
+        <Text style={{ fontSize: 20, paddingBottom: 5 }}>Gender</Text>
         <View
           style={{
             ...styles.searchSection,
@@ -528,6 +535,9 @@ export default function AddPet({ navigation }) {
             placeholder={{}}
           />
         </View>
+        <Text style={{ fontSize: 20, paddingBottom: 5 }}>
+          Identifying Features
+        </Text>
         <View
           style={{
             ...styles.searchSection,
@@ -543,7 +553,7 @@ export default function AddPet({ navigation }) {
               borderRadius: 40,
               fontSize: 18,
             }}
-            label="Identifying Features"
+            placeholder="Identifying Features"
             onChangeText={(text) => setDetail(text)}
             mode="outlined"
             left={

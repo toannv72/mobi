@@ -332,6 +332,7 @@ export default function ChangePetProfile({ navigation }) {
         }}
       >
         <View style={{ height: 10 }} />
+        <Text style={{ fontSize: 20, paddingBottom: 15 }}>Name</Text>
         <View
           style={{
             ...styles.searchSection,
@@ -346,7 +347,7 @@ export default function ChangePetProfile({ navigation }) {
               borderRadius: 40,
               fontSize: 18,
             }}
-            label="Name"
+            placeholder="Name"
             onChangeText={(text) => setName(text)}
             mode="outlined"
             left={
@@ -361,6 +362,7 @@ export default function ChangePetProfile({ navigation }) {
             value={name}
           />
         </View>
+        <Text style={{ fontSize: 20, paddingBottom: 15 }}>Species</Text>
         <View
           style={{
             ...styles.searchSection,
@@ -376,7 +378,7 @@ export default function ChangePetProfile({ navigation }) {
               borderRadius: 40,
               fontSize: 18,
             }}
-            label="Species"
+            placeholder="Species"
             onChangeText={(text) => setSpecies(text)}
             mode="outlined"
             left={
@@ -393,69 +395,74 @@ export default function ChangePetProfile({ navigation }) {
         </View>
 
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-          <View
-            style={{
-              ...styles.searchSection,
-              marginTop: -10,
-              width: (screenWidth - 30) / 2,
-              marginTop: 7,
-              paddingRight: 9,
-            }}
-          >
-            <TextInput
+          <View style={{ width: "50%" }}>
+            <Text style={{ fontSize: 20, paddingBottom: 15 }}>Weight</Text>
+            <View
               style={{
-                ...styles.input,
-                fontSize: 18,
+                ...styles.searchSection,
+                borderRadius: 40,
+                marginBottom: 5,
+
+                paddingRight: 9,
               }}
-              label="Weight"
-              onChangeText={(text) => setWeight(text)}
-              value={weight?.toString()}
-              mode="outlined"
-              // keyboardType="number-pad"
-              left={
-                <TextInput.Icon
-                  icon="weight-pound"
-                  size={35}
-                  style={{
-                    marginTop: 22,
-                  }}
-                />
-              }
-            />
+            >
+              <TextInput
+                style={{
+                  ...styles.input,
+                  fontSize: 18,
+                }}
+                placeholder="Weight"
+                onChangeText={(text) => setWeight(text)}
+                value={weight?.toString()}
+                mode="outlined"
+                // keyboardType="number-pad"
+                left={
+                  <TextInput.Icon
+                    icon="weight-pound"
+                    size={35}
+                    style={{
+                      marginTop: 22,
+                    }}
+                  />
+                }
+              />
+            </View>
           </View>
-          <View
-            style={{
-              ...styles.searchSection,
-              marginTop: -10,
-              width: (screenWidth - 30) / 2,
-              marginTop: 7,
-              paddingRight: 10,
-            }}
-          >
-            <TextInput
+          <View style={{ width: "50%" }}>
+            <Text style={{ fontSize: 20, paddingBottom: 5 }}>Height</Text>
+            <View
               style={{
-                ...styles.input,
-                // backgroundColor: "#E9E7E7",
-                fontSize: 18,
+                ...styles.searchSection,
+
+                marginTop: 8,
+                paddingRight: 8,
               }}
-              label="Height"
-              onChangeText={(text) => setHeight(text)}
-              value={height?.toString()}
-              mode="outlined"
-              keyboardType="number-pad"
-              left={
-                <TextInput.Icon
-                  icon="weight"
-                  size={35}
-                  style={{
-                    marginTop: 22,
-                  }}
-                />
-              }
-            />
+            >
+              <TextInput
+                style={{
+                  ...styles.input,
+                  // backgroundColor: "#E9E7E7",
+                  fontSize: 18,
+                }}
+                placeholder="Height"
+                onChangeText={(text) => setHeight(text)}
+                value={height?.toString()}
+                mode="outlined"
+                keyboardType="number-pad"
+                left={
+                  <TextInput.Icon
+                    icon="weight"
+                    size={35}
+                    style={{
+                      marginTop: 22,
+                    }}
+                  />
+                }
+              />
+            </View>
           </View>
         </View>
-
+        <Text style={{ fontSize: 20, paddingBottom: 15 }}>Birth Date</Text>
         <View
           style={{
             ...styles.searchSection,
@@ -505,7 +512,7 @@ export default function ChangePetProfile({ navigation }) {
             onChange={onChange}
           />
         )}
-
+        <Text style={{ fontSize: 20, paddingBottom: 15 }}>Gender</Text>
         <View
           style={{
             ...styles.searchSection,
@@ -533,7 +540,9 @@ export default function ChangePetProfile({ navigation }) {
             placeholder={{}}
           />
         </View>
-
+        <Text style={{ fontSize: 20, paddingBottom: 15 }}>
+          Identifying Features
+        </Text>
         <View
           style={{
             ...styles.searchSection,
@@ -549,7 +558,7 @@ export default function ChangePetProfile({ navigation }) {
               borderRadius: 40,
               fontSize: 18,
             }}
-            label="Identifying Features"
+            placeholder="Identifying Features"
             onChangeText={(text) => setDetail(text)}
             mode="outlined"
             left={

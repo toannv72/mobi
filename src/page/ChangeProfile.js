@@ -207,19 +207,18 @@ export default function ChangeProfile({ navigation }) {
             size={35}
             onPress={() => navigation.navigate("Profile")}
           />
-
         </View>
       </View>
-      <ScrollView>
-
-        <View style={styles.cameraIconContainer}>
-          <IconButton
-            style={{ ...styles.cameraIcon, marginBottom: 500 }}
-            icon="camera"
-            size={30}
-            onPress={handleChoosePhoto}
-          />
-        </View>
+      <View style={styles.cameraIconContainer}>
+        <IconButton
+          style={{ ...styles.cameraIcon, marginBottom: 550 }}
+          icon="camera"
+          size={30}
+          onPress={handleChoosePhoto}
+        />
+      </View>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={{ height: 10 }} />
         <Text style={{ fontSize: 20, paddingBottom: 5 }}> Name</Text>
         <View
           style={{
@@ -228,7 +227,6 @@ export default function ChangeProfile({ navigation }) {
             borderRadius: 40,
           }}
         >
-
           <TextInput
             style={{
               ...styles.input,
@@ -236,7 +234,7 @@ export default function ChangeProfile({ navigation }) {
               borderRadius: 40,
               fontSize: 18,
             }}
-
+            placeholder="Name"
             onChangeText={(text) => setName(text)}
             mode="outlined"
             left={
@@ -251,6 +249,7 @@ export default function ChangeProfile({ navigation }) {
             value={name}
           />
         </View>
+        <Text style={{ fontSize: 20, paddingBottom: 5 }}>Mail</Text>
         <View
           style={{
             ...styles.searchSection,
@@ -266,7 +265,7 @@ export default function ChangeProfile({ navigation }) {
               borderRadius: 40,
               fontSize: 18,
             }}
-            label="Mail"
+            placeholder="Mail"
             onChangeText={(text) => setMail(text)}
             editable={false}
             mode="outlined"
@@ -290,45 +289,43 @@ export default function ChangeProfile({ navigation }) {
             width: screenWidth - 20 - 20,
           }}
         >
-          <View
-            style={{
-              ...styles.searchSection,
-              marginTop: -10,
-              width: "50%",
-              marginTop: 7,
-              paddingRight: 9,
-            }}
-          >
-            <TextInput
-              style={{
-                ...styles.input,
-                // backgroundColor: "#E9E7E7",
-                fontSize: 18,
-              }}
-              label="Phone"
-              onChangeText={(text) => setPhone(text)}
-              value={phone}
-              mode="outlined"
-              keyboardType="number-pad"
-              left={
-                <TextInput.Icon
-                  icon="phone"
-                  size={35}
-                  style={{
-                    marginTop: 22,
-                  }}
-                />
-              }
-            />
-          </View>
-
-          <View>
+          <View style={{ width: "50%" }}>
+            <Text style={{ fontSize: 20, paddingBottom: 5 }}>Phone</Text>
             <View
               style={{
                 ...styles.searchSection,
-                // backgroundColor: "#E9E7E7",
-                marginTop: -10,
-                width: "50%",
+                marginTop: 7,
+                paddingRight: 9,
+              }}
+            >
+              <TextInput
+                style={{
+                  ...styles.input,
+                  fontSize: 18,
+                }}
+                placeholder="Phone"
+                onChangeText={(text) => setPhone(text)}
+                value={phone}
+                mode="outlined"
+                keyboardType="number-pad"
+                left={
+                  <TextInput.Icon
+                    icon="phone"
+                    size={35}
+                    style={{
+                      marginTop: 22,
+                    }}
+                  />
+                }
+              />
+            </View>
+          </View>
+
+          <View style={{ width: "50%" }}>
+            <Text style={{ fontSize: 20, paddingBottom: 5 }}>Birth Date</Text>
+            <View
+              style={{
+                ...styles.searchSection,
                 marginTop: 7,
               }}
             >
@@ -336,19 +333,18 @@ export default function ChangeProfile({ navigation }) {
                 onPress={showDatepicker}
                 style={{
                   width: 180,
-                  height: 75,
+                  height: 77,
+                  paddingTop: 0,
                 }}
               >
                 <TextInput
                   style={{
                     ...styles.input,
-                    // backgroundColor: "#E9E7E7",
                     borderRadius: 20,
                     fontSize: 18,
                   }}
                   mode="outlined"
                   value={dob}
-                  // onTouchStart={showDatepicker} // Show the date picker when the user touches this
                   editable={false}
                   left={
                     <TextInput.Icon
@@ -374,7 +370,7 @@ export default function ChangeProfile({ navigation }) {
             )}
           </View>
         </View>
-
+        <Text style={{ fontSize: 20, paddingBottom: 5 }}>Address</Text>
         <View
           style={{
             ...styles.searchSection,
@@ -390,7 +386,7 @@ export default function ChangeProfile({ navigation }) {
               borderRadius: 40,
               fontSize: 18,
             }}
-            label="Address"
+            placeholder="Address"
             onChangeText={(text) => setLocation(text)}
             mode="outlined"
             left={
@@ -434,13 +430,15 @@ export default function ChangeProfile({ navigation }) {
             }}
             onPress={handleSaveChanges}
           >
-            <Text style={{ ...styles.buttonText, fontSize: 16, fontWeight: 400 }}>
+            <Text
+              style={{ ...styles.buttonText, fontSize: 16, fontWeight: 400 }}
+            >
               Save Changes
             </Text>
           </TouchableOpacity>
         </View>
         <MaintenanceModal />
-
+        <View style={{ height: 60 }} />
       </ScrollView>
     </View>
   );

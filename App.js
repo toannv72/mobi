@@ -25,6 +25,9 @@ import AddTask from "./src/DetailForPet/AddTask";
 import AddTaskFromHome from "./src/DetailForPet/AddTaskFromHome";
 import Search from "./src/services/Search";
 import ChangePassword from "./src/page/ChangePassword";
+import ForgotPasswordScreen from "./src/page/ForgotPassword";
+import VerifyScreen from "./src/page/Verify";
+import ConfirmPasswordScreen from "./src/page/ConfirmPassword";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -127,6 +130,22 @@ const App = () => {
           name="ChangePassword"
           options={{ headerLeft: null, headerShown: false }}
           component={ChangePassword}
+        />
+        <Stack.Screen
+          name="ForgotPassword"
+          options={{ headerLeft: null, headerShown: false }}
+          component={ForgotPasswordScreen}
+        />
+        <Stack.Screen
+          name="Verify"
+          options={{ headerLeft: null, headerShown: false }}
+          component={VerifyScreen}
+        />
+        
+        <Stack.Screen
+          name="ConfirmPassword"
+          options={{ headerLeft: null, headerShown: false }}
+          component={ConfirmPasswordScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

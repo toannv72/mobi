@@ -118,7 +118,23 @@ export const Notification = ({ navigation }) => {
       return () => {};
     }, [])
   );
+  function convertSecondsToTime(seconds) {
+    // Sử dụng Moment.js để tạo đối tượng Duration từ số giây
+    const duration = moment.duration(seconds, 'seconds');
 
+    // Sử dụng các phương thức của đối tượng Duration để lấy số giờ, phút và giây
+    const hours = duration.hours();
+    const minutes = duration.minutes();
+    const remainingSeconds = duration.seconds();
+
+    // Trả về thời gian dưới dạng một đối tượng
+    return hours+":"+minutes
+  
+}
+function convertDate(oldDate, oldFormat, newFormat) {
+  // Sử dụng Moment.js để chuyển đổi ngày từ định dạng cũ sang định dạng mới
+  return moment(oldDate, "YYYY-MM-DDTHH:mm:ss").format("DD/MM/YYYY");
+}
   return (
     <View style={style.main}>
       <View style={style.titleAndDate}>
@@ -157,7 +173,7 @@ export const Notification = ({ navigation }) => {
           <View>
             <ScrollView style={style.listContent}>
               {data.map((item, index) => (
-                <NotiItem key={index} index={index}>
+                <NotiItem key={index} index={index} >
                   <View style={style.itemContent}>
                     <View style={style.taskType}>
                       {typeIcon[item.nameMedicine]}
@@ -168,9 +184,9 @@ export const Notification = ({ navigation }) => {
                     <View style={style.taskDateAndTime}>
                       <View style={style.BellIconAndTime}>
                         <FontAwesome name="bell-o" size={24} color="black" />
-                        {/* <Text>{timeFormat.format(item.timeRemind)}</Text> */}
+                        <Text>{convertSecondsToTime(item.timeRemind)}</Text>
                       </View>
-                      {/* <Text>{dateFormat.format(item.dateRemind)}</Text> */}
+                      <Text>{convertDate(item.dateRemind)}</Text>
                     </View>
                   </View>
                 </NotiItem>

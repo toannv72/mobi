@@ -160,8 +160,24 @@ const Slide2 = ({ species, setSpecies, gender, setGender, weight, setWeight, han
           <TextInput
             style={styles.textInputStyle}
             placeholder="Enter pet weight (numbers only)"
-            value={weight}
-            onChangeText={(text) => setWeight(parseInt(text))}
+            // value={weight}
+            // onChangeText={(text) => setWeight((text))}
+            // onChangeText={(text) => {
+            //   if (/^\d+$/.test(text)) { // Kiểm tra xem text có phải là số không
+            //     setWeight(parseInt(text));
+            //   }
+            // }}
+
+            onChangeText={(text) => {
+              // Loại bỏ các ký tự không phải số từ text
+              const cleanedText = text.replace(/[^0-9]/g, '');
+              if (cleanedText === '') {
+                setWeight(null); // Hoặc giá trị mặc định khác nếu cần
+              } else {
+                setWeight(parseInt(cleanedText)); // Chuyển đổi cleanedText thành số và cập nhật state
+              }
+            }}
+            value={weight ? weight.toString() : ''}
             keyboardType="numeric"
             maxLength={2}
             ref={weightInputRef}
@@ -172,12 +188,22 @@ const Slide2 = ({ species, setSpecies, gender, setGender, weight, setWeight, han
           <Text style={styles.quizText}>What your pet's height (in centimeter)</Text>
           <TextInput
             style={styles.textInputStyle}
-            render={({ height }) => (
+            render={({ heights }) => (
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <TextInput
                   style={{ flex: 1 }}
-                  value={height}
-                  onChangeText={(text) => setHeight(parseInt(text))}
+                  // value={height}
+                  // onChangeText={(text) => setHeight(parseInt(text))}
+                  value={height ? height?.toString() : ''}
+
+                  onChangeText={(text) => {
+                    const cleanedText = text.replace(/[^0-9]/g, '');
+                    if (cleanedText === '') {
+                      setHeight(null); // Hoặc giá trị mặc định khác nếu cần
+                    } else {
+                      setHeight(parseInt(cleanedText)); // Chuyển đổi cleanedText thành số và cập nhật state
+                    }
+                  }}
                   keyboardType="numeric"
                   placeholder="Enter pet height (in cm)"
                   maxLength={3}
@@ -188,7 +214,7 @@ const Slide2 = ({ species, setSpecies, gender, setGender, weight, setWeight, han
             )}
           />
         </View>
-
+        <View style={{height:100}}></View>
       </ScrollView>
       <TouchableOpacity onPress={handleDone} style={styles.doneButton}>
         <Text style={{ color: 'black', fontSize: 20, fontWeight: 'bold' }}>Done</Text>
@@ -209,7 +235,7 @@ export const Survey = ({ navigation }) => {
   const [image, setImage] = useState("");
   const [name, setName] = useState("");
   const [petAvatar, setPetAvatar] = useState("");
-  const [weight, setweight] = useState(0);
+  const [weight, setWeight] = useState(0);
   const [dob, setDob] = useState("");
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [userId, setUserId] = useState('');
@@ -321,7 +347,7 @@ export const Survey = ({ navigation }) => {
         allowsEditing: true,
         quality: 1,
       });
-      
+
       if (result.assets) {
         setImage(result.assets[0].uri);
         nameInputRef.current.focus();
@@ -372,8 +398,8 @@ export const Survey = ({ navigation }) => {
             setSpecies={setPetspecies}
             gender={gender}
             setGender={setgender}
-            weight={weight.toString()}
-            setWeight={setweight}
+            weight={weight}
+            setWeight={setWeight}
             handleDone={handleDone}
             height={height}
             setHeight={setHeight}

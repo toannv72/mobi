@@ -76,9 +76,8 @@ export default function AddPet({ navigation }) {
       setDate(currentDate);
 
       // Format date in the desired format
-      const formattedDate = `${currentDate.getFullYear()}-${
-        currentDate.getMonth() + 1
-      }-${currentDate.getDate()}`;
+      const formattedDate = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1
+        }-${currentDate.getDate()}`;
 
       setDob(formattedDate);
     }
@@ -405,8 +404,16 @@ export default function AddPet({ navigation }) {
                   fontSize: 18,
                 }}
                 placeholder="Weight"
-                onChangeText={(text) => setWeight(text)}
-                value={weight}
+                onChangeText={(text) => {
+                  // Loại bỏ các ký tự không phải số từ text
+                  const cleanedText = text.replace(/[^0-9]/g, '');
+                  if (cleanedText === '') {
+                    setWeight(null); // Hoặc giá trị mặc định khác nếu cần
+                  } else {
+                    setWeight(parseInt(cleanedText)); // Chuyển đổi cleanedText thành số và cập nhật state
+                  }
+                }}
+                value={weight ? weight.toString() : ''}
                 mode="outlined"
                 keyboardType="number-pad"
                 left={
@@ -437,8 +444,19 @@ export default function AddPet({ navigation }) {
                   fontSize: 18,
                 }}
                 placeholder="Height"
-                onChangeText={(text) => setHeight(text)}
-                value={height}
+                // onChangeText={(text) => setHeight(text)}
+                // value={height}
+
+                onChangeText={(text) => {
+                  // Loại bỏ các ký tự không phải số từ text
+                  const cleanedText = text.replace(/[^0-9]/g, '');
+                  if (cleanedText === '') {
+                    setHeight(null); // Hoặc giá trị mặc định khác nếu cần
+                  } else {
+                    setHeight(parseInt(cleanedText)); // Chuyển đổi cleanedText thành số và cập nhật state
+                  }
+                }}
+                value={height ? height.toString() : ''}
                 mode="outlined"
                 keyboardType="number-pad"
                 left={

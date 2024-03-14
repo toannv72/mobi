@@ -46,14 +46,14 @@ export const Notification = ({ navigation }) => {
     setShowPicker(!showPicker);
   };
 
-  console.log(bookDate)
-  console.log(currentDate)
+  console.log(1111111111,formatDate(bookDate))
 
   function formatDate(inputDate) {
     const date = new Date(inputDate);
+    date.setDate(date.getDate() + 1); // Cộng thêm 1 ngày vào ngày hiện tại
     const isoString = date.toISOString();
     return isoString;
-  }
+}
   const onChange = ({ type }, selectedDate) => {
     if (type === "set") {
       const currentDate = selectedDate;
@@ -141,6 +141,9 @@ export const Notification = ({ navigation }) => {
 
   }
   function convertDate(oldDate, oldFormat, newFormat) {
+    console.log('====================================');
+    console.log(oldDate);
+    console.log('====================================');
     // Sử dụng Moment.js để chuyển đổi ngày từ định dạng cũ sang định dạng mới
     return moment(oldDate, "YYYY-MM-DDTHH:mm:ss").format("DD/MM/YYYY");
   }

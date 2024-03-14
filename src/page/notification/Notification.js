@@ -8,14 +8,16 @@ import {
 } from "@expo/vector-icons";
 import { Card } from "@rneui/base";
 import React, { useCallback, useEffect, useState } from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { Button } from "react-native-paper";
+import { TextInput } from "react-native";
 import { NotiItem } from "./NotiItem";
 import { NotiCreating } from "./NotiCreating";
 import { getData } from "../../api/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from "@react-navigation/native";
 import moment from "moment";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 const typeIcon = {
   Appointment: <FontAwesome name="stethoscope" size={24} color="black" />,
@@ -30,30 +32,51 @@ function capitalizeFirstLetter(str) {
 
 export const Notification = ({ navigation }) => {
   const [notiCreating, setNotiCreating] = useState(false);
+  const [id, setId] = useState(null);
   const [data, setData] = useState([]);
   const [date, setDate] = useState(new Date());
   const currentDate = moment().toISOString();
   const [selectedDateIndex, setSelectedDateIndex] = useState(4); // Index of selected date
   const [dates, setDates] = useState([]);
-
-  useEffect(() => {
-    const today = new Date();
-    // Calculate dates for 4 days before and 4 days after the selected date
-    const datesArray = [];
-    for (let i = -4; i <= 4; i++) {
-      const date = new Date(today);
-      date.setDate(today.getDate() + i);
-      datesArray.push(date);
-    }
-    setDates(datesArray);
-  }, [selectedDateIndex]);
-
-  const handleDateSelection = (index) => {
-    console.log('====================================');
-    console.log(123);
-    console.log('====================================');
-    setSelectedDateIndex(index);
+  const [showPicker, setShowPicker] = useState(false);
+  const [bookDate, setBookDate] = useState(
+    moment(new Date()).format("ddd MMM DD YYYY")
+  );
+  const toggleDatepicker = () => {
+    setShowPicker(!showPicker);
   };
+
+  console.log(bookDate)
+  console.log(currentDate)
+
+  function formatDate(inputDate) {
+    const date = new Date(inputDate);
+    const isoString = date.toISOString();
+    return isoString;
+  }
+  const onChange = ({ type }, selectedDate) => {
+    if (type === "set") {
+      const currentDate = selectedDate;
+      const tmp = new Date();
+      const checkDate = new Date(tmp);
+      checkDate.setDate(tmp.getDate() - 1);
+      if (currentDate <= checkDate) {
+        Alert.alert("Warning", "Please select a future date");
+        toggleDatepicker();
+      } else {
+        setDate(currentDate);
+        if (Platform.OS === "android") {
+          toggleDatepicker();
+          setBookDate(currentDate.toDateString());
+        }
+        toggleDatepicker();
+      }
+    } else if (type === "dismissed") {
+      toggleDatepicker();
+    }
+  };
+
+
   const getStoredUserId = async () => {
     try {
       const data = await AsyncStorage.getItem("@myKey");
@@ -62,8 +85,8 @@ export const Notification = ({ navigation }) => {
       if (data !== null) {
         const userData = JSON.parse(data);
         const id = userData[0].id;
-
-        getData(`Notification/getAllAtDay/${currentDate}?UserId=${id}`)
+        setId(id)
+        getData(`Notification/getAllAtDay/${formatDate(bookDate)}?UserId=${id}`)
           .then((e) => {
             setData(e.data)
           })
@@ -78,11 +101,30 @@ export const Notification = ({ navigation }) => {
       console.error("Error loading data:", error);
     }
   };
+  useEffect(() => {
+    if (id) {
+      getData(`Notification/getAllAtDay/${formatDate(bookDate)}?UserId=${id}`)
+        .then((e) => {
+          setData(e.data)
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+
+    } else {
+      console.log("No data found in AsyncStorage.");
+    }
+
+  }, [bookDate]);
 
   useFocusEffect(
     useCallback(() => {
       getStoredUserId();
-      return () => { };
+      setDate(new Date())
+      setBookDate(moment(new Date()).format("ddd MMM DD YYYY"))
+      return () => {
+        setDate(new Date())
+      };
     }, [])
   );
   function convertSecondsToTime(seconds) {
@@ -111,7 +153,7 @@ export const Notification = ({ navigation }) => {
           </Button> */}
           <Text style={style.title}>Notification</Text>
         </View>
-        <View style={style.selectedDate}>
+        {/* <View style={style.selectedDate}>
           <Card
             containerStyle={{
               ...style.selectedDateContent,
@@ -130,21 +172,53 @@ export const Notification = ({ navigation }) => {
                     onPress={() => handleDateSelection(index)}
                   >
                     <View style={style.dayContent}>
-                      {/* <Card.Title style={style.dayOfMonth}>{date.getDate()}</Card.Title> */}
                       <Card.Title style={{ fontSize: 20, color: "#000" }}>
                       {date.toLocaleDateString('en', { weekday: 'short' }).split(',')[0]}
                       </Card.Title>
                       <Card.Title style={{ fontSize: 20, color: "#000" }}>
                       {date.getDate()}
                       </Card.Title>
-                      {/* <Card.Title style={style.dayOfWeek}>{date.toLocaleDateString('en', { day: '2-digit', })}</Card.Title> */}
+                     
                     </View>
                   </Card>
                 ))}
               </View>
             </ScrollView>
           </Card>
+        </View> */}
+        <View style={style.selectedDate}>
+          <Card
+            containerStyle={{
+              ...style.selectedDateContent,
+              ...style.cartShadow,
+            }}
+          >
+            {showPicker && (
+              <DateTimePicker
+                mode="date"
+                display="spinner"
+                value={date}
+                onChange={onChange}
+              />
+            )}
+
+            <Pressable onPress={toggleDatepicker}>
+              <TextInput
+                placeholder="Click here to choose date"
+                value={bookDate}
+                onChangeText={setBookDate}
+                editable={false}
+                style={{
+                  color: "black",
+                  fontSize: 20,
+                  textAlign: "center",
+                }}
+              />
+            </Pressable>
+
+          </Card>
         </View>
+
       </View>
       {!notiCreating ? (
         <Card containerStyle={{ ...style.list, ...style.cartShadow }}>
@@ -252,7 +326,7 @@ const style = StyleSheet.create({
 
   selectedDate: {
     width: "100%",
-    height: 136,
+    height: 60,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",

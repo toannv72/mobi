@@ -247,7 +247,7 @@ export const Booking = () => {
                       fontWeight: 600,
                       fontSize: 24,
                       marginLeft: 10,
-                      width: 200,
+                      paddingRight:10
                     }}
                   >
                     {provider?.data?.serviceName}

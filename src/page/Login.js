@@ -105,7 +105,7 @@ export default function LoginScreen({}) {
         <View>
           <View style={{ margin: 10 }} />
 
-          <Text style={{ textAlign: "right" }}>Forgot your password ?</Text>
+          <Text onPress={() => navigation.navigate('ForgotPassword')} style={{ textAlign: "right" }}>Forgot your password ?</Text>
         </View>
         <View style={{ margin: 10 }} />
         <View>

@@ -40,7 +40,7 @@ export default function CheckOut({ navigation }) {
     getStoredUserId();
   }, []);
   const handleMomo = () => {
-    const url = "https://me.momo.vn/lDI6TWsAijsQt8TNi3IqUx/YQdJ8XgkP4l2aOG";
+    const url = "https://me.momo.vn/lDI6TWsAijsQt8TNi3IqUx";
     Linking.openURL(url).catch((err) => console.error("Không thể mở URL", err));
   };
   const handleAccept = () => {
@@ -58,7 +58,7 @@ export default function CheckOut({ navigation }) {
         transparent
         visible={modalVisible}
         onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
+          // Alert.alert("Modal has been closed.");
           setModalVisible(!modalVisible);
         }}
       >

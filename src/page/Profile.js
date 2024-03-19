@@ -27,7 +27,7 @@ export default function ProfileSettingScreen({}) {
   const [maintenanceModalVisible, setMaintenanceModalVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const handleMomo = () => {
-    const url = "https://me.momo.vn/qr/nguyen-van-toan-IwfnwPi8o4/JSxbSmx5d1";
+    const url = "https://me.momo.vn/lDI6TWsAijsQt8TNi3IqUx";
     Linking.openURL(url).catch((err) => console.error("Không thể mở URL", err));
   };
   const [show, setShow] = useState(false);
@@ -239,7 +239,7 @@ export default function ProfileSettingScreen({}) {
         transparent
         visible={modalVisible}
         onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
+          // Alert.alert("Modal has been closed.");
           setModalVisible(!modalVisible);
         }}
       >

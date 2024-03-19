@@ -256,7 +256,7 @@ export default function SingUpScreen({ navigation }) {
           style={{ textAlign: "center" }}
 
         >
-          Don’t have account? <Text style={{ color: 'blue' }} onPress={() => navigation.navigate("Login")}>Log in</Text>
+          have account? <Text style={{ color: 'blue' }} onPress={() => navigation.navigate("Login")}>Log in</Text>
         </Text>
       </ScrollView>
     </View>

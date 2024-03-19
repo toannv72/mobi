@@ -60,17 +60,14 @@ export const Notification = ({ navigation }) => {
       const tmp = new Date();
       const checkDate = new Date(tmp);
       checkDate.setDate(tmp.getDate() - 1);
-      if (currentDate <= checkDate) {
-        Alert.alert("Warning", "Please select a future date");
-        toggleDatepicker();
-      } else {
+    
         setDate(currentDate);
         if (Platform.OS === "android") {
           toggleDatepicker();
           setBookDate(currentDate.toDateString());
         }
         toggleDatepicker();
-      }
+     
     } else if (type === "dismissed") {
       toggleDatepicker();
     }

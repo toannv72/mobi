@@ -98,7 +98,7 @@ export default function AddTaskFromHome({ navigation }) {
     </Modal>
   );
   const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
+    const currentDate = selectedDate  || date;
     setShow(Platform.OS === "ios");
 
     // Get today's date
@@ -110,7 +110,7 @@ export default function AddTaskFromHome({ navigation }) {
       alert("Invalid Date, Please Choose Again");
       return;
     }
-
+    currentDate.setDate(currentDate.getDate() + 1);
     // Format date in the 'YYYY-MM-DD' format
     const formattedDate = currentDate.toISOString().split("T")[0];
 
@@ -146,7 +146,13 @@ export default function AddTaskFromHome({ navigation }) {
     setType("");
     setDob("");
   };
+
+
+  console.log('====================================');
+  console.log(11111,dob);
+  console.log('====================================');
   const handleSaveChanges = () => {
+
     if (!type || type === "Choose a type task") {
       Alert.alert("Error", "Please choose a type task.");
       // typeInputRef.current.focus(); // Thêm dòng này nếu bạn có tham chiếu đến trường nhập liệu loại công việc
@@ -174,13 +180,7 @@ export default function AddTaskFromHome({ navigation }) {
       console.error("No user data found in storedData.");
       return;
     }
-
     const userId = storedData[0].id;
-
-    // Log the values of userId and petId
-    console.log("userId:", userId);
-    console.log("petId:", selectedPet);
-
     let formattedDob;
     if (isNaN(Date.parse(dob))) {
       console.error("Invalid date:", dob);
@@ -192,7 +192,7 @@ export default function AddTaskFromHome({ navigation }) {
       time.getHours() * 3600 + time.getMinutes() * 60 + time.getSeconds();
     // Construct the URL and log it
     const url = `https://petside.azurewebsites.net/users/${userId}/pets/${selectedPet}/notifications`;
-    console.log("URL:", url);
+
 
     axios
       .post(url, {
@@ -514,30 +514,14 @@ export default function AddTaskFromHome({ navigation }) {
         </View>
         {/* Nút Reset All */}
         <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={{
-              ...styles.button,
-              backgroundColor: "#ffffff",
-            }}
-            onPress={handleResetAll}
-          >
-            <Text
-              style={{
-                ...styles.buttonText,
-                fontSize: 16,
-                fontWeight: 400,
-                color: "#24252B",
-              }}
-            >
-              Reset All
-            </Text>
-          </TouchableOpacity>
+         
 
           <TouchableOpacity
             style={{
               ...styles.button,
               backgroundColor: "#484B61",
               borderColor: "#484B61",
+              width: screenWidth - 20 - 20,
             }}
             onPress={handleSaveChanges}
           >
@@ -548,8 +532,8 @@ export default function AddTaskFromHome({ navigation }) {
             </Text>
           </TouchableOpacity>
         </View>
-        <MaintenanceModal />
       </ScrollView>
+        <MaintenanceModal />
     </View>
   );
 }
@@ -604,10 +588,11 @@ const styles = StyleSheet.create({
     flexDirection: "row", // Đảm bảo các nút nằm ngang nhau
     justifyContent: "space-between", // Các phần tử nằm cách đều nhau
     marginTop: 25,
+    alignItems: "center",
   },
   button: {
     marginHorizontal: 6, // Khoảng giữa giữa các nút
-    width: 179,
+    
     height: 42,
     borderWidth: 1,
     borderRadius: 10,

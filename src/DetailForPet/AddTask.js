@@ -102,6 +102,7 @@ export default function AddTask({ route, navigation }) {
       alert("Invalid Date, Please Choose Again");
       return;
     }
+    currentDate.setDate(currentDate.getDate() + 1);
 
     // Format date in the 'YYYY-MM-DD' format
     const formattedDate = currentDate.toISOString().split("T")[0];
@@ -340,10 +341,10 @@ export default function AddTask({ route, navigation }) {
             >
               <TouchableOpacity
                 onPress={showDatepicker}
-                style={{
-                  width: 180,
-                  height: 73,
-                }}
+                // style={{
+                //   width: 180,
+                //   height: 73,
+                // }}
               >
                 <TextInput
                   style={{
@@ -394,8 +395,8 @@ export default function AddTask({ route, navigation }) {
               <TouchableOpacity
                 onPress={showTimepicker}
                 style={{
-                  width: 180,
-                  height: 73,
+                  // width: 180,
+                  // height: 73,
                 }}
               >
                 <TextInput
@@ -491,7 +492,7 @@ export default function AddTask({ route, navigation }) {
         </View> */}
         {/* Nút Reset All */}
         <View style={styles.buttonContainer}>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={{
               ...styles.button,
               backgroundColor: "#ffffff",
@@ -508,13 +509,14 @@ export default function AddTask({ route, navigation }) {
             >
               Reset All
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
           <TouchableOpacity
             style={{
               ...styles.button,
               backgroundColor: "#484B61",
               borderColor: "#484B61",
+              width: screenWidth - 20 - 20,
             }}
             onPress={handleSaveChanges}
           >
@@ -525,9 +527,9 @@ export default function AddTask({ route, navigation }) {
             </Text>
           </TouchableOpacity>
         </View>
-        <MaintenanceModal />
         <View style={{ height: 15 }} />
       </ScrollView>
+        <MaintenanceModal />
     </View>
   );
 }
